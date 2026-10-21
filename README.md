@@ -36,3 +36,7 @@
 执行方式已确定为**纯云端**，不依赖用户本地电脑。公开分发复用已有 `h516df/app-releases`，TimeWorth 使用独立的 `timeworth` 入口。签名 Secrets 的云端授权与验证尚待完成，详见交付文档。
 
 真实工资、个人账单、账号密钥、签名文件和私人备份不应提交到仓库。测试数据应使用明确标注的合成数据。
+
+## 云端开发入口
+
+后续开发默认使用云端：[打开开发工作区](https://codespaces.new/h516df/timeworth-android) · [环境、检查命令与迁移边界](CLOUD_DEVELOPMENT.md)。

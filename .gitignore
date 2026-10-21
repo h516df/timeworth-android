@@ -33,3 +33,6 @@ keystore.properties
 /imports/
 /backups/
 /signing/
+
+# Disposable cloud workspace state
+.cloud/
