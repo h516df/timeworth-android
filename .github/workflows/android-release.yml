@@ -1,13 +1,6 @@
 name: Android signed build
 on:
   workflow_dispatch:
-  push:
-    branches: [codex/android-first-release-20261021]
-    paths:
-      - 'android/**'
-      - 'ui-preview/dist/**'
-      - 'tools/verify-apk.py'
-      - '.github/workflows/android-release.yml'
 permissions:
   contents: read
 concurrency:
