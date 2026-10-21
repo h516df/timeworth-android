@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f5f6f8">
+  <meta name="description" content="TimeWorth 手机界面交互预览：工作时薪、消费、还款和心愿。全部为演示数据。">
+  <title>TimeWorth · 手机界面预览</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="preview-layout">
+    <aside class="preview-aside">
+      <div class="brand"><span class="brand-mark">t<span>·</span></span><span>TimeWorth</span></div>
+      <div class="aside-copy"><span class="eyebrow">MOBILE UI · FIRST LOOK</span><h1>时间有价，<br>生活有序。</h1><p>看懂一小时的价值，<br>也看见每一次选择的去向。</p></div>
+      <div class="preview-switch"><span class="tiny-label">点击切换界面</span><div id="desktop-nav"></div></div>
+      <div class="aside-bottom"><span class="live-dot"></span>可交互预览 <span class="aside-separator">/</span> 全部为演示数据</div>
+    </aside>
+    <div class="app-shell" id="app-shell">
+      <main class="app-content" id="app-content" aria-live="polite"></main>
+      <nav class="tab-bar" id="tab-bar" aria-label="主要导航"></nav>
+      <div class="toast" id="toast" role="status"></div>
+      <div class="sheet-backdrop" id="sheet-backdrop" hidden></div>
+      <section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="详情" hidden tabindex="-1"></section>
+    </div>
+    <div class="desktop-note"><span>DESIGNED FOR YOUR EVERYDAY</span><span>浅色 · 清晰 · 从容</span></div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
