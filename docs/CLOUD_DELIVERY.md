@@ -29,22 +29,26 @@
 
 私钥在云端生成。`tools/prepare_cloud_signing.py` 把准备状态放在 Git 仓库之外的受限目录，公开仓库仅记录证书指纹。准备状态是临时工作区资料，不是长期密钥备份。
 
-需要向源码仓库写入两个 GitHub Actions Secrets：
+已向源码仓库写入并实际验证两个 GitHub Actions Secrets：
 
 - `TIMEWORTH_KEYSTORE_BASE64`
 - `TIMEWORTH_KEYSTORE_PASSWORD`
 
-当前 ChatGPT GitHub App 不具备 Secrets 管理权限，普通重连不能增加权限。云端备选是通过 Make 的 GitHub 连接调用 Secrets API；现有两个 Make 空间均未找到可复用的 GitHub 连接，因此需要一次正式的云端授权。
+ChatGPT GitHub App 本身仍不具备 Secrets 管理权限。现已通过用户正式授权的 Make GitHub OAuth 云端连接补足；实际返回的 scope 为 `repo`。
 
-新连接授权后先只读验证账号为 `h516df`、仓库 ID 正确、Secrets 公钥可读，再写入。权限是否满足必须以实际 API 成功为依据，不将授权页面完成视为已配置成功。
+已先只读核对账号为 `h516df`（ID `155412647`）、源码仓库 ID 为 `1427824994`，确认 Secrets 公钥可读且不存在同名秘密，再以 GitHub 公钥密封加密后分别写入。Secrets 列表回读确认两项存在。
 
-### 首次云端授权的实测结果
+### 后续 Agent 的云端连接信息
 
-首次连接已验证账号为 `h516df`（用户 ID `155412647`），但 `/user` 的响应头 `x-oauth-scopes` 为空；访问已确认存在的私有源码仓库返回 404。因此这次连接不能用于签名 Secrets 配置，尚未写入密钥。
+- Make 区域：`us2.make.com`；组织 ID `8913239`；用户私有空间 ID `2895912`。
+- 可用连接 ID：`11842349`；已核对账号及 `repo` scope。
+- 对应按需 API shell：scenario ID `6715378`，只在明确调用时执行，没有定时或公开 webhook。
+- 首次无 scope 的连接 `11841877` 不用于私有仓库；对应测试 shell `6715151` 已停用，不重绑用户的既有自动化。
+- Make 凭证请求页仍可能显示 `incomplete`；实际 `/user`、私有仓库读取、Secrets 公钥读取、列表读取和两项写入均已成功。以具体 API 与签名工作流的证据为准，不再要求用户重复授权。
 
-API-call 模块自身没有声明所需 OAuth scopes，最初请求仅指定该模块，未要求 `repo`。已修正为显式包含 GitHub 端点声明的 `public_repo`、`repo` 授权要求；这里借用声明权限的连接需求，不执行创建 Issue 操作。新连接仍须通过账号、私有仓库与 Secrets 公钥实际请求后才算就绪。没有重绑原连接或修改用户的现有自动化。
+API-call 模块自身没有声明所需 OAuth scopes。修正请求时使用 GitHub 端点声明的 `public_repo`、`repo` 授权要求；只借用连接权限声明，没有创建 Issue。
 
-发送给 Make 的写入请求只包含使用 GitHub 公钥密封加密后的值，不传递明文 keystore 或密码。写入完成后触发 `Cloud signing readiness`：核对证书指纹，并实际签名、验证一个临时测试 JAR。测试不构建 APK，不上传私钥或签名探针。
+发送给 Make 的写入请求只包含使用 GitHub 公钥密封加密后的值，没有传递明文 keystore 或密码。[Cloud signing readiness 运行记录](https://github.com/h516df/timeworth-android/actions/runs/39543286090)已通过：核对证书指纹，并实际签名、验证一个临时测试 JAR。测试没有构建 APK，没有上传私钥或签名探针。
 
 在云端签名与恢复路径验证完成前，保留受限的临时准备状态。长期保管和可恢复备份必须在首次正式分发前落实，不能把一次性云端文件系统当作唯一长期副本，也不能将签名材料放入普通 Actions artifact 或发布附件。
 
