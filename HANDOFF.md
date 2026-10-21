@@ -1,3 +1,12 @@
+# 当前接续（2026-10-21 · 已解除原签名构建阻塞）
+
+- 用户追问是否必须付费、能否解决。已在现有云端注册一次性 JIT self-hosted runner，沿 GitHub 正常作业机制使用原 Secrets，成功构建原证书、非调试 APK。无需本地电脑，未修改付款/支出设置。GitHub 托管机器的账单报错仍存在；本次已避开其计费分钟限制，不再把解除账单限制说成生成正式签名包的前提。账单详情 API 无权限，不能断言欠款或分钟已用尽。
+- [下载原签名 APK](https://github.com/h516df/timeworth-android/blob/6a8101de88d54ffa9aedea6e0e8ee860f3cc33f2/release/downloads/v0.1.0-signed/timeworth-0.1.0.apk?raw=true)，约 2.4 MB、Android 8+，包名 dev.h516.timeworth、版本 0.1.0/versionCode 1。仓库保持私有，下载需有访问权的 GitHub 登录。旧 debug preview 包保留；两者包名不同，若已有预览数据，请先导出 JSON 再恢复。
+- 成功运行 [39613534837](https://github.com/h516df/timeworth-android/actions/runs/39613534837)，确切构建源码 0b42bab8a3d16f4ce6107cf3eb4ecd397f25555c。APK 2,394,158 字节，SHA256 3838d5bc17c33bfb0e4ed8d40303455121ebe8224041ab939100da3b9ac7abc5；原证书 fbee77769f3ccde6509b2d70465d2992d2bb20f7edb69fa9a75f6bfa9cc25366。verify-apk --expect-release 在作业内与外部独立检查均通过，产品资源字节匹配、debuggable=false、财务七组规则通过。应用代码与前一已验证版本无变化，不重跑无关浏览器用例。
+- 两次失败已定位并修复：wrapper 需联网下载 Gradle；默认 Java 只有运行时。显式复用 /workspace/gradle-8.11.1、/workspace/jdk21 与现有依赖缓存，离线构建。前次调度失败不代表账单仍挡住 self-hosted；第三次整个作业已 success。
+- runner 已自动退出且 GitHub 列表为零；本次临时 runner 工作区/连接材料在回执完成前删除，签名目录由 trap 清理，不保留或发布私钥。后续需构建时重新按需连接此类现有云端环境，不能把临时 runner 当成永久在线服务。
+- 本轮更新现有 GitHub 预发行页的首要下载为这个原签名 APK，不宣称已切换公开稳定渠道。真机安装/覆盖升级、长期独立签名恢复仍未验收，stable.json 保持 unavailable。正式签名构建已完成与正式稳定发行未完成需分开表述。以前“原签名构建仍被阻塞”的记录仅作历史。
+
 # 当前交付入口（2026-10-21 · GitHub 下载修正）
 
 - 用户要求从 GitHub 下载。GitHub 发布页：[v0.1.0-preview.1](https://github.com/h516df/timeworth-android/releases/tag/v0.1.0-preview.1)；[APK 下载](https://github.com/h516df/timeworth-android/blob/v0.1.0-preview.1/release/downloads/v0.1.0-preview.1/TimeWorth-0.1.0-preview.apk?raw=true)。本仓库私有，需登录有访问权的 GitHub 账号。以发布页实际非 draft 状态及标签读回为发布成功证据。
