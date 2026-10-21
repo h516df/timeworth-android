@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 11,
+  "revision": 12,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -142,12 +142,13 @@
         "ui-preview"
       ],
       "base": "f06c0a85d79589d2fbd75147276391cf6015ef62",
-      "head": "f06c0a85d79589d2fbd75147276391cf6015ef62",
-      "status": "active",
+      "head": "69f57c387bcaf9a43456db1c196d52a04cdd56bc",
+      "status": "ready",
       "generation": 1,
-      "lease_until": 1792591379,
-      "updated_at": 1792584179,
-      "history": []
+      "lease_until": 0,
+      "updated_at": 1792585770,
+      "history": [],
+      "handoff": "https://github.com/h516df/timeworth-android/pull/11"
     }
   },
   "batches": {
