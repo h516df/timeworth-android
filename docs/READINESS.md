@@ -7,7 +7,9 @@
 - 远程仓库：`h516df/timeworth-android`。
 - 可见性：私有；默认分支：`main`。
 - 已通过 GitHub 连接读取初始 README，通过命令行读取仓库信息。
-- 连接授权包含代码、Pull Request、工作流和 Actions 写权限；分支提交与 Actions 执行需要实际验证。
+- 已实际创建并推送 `docs/project-baseline` 分支，完成文档提交，再以非强制推送更新 `main`；通过 GitHub 连接重新读取了上传后的 README。
+- 已实际上传工作流并触发 GitHub Actions，运行成功；代码写入、分支创建、工作流写入、运行触发与结果读取均验证可用。
+- 连接授权包含 Pull Request 写权限；本次没有额外创建或合并用于测试的 PR，因此不将 PR 操作标为已实测。
 - 仓库归属用户拥有管理权限，不代表当前应用凭据也具有管理权限。
 
 ## 已确认的授权限制
@@ -25,6 +27,13 @@
 后续确定技术栈后可以配置所需工具。仓库提供手动触发的 `Development environment check`，用于验证 GitHub 托管运行器是否可启动以及是否具有 Java 编译器和 Android SDK。
 
 该工作流不读取源码、不使用 Secrets、不构建或发布 APK。它通过也不代表应用编译、真机运行、签名发布或更新流程已经通过。
+
+### 已完成的托管运行器检查
+
+- [运行记录](https://github.com/h516df/timeworth-android/actions/runs/39538272006)：成功。
+- 已实际验证 Java 运行时、Java 编译器、Git、Android SDK 平台目录和 build-tools 目录可用。
+- 本次检查只消耗一次手动运行；工作流没有定时、push 或 PR 自动触发器。
+- 后续可以在此基础上安装所选技术栈依赖，配置真实 Android 构建；当前不需要用户安装电脑端开发工具。
 
 ## 正式开发与发布仍需完成
 
