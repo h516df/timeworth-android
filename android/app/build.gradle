@@ -10,6 +10,7 @@ android {
         targetSdk 35
         versionCode 1
         versionName '0.1.0'
+        resValue 'string', 'app_name', 'TimeWorth'
     }
     signingConfigs {
         release {
@@ -27,7 +28,11 @@ android {
             if (System.getenv('TIMEWORTH_KEYSTORE_FILE')) signingConfig signingConfigs.release
             minifyEnabled false
         }
-        debug { applicationIdSuffix '.preview'; versionNameSuffix '-preview' }
+        debug {
+            applicationIdSuffix '.preview'
+            versionNameSuffix '-preview'
+            resValue 'string', 'app_name', 'TimeWorth 体验版'
+        }
     }
     compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
     sourceSets { main { assets.srcDirs = [layout.buildDirectory.dir('generated/assets')] } }
