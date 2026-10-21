@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 32,
+  "revision": 33,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -422,6 +422,27 @@
         "independent_signing_recovery": "not verified",
         "public_stable_manifest": "unchanged"
       }
+    },
+    "delivery-workflow-adoption-20261021": {
+      "owner": "codex-delivery-adoption-20261021",
+      "workspace": "cloud-timeworth-delivery-adoption",
+      "batch": "delivery-workflow-adoption-20261021",
+      "role": "work",
+      "branch": "codex/delivery-workflow-adoption-20261021",
+      "scopes": [
+        "cloud/verify_release.py",
+        "docs/AI_WORKFLOW.md",
+        "docs/DELIVERY.md",
+        "docs/RETROSPECTIVE_20261021.md",
+        "release/delivery-contract.json"
+      ],
+      "base": "dbc90ee2afb4d588a39319ad321840eb7bebcc4f",
+      "head": "dbc90ee2afb4d588a39319ad321840eb7bebcc4f",
+      "status": "active",
+      "generation": 1,
+      "lease_until": 1792600141,
+      "updated_at": 1792592941,
+      "history": []
     }
   },
   "batches": {
@@ -448,6 +469,9 @@
     "github-formal-release-20261021": {
       "status": "completed",
       "integrator": "github-formal-integration-20261021"
+    },
+    "delivery-workflow-adoption-20261021": {
+      "status": "open"
     }
   }
 }
