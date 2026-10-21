@@ -23,7 +23,9 @@
 
 - [需求池 #6](https://github.com/h516df/timeworth-android/issues/6)：讨论/体验反馈先记录；明确要求开发或修复时直接推进。由代理组织相关批次、集中检查与交付，用户无需管理 GitHub。
 - [当前交接](HANDOFF.md)：核对产品 PR 和任务分支后接续，不只按 main 的旧规划重做。
-- [通用工作流 0.2](docs/AI_WORKFLOW.md)；[安卓交付与更新缺口](docs/ANDROID_DELIVERY.md)。
+- [通用工作流 0.3](docs/AI_WORKFLOW.md)；[安卓交付与更新缺口](docs/ANDROID_DELIVERY.md)。
+
+- [多个 Codex 的分工与整合](docs/MULTI_CODEX.md)：共享登记、独立任务和一个整合者，用户无需调度。
 
 ## 文档
 
