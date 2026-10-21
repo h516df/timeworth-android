@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 26,
+  "revision": 27,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -342,6 +342,25 @@
         "physical_device": "not verified",
         "long_term_signing_recovery": "not verified"
       }
+    },
+    "github-formal-release-20261021": {
+      "owner": "codex-formal-release-20261021",
+      "workspace": "cloud-formal-release-20261021",
+      "batch": "github-formal-release-20261021",
+      "role": "work",
+      "branch": "codex/github-formal-release-20261021",
+      "scopes": [
+        ".github/workflows/signing-check.yml",
+        "docs/tasks/github-formal-release.md",
+        "release/v0.1.0-notes.md"
+      ],
+      "base": "5b1920e201e7c6f5aa50d818689285381febcb23",
+      "head": "5b1920e201e7c6f5aa50d818689285381febcb23",
+      "status": "active",
+      "generation": 1,
+      "lease_until": 1792599284,
+      "updated_at": 1792592084,
+      "history": []
     }
   },
   "batches": {
@@ -364,6 +383,9 @@
     "cloud-signed-build-20261021": {
       "status": "completed",
       "integrator": "cloud-signed-build-integration-20261021"
+    },
+    "github-formal-release-20261021": {
+      "status": "open"
     }
   }
 }
