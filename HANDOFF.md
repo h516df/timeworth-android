@@ -5,9 +5,10 @@
 - **完成**：finance.js 独立负责工资、时间及含息费报价规则；界面通过薄适配调用，未再加 v5 覆盖层。历史月份补录/修改不会改动当前工资或时薪；多次工资可分别记录，导入工资直接修改原记录，非 salary 前缀的工资 ID 不再误判为其他收入。月份入口包含近一年及已有记录月份。
 - **分期**：可直接选本月/下月开始；下月首期不减本月预测。每期 520 ×12、另付首期费用 100、原价 6000 => 总还款 6340、总息费 340、首期 620，其后 520。已包含费用不重复加；负差额优惠保留原价比较，内部本金分配与应还金额分币守恒，不能当作机构提供的本息明细。
 - **月份边界**：未来记录不当成当前实际到账/已还；未来日期的支出不能抵掉尚未支付的固定账单。回顾页显示当月已记录支出，当前月份显示接下来要付；独立目标转存仍不扣工资留存。localStorage 维持版本 2，现有数据不重置。
-- **passed（云端工作树，基线见上）**：node --test ui-preview/qa/finance.test.cjs 七组金额规则；python3 cloud/workflow.py check --level core 的原两组浏览器检查与 monthly-v5.cjs；新月度场景覆盖历史编辑幂等、多笔工资、工资分类、导入工资复用、下一月首期与单独首期费用。最终设置页上下文与截图等待修改后，月度脚本定向复核通过。最后历史标题与图例是文案变更，由对应提交 CI 再验证。语法、git diff --check 和 actionlint 1.7.7 passed。
+- **passed（云端工作树，基线见上）**：node --test ui-preview/qa/finance.test.cjs 七组金额规则；python3 cloud/workflow.py check --level core 的原两组浏览器检查与 monthly-v5.cjs；新月度场景覆盖历史编辑幂等、多笔工资、工资分类、导入工资复用、下一月首期与单独首期费用。最终设置页上下文与截图等待修改后，月度脚本定向复核通过。GitHub CI 无法启动后，最终产品源提交的月度浏览器用例在云端再次定向通过，覆盖最后历史标题、图例与设置上下文；未无故重跑其他已通过且未受影响的用例。语法、git diff --check 和 actionlint 1.7.7 passed。
+- **GitHub CI 阻塞（已核实）**：产品源提交 21a6d3c6aaa9b8d6eae34817fb93799df534f05c 的 UI preview checks 39578884252 和 Cloud development 39578884129 均在执行任何步骤前失败。GitHub 注释："The job was not started because recent account payments have failed or your spending limit needs to be increased." 原因是账户付款或支出上限，不是已执行的代码测试失败；Actions 检查在本轮为 not run。未改扣费设置，不盲目重试。现有 GitHub 工具无法读取注释端点，已通过原有 Make API shell 6715378 以 GET 只读核实，无新场景、无外发消息。
 - **检查来源**：云端复用 Playwright 1.62.1 和系统 Chromium，测试日期固定 2026-10-21。GitHub UI preview checks 新增 Node 金额规则，在安装浏览器前执行，再运行三组浏览器用例；准确源码提交和 CI 状态见本 PR。不得把旧 v4 测试结果冒充这次结果。
-- **发布状态（本源码提交时）**：原私有站点仍为 04；待从本提交 dist 原样同步到 Sites 的 dist 后，通过原官方接口发布 05。项目 ID appgprj_6ad841334fbc819191df88d60d39640a，地址 https://timeworth-mobile-preview.cloudyloom133.chatgpt.site，owner-private 不变。发布成功后追加记录 GitHub 产品源提交、Sites 源码提交、部署 ID 与结果；两处提交 SHA 不同，只要求静态文件字节相同。
+- **已发布 05**：https://timeworth-mobile-preview.cloudyloom133.chatgpt.site ，owner-private 保持。GitHub 产品源码 21a6d3c6aaa9b8d6eae34817fb93799df534f05c；Sites 源码 2d337355c01e042987e5be575b651adc21503f47；部署 appgdep_6ad889743f388191bb6cf7e45ccaef19，原生工具返回 succeeded。Site 从 GitHub 这份产品源码的 dist 原样同步，14 个静态文件字节一致，部署归档由该 Site 提交生成。此后的交接提交只改文档，不代表重新发布或重新测试另一份产品代码。
 - **not run / 边界**：真实银行/支付账户、全平台账单、Android 通知与真机、APK/签名/安装/应用内更新、ZIP/加密/PDF/OCR 未实现或未测。本轮不访问 Secrets、不使用本地电脑、不改生产服务。整个原型尚未完全移除早期兼容界面，当前只是有边界地拆出关键计算。
 - **配置与接续**：项目 AGENTS 保留统一简版和用户产品约定；检查工具采用来源仍固定，规则入口指向通用私有库。运行步骤见 CLOUD_DEVELOPMENT；用户无需重述工作流或记分支。下次代理先核对本 PR 和最新交接，继续产品反馈；勿只取 main 的旧原型重新实现。
 
