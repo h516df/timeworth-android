@@ -40,7 +40,7 @@
 
 - 唯一产品需求入口：[需求池 #6](https://github.com/h516df/timeworth-android/issues/6)。先读最新状态；讨论/体验反馈先记，明确开发或修复请求直接执行。本批口径纠正及时处理，独立新想法进候选；无需固定开工口令。
 - 产品成果目前在 [PR #3](https://github.com/h516df/timeworth-android/pull/3) 的任务分支，代理按目标核对实时状态并读对应交接，不能只用 main 的旧规划重新实现。
-- 本地通用规则见 [docs/AI_WORKFLOW.md](docs/AI_WORKFLOW.md)，文档来源固定为工具库 [eb97846](https://github.com/h516df/vibe-ui-quality-kit/commit/eb97846794aaf5ffcbb341562d75347cdafc0fa1)；接入脚本与检查配置协议仍为 0.1，未自动升级；新增独立协调器协议 1；安卓准备与未验收项见 [docs/ANDROID_DELIVERY.md](docs/ANDROID_DELIVERY.md)，既有签名证据见 [docs/CLOUD_DELIVERY.md](docs/CLOUD_DELIVERY.md)。
+- 本地通用规则见 [docs/AI_WORKFLOW.md](docs/AI_WORKFLOW.md)，文档来源固定为工具库 [13ff0db](https://github.com/h516df/vibe-ui-quality-kit/commit/13ff0dbcdae921c0ce972630fe5947d98a62b8f0)；接入脚本与检查配置协议仍为 0.1，未自动升级；新增独立协调器协议 1；安卓准备与未验收项见 [docs/ANDROID_DELIVERY.md](docs/ANDROID_DELIVERY.md)，既有签名证据见 [docs/CLOUD_DELIVERY.md](docs/CLOUD_DELIVERY.md)。
 - 一批围绕一组相关体验，内部可分步提交和检查，集中交付一个完成预览；不按每条反馈发布，不把需求池当自动开发或自动公开发布授权。
 
 ## 多 Codex 协作入口

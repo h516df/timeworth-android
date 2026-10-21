@@ -1,6 +1,6 @@
 # 当前接续摘要（2026-10-21 · 多 Codex 协作接入）
 
-- 用户要求解决多 Codex 协作；本轮只接入规则0.3/简版r3、标准库协调器协议1和真实共享登记，不改产品 UI/财务/数据或发布网页。通用源码源 [eb97846](https://github.com/h516df/vibe-ui-quality-kit/commit/eb97846794aaf5ffcbb341562d75347cdafc0fa1)，接入器/检查配置协议仍0.1。
+- 用户要求解决多 Codex 协作；本轮只接入规则0.3/简版r3、标准库协调器协议1和真实共享登记，不改产品 UI/财务/数据或发布网页。通用源码源 [13ff0db](https://github.com/h516df/vibe-ui-quality-kit/commit/13ff0dbcdae921c0ce972630fe5947d98a62b8f0)，接入器/检查配置协议仍0.1。
 - 项目入口：[AGENTS](AGENTS.md)、[MULTI_CODEX](docs/MULTI_CODEX.md)、[协调登记](https://github.com/h516df/timeworth-android/blob/codex-coordination-v1/.codex-coordination/state.json)。登记中已领取本次实际工作流任务；所有权/租期/范围取实时状态，不从此摘要推断。
 - 任务分支 `codex/multi-codex-workflow-20261021` 基于 main `92f96014502744f6da35fc741bda74fc3af9b51e`，经独立 PR 接入；整合者按登记检查结果并保留业务历史。原产品 PR #3 仍不自动合入 main；开始读取时 head `114409deae1b586a5e6e8a1b758c4a39326bf243`，继续前核对实时状态。
 - 产品需求池仍为 [#6](https://github.com/h516df/timeworth-android/issues/6)，TW-001 动画待做。通用协作反馈与完成证据在工具库 [#8](https://github.com/h516df/vibe-ui-quality-kit/issues/8)，不复制状态。

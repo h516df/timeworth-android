@@ -73,6 +73,15 @@ def ready_members(state, task):
             if t['batch'] == task['batch'] and t['role'] == 'work' and t['status'] == 'ready'}
 
 
+def source_scopes(state, task):
+    declared = [s for s in task['scopes'] if not s.startswith('@')]
+    if task['role'] == 'integrator':
+        declared += [s for t in state['tasks'].values()
+                     if t['batch'] == task['batch'] and t['role'] == 'work' and t['status'] == 'ready'
+                     for s in t['scopes'] if not s.startswith('@')]
+    return declared
+
+
 def empty(project):
     require(isinstance(project, str) and re.fullmatch(r'[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+', project),
             'Expected owner/repository.')
@@ -191,7 +200,7 @@ def transition(original, request, now=None):
         task = owned(state, request, now, live=True)
         paths = request.get('paths', [])
         require(isinstance(paths, list), 'Expected paths array.')
-        require(all(any(covers(s, scope(p)) for s in task['scopes'] if not s.startswith('@'))
+        require(all(any(covers(s, scope(p)) for s in source_scopes(state, task))
                     for p in paths), 'Changed paths exceed the reserved scope.')
         if request.get('publish'):
             require(task['role'] == 'integrator' and task.get('receipt') and
@@ -406,6 +415,11 @@ class GitStore:
             request['paths'] = [p for p in self.run('diff', '--no-renames', '--name-only', '-z',
                                                    task['base'], observed).stdout.split('\0') if p]
         if action in {'verify', 'complete'} or action == 'check' and request.get('publish'):
+            self.fetch(task['base'])
+            actual_paths = [p for p in self.run('diff', '--no-renames', '--name-only', '-z',
+                                               task['base'], observed).stdout.split('\0') if p]
+            require(all(any(covers(s, scope(p)) for s in source_scopes(state, task))
+                        for p in actual_paths), 'Integrated changes exceed the member/declared scope.')
             for t in state['tasks'].values():
                 if t['batch'] == task['batch'] and t['role'] == 'work' and t['status'] == 'ready':
                     require(self.remote_head('refs/heads/' + t['branch']) == t['head'],
@@ -461,4 +475,3 @@ def main():
 
 if __name__ == '__main__':
     sys.exit(main())
-
