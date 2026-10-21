@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 23,
+  "revision": 24,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -291,6 +291,30 @@
       "updated_at": 1792591581,
       "history": [],
       "handoff": "Original-key release APK built and independently verified; run39613534837 succeeded on0b42bab. Versioned APK and metadata committed. Ephemeral runner exited. Integrator to verify remote APK, clean runtime, update GitHub prerelease primary link without claiming stable/device/backup verification."
+    },
+    "cloud-signed-build-integration-20261021": {
+      "owner": "codex-cloud-signed-integration-20261021",
+      "workspace": "cloud-signed-integration-20261021",
+      "batch": "cloud-signed-build-20261021",
+      "role": "integrator",
+      "branch": "codex/cloud-signed-build-integration-20261021",
+      "scopes": [
+        "AGENTS.md",
+        "CLOUD_DEVELOPMENT.md",
+        "HANDOFF.md",
+        "README.md",
+        "docs/ANDROID_DELIVERY.md",
+        "docs/CLOUD_DELIVERY.md",
+        "@integration",
+        "@publish"
+      ],
+      "base": "6a8101de88d54ffa9aedea6e0e8ee860f3cc33f2",
+      "head": "6a8101de88d54ffa9aedea6e0e8ee860f3cc33f2",
+      "status": "active",
+      "generation": 1,
+      "lease_until": 1792598795,
+      "updated_at": 1792591595,
+      "history": []
     }
   },
   "batches": {
@@ -311,7 +335,8 @@
       "integrator": "github-apk-download-integration-20261021"
     },
     "cloud-signed-build-20261021": {
-      "status": "open"
+      "status": "sealed",
+      "integrator": "cloud-signed-build-integration-20261021"
     }
   }
 }
