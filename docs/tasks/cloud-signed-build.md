@@ -7,3 +7,5 @@
 继承已验证的原签名构建步骤；原证书固定为 release/signing-identity.json。保留非 debuggable 校验、所有产品资源字节核对和 SHA256。输出只包含 APK 与公开元数据；不上传私钥，不自动声明真机通过或稳定发行。
 
 构建能力、账户是否允许 self-hosted 调度、实际 APK 签名与运行回执以本次结果为准。仅配置成功不等于已完成构建。任务结束应停止并移除 runner，删除短期连接材料。产品代码未改，无需重跑已通过且未受影响的 UI 场景。
+
+首次实际运行 [39612652582](https://github.com/h516df/timeworth-android/actions/runs/39612652582) 已在一次性云端 runner 调度并执行；账单未拦截。环境/财务测试通过，wrapper 下载 Gradle 时连接被拒绝，签名步骤未产出 APK。改为本云端先前已校验并用于成功编译的 Gradle 8.11.1，使用已锁定的现有依赖缓存离线构建；不改变 Gradle 版本或放宽 TLS。首次传统注册端点 404，改用官方 JIT 配置 API后 runner 已正常连接并自动退出、解除配置。

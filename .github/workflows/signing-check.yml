@@ -24,6 +24,7 @@ jobs:
           set -euo pipefail
           test -x /workspace/android-sdk/build-tools/35.0.0/apksigner
           java -version
+          test -x /workspace/gradle-8.11.1/bin/gradle
       - name: Check financial rules
         run: node --test ui-preview/qa/finance.test.cjs
       - name: Build with original signing identity
@@ -46,7 +47,7 @@ jobs:
           assert hashlib.sha256(pathlib.Path(sys.argv[1]).read_bytes()).hexdigest() == expected, 'Signing certificate mismatch'
           PY
           export TIMEWORTH_KEYSTORE_FILE="$task_signing_dir/release.p12"
-          bash android/gradlew -p android --no-daemon :app:assembleRelease
+          /workspace/gradle-8.11.1/bin/gradle -p android --offline --no-daemon :app:assembleRelease
           mkdir -p release-output
           cp android/app/build/outputs/apk/release/app-release.apk release-output/timeworth-0.1.0.apk
           python3 tools/verify-apk.py release-output/timeworth-0.1.0.apk --expect-release --output release-output/apk-metadata.json
