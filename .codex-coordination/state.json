@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 17,
+  "revision": 18,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -228,6 +228,25 @@
       "updated_at": 1792587055,
       "history": [],
       "handoff": "Verified APK copied byte-for-byte to versioned private GitHub folder. Integrator to publish prerelease with same-tag APK download link. No product code changes."
+    },
+    "github-apk-download-integration-20261021": {
+      "owner": "codex-github-delivery-integration",
+      "workspace": "cloud-github-apk-integration",
+      "batch": "github-apk-download-20261021",
+      "role": "integrator",
+      "branch": "codex/github-apk-download-integration-20261021",
+      "scopes": [
+        "HANDOFF.md",
+        "@integration",
+        "@publish"
+      ],
+      "base": "6e10665892f5cfcd26c61ba7ef253b8f07395b8d",
+      "head": "6e10665892f5cfcd26c61ba7ef253b8f07395b8d",
+      "status": "active",
+      "generation": 1,
+      "lease_until": 1792590658,
+      "updated_at": 1792587058,
+      "history": []
     }
   },
   "batches": {
@@ -244,7 +263,8 @@
       "integrator": "android-first-release-integration"
     },
     "github-apk-download-20261021": {
-      "status": "open"
+      "status": "sealed",
+      "integrator": "github-apk-download-integration-20261021"
     }
   }
 }
