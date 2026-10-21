@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 24,
+  "revision": 25,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -309,12 +309,25 @@
         "@publish"
       ],
       "base": "6a8101de88d54ffa9aedea6e0e8ee860f3cc33f2",
-      "head": "6a8101de88d54ffa9aedea6e0e8ee860f3cc33f2",
+      "head": "5b1920e201e7c6f5aa50d818689285381febcb23",
       "status": "active",
       "generation": 1,
       "lease_until": 1792598795,
-      "updated_at": 1792591595,
-      "history": []
+      "updated_at": 1792591723,
+      "history": [],
+      "receipt": {
+        "source_sha": "5b1920e201e7c6f5aa50d818689285381febcb23",
+        "members": {
+          "cloud-signed-build-20261021": "6a8101de88d54ffa9aedea6e0e8ee860f3cc33f2"
+        },
+        "checks": [
+          {
+            "name": "Original-key APK remote blob SHA256/size, independent verify-apk --expect-release; Android/UI source byte-identical to successful run39613534837 on0b42bab; self-hosted workflow lint; runtime private temp cleanup and zero remote runners",
+            "status": "passed",
+            "source_sha": "5b1920e201e7c6f5aa50d818689285381febcb23"
+          }
+        ]
+      }
     }
   },
   "batches": {
