@@ -12,7 +12,7 @@ GitHub Actions 的 **Cloud development** 在 PR、main 推送及手动运行时�
 
 ## 当前边界
 
-目前只有产品规划，没有 App 源码、Gradle 构建或 APK。沿用已有云端签名准备流程；Secrets 未配置不能称为签名就绪。
+已有静态手机网页体验版；尚无原生 Android 工程、Gradle 构建或 APK。沿用已有云端签名准备流程；Secrets 未配置不能称为签名就绪。
 
 原 README、AGENTS 与交接文件中的 Windows 路径作为历史恢复线索保留；云端开发不依赖这些路径。生产运行与发布步骤按本节边界处理，不自动运行旧的本机派发、安装、隧道或签名脚本。凭据通过平台 Secrets 注入，不能进入源码、日志或构建附件；私有项目继续保持私有。
 
@@ -55,3 +55,16 @@ GitHub Actions 的 **Cloud development** 在 PR、main 推送及手动运行时�
 如果要继续尚未合并的任务，在这段话前补上旧会话给出的分支或 PR 链接。
 
 参考：[Codex Cloud 的环境复用和任务保存机制](https://learn.chatgpt.com/docs/environments/cloud-environments#reuse-and-update-saved-state)。
+
+## 分层网页检查与采用的工作流
+
+通用规则见 [docs/AI_WORKFLOW.md](docs/AI_WORKFLOW.md)。工作流 0.1 固定来源：[6bdaf2e](https://github.com/h516df/vibe-ui-quality-kit/tree/6bdaf2e7c9ec63f1cf7d02760a83a32b595bd1a0/workflow)；采用包内脚本与规则，不跟随 main 自动更新。
+
+- 廉价检查：`python3 cloud/workflow.py check --level quick`。
+- 完整网页主要流程：`npm ci --ignore-scripts --prefix ui-preview`，在 ui-preview 执行 `npx --no-install playwright install --with-deps chromium`，再从仓库根执行 `python3 cloud/workflow.py check --level core`。
+- CI 的 UI preview checks 先跑廉价检查，再安装锁定 Playwright/Chromium 并跑现有两组浏览器场景。按路径触发、取消同分支旧任务；失败截图保留 3 天，不开启发布。
+- `cloud/run-ui-checks.py` 使用临时本机回环端口并自动关闭服务；无需用户本地电脑，也不占用其他任务端口。
+- PLAYWRIGHT_MODULE/CHROMIUM_PATH 只用于已有工具的云端适配；PREVIEW_URL 由临时服务器设置，ARTIFACT_DIR 控制合成数据截图位置。
+- 原 `bash cloud/check.sh` 仍是规划/环境守卫，不能代替网页功能检查。正式设备、真实账户同步和 APK 另行验证。
+
+项目代码结构整理与发布平台自动化尚未实施，继续产品开发前按授权范围评估；本轮不重新发布网页。

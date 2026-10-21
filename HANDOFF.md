@@ -1,3 +1,17 @@
+# 当前接续记录（2026-10-21 · 工作流接入，App 功能暂停）
+
+- **目标**：落实用户要求的云端低操作成本工作流，并保存为其他项目可复用的私有模板；本分支仅接入规则和检查，不改产品源码或重新部署网页。
+- **通用来源**：[vibe-ui-quality-kit 工作流 0.1](https://github.com/h516df/vibe-ui-quality-kit/tree/6bdaf2e7c9ec63f1cf7d02760a83a32b595bd1a0/workflow)，固定提交 `6bdaf2e7c9ec63f1cf7d02760a83a32b595bd1a0`，工具库 PR #3 / codex/reusable-workflow-20261021。docs/AI_WORKFLOW.md 与 cloud/workflow.py 从该包采用；未来升级先审阅差异。
+- **基线 / 分支 / PR**：基于 UI 分支 `codex/low-friction-ui-v3-20261021` 的 `2da2b479a721a9d9bc2bd3bca5559c2a7c9c2084`；独立任务分支 `codex/workflow-adoption-20261021` 向 UI 分支提堆叠 PR。原产品 PR #3 保留，main 快照仍为 17849f6；勿误把这轮基础设施当作原生 App 实现。准确提交以本分支远端为准。
+- **完成**：AGENTS 工作流入口、版本固定、quick/core 配置、便携脚本、锁定 Playwright 1.62.1 与 npm 依赖、临时随机端口服务与自动清理、GitHub 网页检查。CI 按路径触发并取消同分支过时任务，contents:read，无部署或 Secrets；失败截图保留 3 天。
+- **passed**：采用前 UI/QA 的 16 个文件 Git blob 逐个匹配远端基线。采用后 `python3 cloud/workflow.py check --level core` 通过 6 项语法与现有 check-v4/focused-v4 浏览器用例；云端 Playwright 1.62.1、系统 Chromium、日期固定 2026-10-21。上轮只语法验证的便携 QA 本轮实际运行通过。YAML 解析/最小权限/无 schedule 与 pull_request_target、Git 差异检查 passed。工作流包四组单元检查 passed，证据在工具库交接。验证工作树只新增工作流/文档/依赖元数据，产品源码未变。
+- **CI 修正**：首次源码 abaf33b 的 UI 工作流运行 39562244066 在启动前失败（job env 不支持 runner.temp）；已把 ARTIFACT_DIR 移到 step env，使用固定 actionlint 1.7.7 对三份 Actions 配置做语义检查 **passed**。此前仅 YAML 解析的检查不足，此次已补到通用规则。修正后的 UI CI 结果以当前分支实际运行记录为准，不提前标 passed。原 Cloud development 是 JSON/Java 等守卫，与网页功能结果分开。已固定依赖；本轮云端复用了同版本工具，GitHub 的首次依赖安装结果需读取实际 CI。
+- **not run / 本轮边界**：原生 Android/真机/真实平台通知与同步/全平台账单格式/APK/签名/应用内更新，原云端环境守卫未重跑；不触碰 Secrets/本地电脑/现有服务。没有新后端、多代理、定时收费服务或自动发布。产品结构整理和平台双源码库打包统一仅形成规则，尚未实施。
+- **配置**：.ai-workflow.json 是可信命令配置；core 未配置时明确失败。标准运行步骤在 CLOUD_DEVELOPMENT。receipt 需要 Git 远端认证；本会话通过已连接 GitHub 工具核对远端 ref，不把它说成脚本已验证 GitHub 认证。
+- **下一步**：先核对本分支 PR/远端 SHA/CI。用户仍暂停产品开发，待新指令继续。将来采用通用包可在云端先干跑后应用，保留项目规则，配置项目自己的测试，不每轮重复全量检查。继续产品时保留原 UI 分支成果和以下历史，不重新搭建。
+
+## 之前的交接（保留历史）
+
 # 当前接续记录（2026-10-21 · 网页体验版 04）
 
 - **目标与长期决定**：用户纠正首页为当月工资结余，不能混入全部资产。少步骤、苹果感、含息费分期、自定义图标和真正有差异的皮肤；长期约定已写入 AGENTS。
