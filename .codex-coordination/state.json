@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 4,
+  "revision": 5,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -21,10 +21,10 @@
       ],
       "base": "92f96014502744f6da35fc741bda74fc3af9b51e",
       "head": "31670ee2810a92d6fc6f7644658a53b8eea01944",
-      "status": "ready",
+      "status": "integrated",
       "generation": 1,
       "lease_until": 0,
-      "updated_at": 1792580464,
+      "updated_at": 1792580954,
       "history": [],
       "handoff": "https://github.com/h516df/timeworth-android/pull/8"
     },
@@ -40,10 +40,10 @@
       ],
       "base": "92f96014502744f6da35fc741bda74fc3af9b51e",
       "head": "2933c40049d8acb5109fc62c53511118c94d3632",
-      "status": "active",
+      "status": "integrated",
       "generation": 1,
-      "lease_until": 1792587669,
-      "updated_at": 1792580826,
+      "lease_until": 0,
+      "updated_at": 1792580954,
       "history": [],
       "receipt": {
         "source_sha": "2933c40049d8acb5109fc62c53511118c94d3632",
@@ -67,7 +67,7 @@
   },
   "batches": {
     "multi-codex-20261021": {
-      "status": "sealed",
+      "status": "completed",
       "integrator": "multi-codex-integration"
     }
   }
