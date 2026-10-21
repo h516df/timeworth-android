@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 29,
+  "revision": 30,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -377,12 +377,25 @@
         "@publish"
       ],
       "base": "70e092c2ffd0b9162f6dc1f176cfe267b47c9fb4",
-      "head": "70e092c2ffd0b9162f6dc1f176cfe267b47c9fb4",
+      "head": "4097e5f5ca2e32749dffd6d96a802e9076415b1f",
       "status": "active",
       "generation": 1,
       "lease_until": 1792599361,
-      "updated_at": 1792592161,
-      "history": []
+      "updated_at": 1792592213,
+      "history": [],
+      "receipt": {
+        "source_sha": "4097e5f5ca2e32749dffd6d96a802e9076415b1f",
+        "members": {
+          "github-formal-release-20261021": "70e092c2ffd0b9162f6dc1f176cfe267b47c9fb4"
+        },
+        "checks": [
+          {
+            "name": "Existing original-key release APK independently reverified; Android/UI and verifier byte-identical to successful build; APK SHA256/size unchanged; native upload workflow actionlint; docs and whitespace",
+            "status": "passed",
+            "source_sha": "4097e5f5ca2e32749dffd6d96a802e9076415b1f"
+          }
+        ]
+      }
     }
   },
   "batches": {
