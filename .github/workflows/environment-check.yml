@@ -1,0 +1,28 @@
+name: Development environment check
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  android-runner:
+    name: Verify hosted Android build prerequisites
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - name: Check Java and Android SDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          java -version
+          javac -version
+          git --version
+          test -n "${ANDROID_HOME:-}"
+          test -d "$ANDROID_HOME/platforms"
+          test -d "$ANDROID_HOME/build-tools"
+          printf '%s\n' 'Android platform packages:'
+          ls "$ANDROID_HOME/platforms"
+          printf '%s\n' 'Android build-tools packages:'
+          ls "$ANDROID_HOME/build-tools"
+          printf '%s\n' 'Hosted runner prerequisites verified. No APK was built or published.'

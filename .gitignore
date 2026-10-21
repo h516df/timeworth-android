@@ -1,0 +1,33 @@
+# Local development and generated output
+.idea/
+.vscode/
+.gradle/
+.kotlin/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+**/build/
+/dist/
+node_modules/
+local.properties
+*.iml
+*.log
+.DS_Store
+Thumbs.db
+
+# Credentials and signing material
+.env
+.env.*
+!.env.example
+key.properties
+keystore.properties
+*.keystore
+*.jks
+*.p12
+*.pem
+
+# Private financial data: keep synthetic test fixtures elsewhere
+/private-data/
+/imports/
+/backups/
+/signing/
