@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 35,
+  "revision": 36,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -452,23 +452,24 @@
       "role": "integrator",
       "branch": "codex/delivery-adoption-integration-20261021",
       "scopes": [
+        "@integration",
+        "@publish",
         "AGENTS.md",
         "CLOUD_DEVELOPMENT.md",
         "HANDOFF.md",
         "README.md",
         "docs/ANDROID_DELIVERY.md",
         "docs/CLOUD_DELIVERY.md",
+        "docs/MULTI_CODEX.md",
         "docs/READINESS.md",
-        "docs/history/HANDOFF-before-delivery-0.4.md",
-        "@integration",
-        "@publish"
+        "docs/history/HANDOFF-before-delivery-0.4.md"
       ],
       "base": "8a07ef90a1dc5351300be03bb686ee8472cbdbcd",
       "head": "8a07ef90a1dc5351300be03bb686ee8472cbdbcd",
       "status": "active",
       "generation": 1,
       "lease_until": 1792601016,
-      "updated_at": 1792593816,
+      "updated_at": 1792594024,
       "history": []
     }
   },
