@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 31,
+  "revision": 32,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -356,10 +356,10 @@
       ],
       "base": "5b1920e201e7c6f5aa50d818689285381febcb23",
       "head": "70e092c2ffd0b9162f6dc1f176cfe267b47c9fb4",
-      "status": "ready",
+      "status": "integrated",
       "generation": 1,
       "lease_until": 0,
-      "updated_at": 1792592131,
+      "updated_at": 1792592417,
       "history": [],
       "handoff": "Verified original-key APK unchanged. Manual ephemeral upload workflow and v0.1.0 notes ready. Integrator to create draft, upload native assets via job token, verify assets then publish with prerelease=false and make_latest=true. Explicit user release request takes precedence over previously inferred physical-device release gating; limitations remain disclosed."
     },
@@ -378,10 +378,10 @@
       ],
       "base": "70e092c2ffd0b9162f6dc1f176cfe267b47c9fb4",
       "head": "0804e31d23c9b9c885b483acddfabeb7a0d32f28",
-      "status": "active",
+      "status": "integrated",
       "generation": 1,
-      "lease_until": 1792599361,
-      "updated_at": 1792592413,
+      "lease_until": 0,
+      "updated_at": 1792592417,
       "history": [],
       "receipt": {
         "source_sha": "0804e31d23c9b9c885b483acddfabeb7a0d32f28",
@@ -400,6 +400,27 @@
             "source_sha": "0804e31d23c9b9c885b483acddfabeb7a0d32f28"
           }
         ]
+      },
+      "publication": {
+        "source_sha": "0804e31d23c9b9c885b483acddfabeb7a0d32f28",
+        "url": "https://github.com/h516df/timeworth-android/releases/tag/v0.1.0",
+        "kind": "formal GitHub Release with native APK assets",
+        "release_id": 419647720,
+        "release_tag": "v0.1.0",
+        "release_tag_source": "4097e5f5ca2e32749dffd6d96a802e9076415b1f",
+        "draft": false,
+        "prerelease": false,
+        "latest": true,
+        "download_url": "https://github.com/h516df/timeworth-android/releases/download/v0.1.0/timeworth-0.1.0.apk",
+        "asset_sha256": "sha256:3838d5bc17c33bfb0e4ed8d40303455121ebe8224041ab939100da3b9ac7abc5",
+        "asset_size": 2394158,
+        "upload_run": "https://github.com/h516df/timeworth-android/actions/runs/39615594938",
+        "apk_build_source": "0b42bab8a3d16f4ce6107cf3eb4ecd397f25555c",
+        "native_assets_verified": true,
+        "runner_cleanup": "remote zero; runtime removed",
+        "physical_device": "not verified",
+        "independent_signing_recovery": "not verified",
+        "public_stable_manifest": "unchanged"
       }
     }
   },
@@ -425,7 +446,7 @@
       "integrator": "cloud-signed-build-integration-20261021"
     },
     "github-formal-release-20261021": {
-      "status": "sealed",
+      "status": "completed",
       "integrator": "github-formal-integration-20261021"
     }
   }
