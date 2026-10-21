@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 18,
+  "revision": 19,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -241,12 +241,25 @@
         "@publish"
       ],
       "base": "6e10665892f5cfcd26c61ba7ef253b8f07395b8d",
-      "head": "6e10665892f5cfcd26c61ba7ef253b8f07395b8d",
+      "head": "89cab741672e03ce8eba152b6e8e8ad39498f758",
       "status": "active",
       "generation": 1,
       "lease_until": 1792590658,
-      "updated_at": 1792587058,
-      "history": []
+      "updated_at": 1792587104,
+      "history": [],
+      "receipt": {
+        "source_sha": "89cab741672e03ce8eba152b6e8e8ad39498f758",
+        "members": {
+          "github-apk-download-20261021": "6e10665892f5cfcd26c61ba7ef253b8f07395b8d"
+        },
+        "checks": [
+          {
+            "name": "Remote GitHub Git blob APK byte count and SHA256 match verified build; product source unchanged; built source is ancestor; git diff --check",
+            "status": "passed",
+            "source_sha": "89cab741672e03ce8eba152b6e8e8ad39498f758"
+          }
+        ]
+      }
     }
   },
   "batches": {
