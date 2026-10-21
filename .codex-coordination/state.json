@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 14,
+  "revision": 15,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -143,10 +143,10 @@
       ],
       "base": "f06c0a85d79589d2fbd75147276391cf6015ef62",
       "head": "69f57c387bcaf9a43456db1c196d52a04cdd56bc",
-      "status": "ready",
+      "status": "integrated",
       "generation": 1,
       "lease_until": 0,
-      "updated_at": 1792585770,
+      "updated_at": 1792586257,
       "history": [],
       "handoff": "https://github.com/h516df/timeworth-android/pull/11"
     },
@@ -166,10 +166,10 @@
       ],
       "base": "69f57c387bcaf9a43456db1c196d52a04cdd56bc",
       "head": "4b97f9d8faec054629b371a2a5fe2fd38633b144",
-      "status": "active",
+      "status": "integrated",
       "generation": 1,
-      "lease_until": 1792592972,
-      "updated_at": 1792586034,
+      "lease_until": 0,
+      "updated_at": 1792586257,
       "history": [],
       "receipt": {
         "source_sha": "4b97f9d8faec054629b371a2a5fe2fd38633b144",
@@ -198,6 +198,16 @@
             "source_sha": "4b97f9d8faec054629b371a2a5fe2fd38633b144"
           }
         ]
+      },
+      "publication": {
+        "source_sha": "4b97f9d8faec054629b371a2a5fe2fd38633b144",
+        "url": "https://chatgpt.com/space/page_42f579b273ac81919688f4bb471bd035",
+        "kind": "private Android preview APK",
+        "reference": "library-file:fde1_bGliZmlsZV9tVHlVVmRwUHB0S1FheHRVTFVfVFlB_FileDrive_0097b20740a48191a7d7ec4eff9464c4",
+        "sha256": "6d20683339f12e1f5707b39cf5769e46b564c809acab8f26fb7a2b8c5f1fa815",
+        "size": 3041867,
+        "formal_release": "blocked by GitHub payments/spending limit; stable unchanged",
+        "physical_device": "not verified"
       }
     }
   },
@@ -211,7 +221,7 @@
       "integrator": "product-entry-integration"
     },
     "android-first-release-20261021": {
-      "status": "sealed",
+      "status": "completed",
       "integrator": "android-first-release-integration"
     }
   }
