@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 33,
+  "revision": 34,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -437,12 +437,13 @@
         "release/delivery-contract.json"
       ],
       "base": "dbc90ee2afb4d588a39319ad321840eb7bebcc4f",
-      "head": "dbc90ee2afb4d588a39319ad321840eb7bebcc4f",
-      "status": "active",
+      "head": "8a07ef90a1dc5351300be03bb686ee8472cbdbcd",
+      "status": "ready",
       "generation": 1,
-      "lease_until": 1792600141,
-      "updated_at": 1792592941,
-      "history": []
+      "lease_until": 0,
+      "updated_at": 1792593752,
+      "history": [],
+      "handoff": "Default-branch-only workflow adoption, not product merge: exact shared0.4 source8416611, portable read-only verifier, pinned v0.1.0 native-asset contract and evidence-based retrospective. Real API verification passed. Integrator to correct stale current docs/entry, archive old handoff, preserve product constraints, then merge only workflow changes into main."
     }
   },
   "batches": {
