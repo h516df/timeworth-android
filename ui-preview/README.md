@@ -47,3 +47,7 @@ Current browser changes, uploaded covers and backup restores remain local. JSON 
 ## Verification
 
 Cloud Chromium v4 checks passed for salary isolation from assets/other income/old anchors; goal self-transfer; expense attribution; paid-installment invariance; original-price versus total/payment quotes; exact schedule cents; day/month/calendar equivalents; custom menu selection/outside click/Escape/reopen; custom emoji/tint/image icon and goal carry; material/font/layout theme changes, density/wallpaper persistence; summary-first flow; interruptible tabs/reduced motion; and 360/390/430/1280px layouts. A final targeted check passed for generic versus payroll incoming-message classification. Earlier v3 coverage included real Excel file upload, bulk review and backup validation. No real financial connection, Android device or APK was tested.
+
+## 固定检查入口
+
+采用的通用工作流与版本见根 HANDOFF/CLOUD_DEVELOPMENT。`python3 cloud/workflow.py check --level quick` 检查 6 个 JS/QA 文件语法；`--level core` 再通过 `cloud/run-ui-checks.py` 执行现有两组浏览器脚本。依赖锁定在 ui-preview/package-lock.json，测试时启动独占回环随机端口并自动清理。GitHub UI preview checks 使用这些入口，不构建或发布 App。

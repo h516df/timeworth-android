@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "workflow_version": "0.1",
+  "source": "h516df/vibe-ui-quality-kit@4830e82c04392501c19779517ec55714a5748494/workflow",
+  "checks": [
+    {
+      "name": "syntax dist/model.js",
+      "level": "quick",
+      "command": [
+        "node",
+        "--check",
+        "ui-preview/dist/model.js"
+      ],
+      "timeout_seconds": 30
+    },
+    {
+      "name": "syntax dist/app.js",
+      "level": "quick",
+      "command": [
+        "node",
+        "--check",
+        "ui-preview/dist/app.js"
+      ],
+      "timeout_seconds": 30
+    },
+    {
+      "name": "syntax dist/v3.js",
+      "level": "quick",
+      "command": [
+        "node",
+        "--check",
+        "ui-preview/dist/v3.js"
+      ],
+      "timeout_seconds": 30
+    },
+    {
+      "name": "syntax dist/v4.js",
+      "level": "quick",
+      "command": [
+        "node",
+        "--check",
+        "ui-preview/dist/v4.js"
+      ],
+      "timeout_seconds": 30
+    },
+    {
+      "name": "syntax qa/check-v4.cjs",
+      "level": "quick",
+      "command": [
+        "node",
+        "--check",
+        "ui-preview/qa/check-v4.cjs"
+      ],
+      "timeout_seconds": 30
+    },
+    {
+      "name": "syntax qa/focused-v4.cjs",
+      "level": "quick",
+      "command": [
+        "node",
+        "--check",
+        "ui-preview/qa/focused-v4.cjs"
+      ],
+      "timeout_seconds": 30
+    },
+    {
+      "name": "monthly salary and mobile browser scenarios",
+      "level": "core",
+      "command": [
+        "python3",
+        "cloud/run-ui-checks.py"
+      ],
+      "timeout_seconds": 540
+    }
+  ]
+}

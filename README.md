@@ -44,3 +44,7 @@
 ## 云端开发入口
 
 后续开发默认使用云端：[打开开发工作区](https://codespaces.new/h516df/timeworth-android) · [环境、检查命令与迁移边界](CLOUD_DEVELOPMENT.md)。
+
+## 开发工作流
+
+已接入 [通用云端工作流](docs/AI_WORKFLOW.md)，固定来源 4830e82c04392501c19779517ec55714a5748494。验证入口和 CI 说明见 [CLOUD_DEVELOPMENT](CLOUD_DEVELOPMENT.md)。新会话沿用需求例子、完成条件、按风险检查和远端回执；本轮仅改工作流，App 功能暂停。

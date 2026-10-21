@@ -1,0 +1,57 @@
+name: UI preview checks
+on:
+  pull_request:
+    paths:
+      - 'ui-preview/**'
+      - 'cloud/workflow.py'
+      - 'cloud/run-ui-checks.py'
+      - '.ai-workflow.json'
+      - '.github/workflows/ui-preview.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'ui-preview/**'
+      - 'cloud/workflow.py'
+      - 'cloud/run-ui-checks.py'
+      - '.ai-workflow.json'
+      - '.github/workflows/ui-preview.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ui-preview-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  browser:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    env:
+      ARTIFACT_DIR: ${{ runner.temp }}/timeworth-ui-qa
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: ui-preview/package-lock.json
+      - name: Check syntax before installing browser dependencies
+        run: python3 cloud/workflow.py check --level quick
+      - run: npm ci --ignore-scripts --prefix ui-preview
+      - name: Install locked Playwright browser
+        working-directory: ui-preview
+        run: npx --no-install playwright install --with-deps chromium
+      - name: Run existing browser scenarios
+        run: python3 cloud/run-ui-checks.py
+      - name: Keep failure screenshots briefly
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ui-failure-${{ github.run_id }}
+          path: ${{ runner.temp }}/timeworth-ui-qa
+          retention-days: 3
+          if-no-files-found: ignore

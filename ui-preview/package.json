@@ -1,0 +1,9 @@
+{
+  "name": "timeworth-ui-checks",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Cloud-only verification of the existing static mobile prototype",
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}
