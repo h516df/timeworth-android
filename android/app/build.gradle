@@ -1,0 +1,45 @@
+plugins { id 'com.android.application' }
+
+android {
+    namespace 'dev.h516.timeworth'
+    compileSdk 35
+    buildFeatures { buildConfig true }
+    defaultConfig {
+        applicationId 'dev.h516.timeworth'
+        minSdk 26
+        targetSdk 35
+        versionCode 1
+        versionName '0.1.0'
+    }
+    signingConfigs {
+        release {
+            if (System.getenv('TIMEWORTH_KEYSTORE_FILE')) {
+                storeFile file(System.getenv('TIMEWORTH_KEYSTORE_FILE'))
+                storePassword System.getenv('TIMEWORTH_KEYSTORE_PASSWORD')
+                keyAlias 'timeworth'
+                keyPassword System.getenv('TIMEWORTH_KEYSTORE_PASSWORD')
+                storeType 'PKCS12'
+            }
+        }
+    }
+    buildTypes {
+        release {
+            if (System.getenv('TIMEWORTH_KEYSTORE_FILE')) signingConfig signingConfigs.release
+            minifyEnabled false
+        }
+        debug { applicationIdSuffix '.preview'; versionNameSuffix '-preview' }
+    }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+    sourceSets { main { assets.srcDirs = [layout.buildDirectory.dir('generated/assets')] } }
+}
+
+tasks.register('bundleProduct', Sync) {
+    from('../../ui-preview/dist')
+    into(layout.buildDirectory.dir('generated/assets/product'))
+}
+tasks.named('preBuild').configure { dependsOn 'bundleProduct' }
+
+dependencies {
+    implementation 'androidx.webkit:webkit:1.13.0'
+    implementation 'androidx.core:core:1.15.0'
+}
