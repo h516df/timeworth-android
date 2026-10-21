@@ -53,4 +53,6 @@
 
 ## 开发工作流
 
-已接入 [通用云端工作流 0.2](docs/AI_WORKFLOW.md)，文档来源固定为工具库 [1f3ff63](https://github.com/h516df/vibe-ui-quality-kit/commit/1f3ff63a8ec0bb85320fc7a31111c673aa9cf0a6)。接入脚本和检查配置协议仍为 0.1，采用来源保持 6bdaf2e7c9ec63f1cf7d02760a83a32b595bd1a0，没有顺带升级。验证命令见 [CLOUD_DEVELOPMENT](CLOUD_DEVELOPMENT.md)。本轮只落实工作流，TW-001 动画反馈仍待做，网页 05 未重新发布。
+已接入 [通用云端工作流 0.3](docs/AI_WORKFLOW.md)，文档来源固定为工具库 [13ff0db](https://github.com/h516df/vibe-ui-quality-kit/commit/13ff0dbcdae921c0ce972630fe5947d98a62b8f0)。接入脚本和检查配置协议仍为 0.1，采用来源保持 6bdaf2e7c9ec63f1cf7d02760a83a32b595bd1a0，没有顺带升级。验证命令见 [CLOUD_DEVELOPMENT](CLOUD_DEVELOPMENT.md)。本轮只落实工作流，TW-001 动画反馈仍待做，网页 05 未重新发布。
+
+多个Codex任务从[共享协调入口](docs/MULTI_CODEX.md)开始：原子领取、独立分工、明确移交和一个整合者集中交付；协作工具不代表产品功能或安卓更新已完成。
