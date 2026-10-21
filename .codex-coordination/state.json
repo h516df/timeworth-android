@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 9,
+  "revision": 10,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -82,10 +82,10 @@
       ],
       "base": "114409deae1b586a5e6e8a1b758c4a39326bf243",
       "head": "4d4572a530e5dcb59054bcb587cb14d35a7096a4",
-      "status": "ready",
+      "status": "integrated",
       "generation": 1,
       "lease_until": 0,
-      "updated_at": 1792581219,
+      "updated_at": 1792581277,
       "history": [],
       "handoff": "Product PR #3 workflow-only synchronization; source branch codex/multi-codex-product-entry-20261021"
     },
@@ -101,10 +101,10 @@
       ],
       "base": "114409deae1b586a5e6e8a1b758c4a39326bf243",
       "head": "4d4572a530e5dcb59054bcb587cb14d35a7096a4",
-      "status": "active",
+      "status": "integrated",
       "generation": 1,
-      "lease_until": 1792588423,
-      "updated_at": 1792581270,
+      "lease_until": 0,
+      "updated_at": 1792581277,
       "history": [],
       "receipt": {
         "source_sha": "4d4572a530e5dcb59054bcb587cb14d35a7096a4",
@@ -132,7 +132,7 @@
       "integrator": "multi-codex-integration"
     },
     "product-entry-sync-20261021": {
-      "status": "sealed",
+      "status": "completed",
       "integrator": "product-entry-integration"
     }
   }
