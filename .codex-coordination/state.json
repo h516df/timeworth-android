@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 25,
+  "revision": 26,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -285,10 +285,10 @@
       ],
       "base": "89cab741672e03ce8eba152b6e8e8ad39498f758",
       "head": "6a8101de88d54ffa9aedea6e0e8ee860f3cc33f2",
-      "status": "ready",
+      "status": "integrated",
       "generation": 1,
       "lease_until": 0,
-      "updated_at": 1792591581,
+      "updated_at": 1792591827,
       "history": [],
       "handoff": "Original-key release APK built and independently verified; run39613534837 succeeded on0b42bab. Versioned APK and metadata committed. Ephemeral runner exited. Integrator to verify remote APK, clean runtime, update GitHub prerelease primary link without claiming stable/device/backup verification."
     },
@@ -310,10 +310,10 @@
       ],
       "base": "6a8101de88d54ffa9aedea6e0e8ee860f3cc33f2",
       "head": "5b1920e201e7c6f5aa50d818689285381febcb23",
-      "status": "active",
+      "status": "integrated",
       "generation": 1,
-      "lease_until": 1792598795,
-      "updated_at": 1792591723,
+      "lease_until": 0,
+      "updated_at": 1792591827,
       "history": [],
       "receipt": {
         "source_sha": "5b1920e201e7c6f5aa50d818689285381febcb23",
@@ -327,6 +327,20 @@
             "source_sha": "5b1920e201e7c6f5aa50d818689285381febcb23"
           }
         ]
+      },
+      "publication": {
+        "source_sha": "5b1920e201e7c6f5aa50d818689285381febcb23",
+        "url": "https://github.com/h516df/timeworth-android/releases/tag/v0.1.0-preview.1",
+        "download_url": "https://github.com/h516df/timeworth-android/blob/6a8101de88d54ffa9aedea6e0e8ee860f3cc33f2/release/downloads/v0.1.0-signed/timeworth-0.1.0.apk?raw=true",
+        "kind": "Original-key non-debug release APK, linked from existing GitHub prerelease; stable channel unchanged",
+        "apk_source_sha": "0b42bab8a3d16f4ce6107cf3eb4ecd397f25555c",
+        "build_run": "https://github.com/h516df/timeworth-android/actions/runs/39613534837",
+        "sha256": "3838d5bc17c33bfb0e4ed8d40303455121ebe8224041ab939100da3b9ac7abc5",
+        "size": 2394158,
+        "billing_settings_changed": false,
+        "runner_cleanup": "remote list zero; local ephemeral runtime and credentials removed",
+        "physical_device": "not verified",
+        "long_term_signing_recovery": "not verified"
       }
     }
   },
@@ -348,7 +362,7 @@
       "integrator": "github-apk-download-integration-20261021"
     },
     "cloud-signed-build-20261021": {
-      "status": "sealed",
+      "status": "completed",
       "integrator": "cloud-signed-build-integration-20261021"
     }
   }
