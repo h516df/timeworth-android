@@ -156,7 +156,7 @@ document.addEventListener('input',e=>{if(e.target.id==='calc-price'&&route?.type
 document.addEventListener('change',e=>{if(e.target.dataset.record!==undefined&&route?.type==='review'){route.records[Number(e.target.dataset.record)].selected=e.target.checked;const scroll=sheet.scrollTop;renderSheet();sheet.scrollTop=scroll;}});
 backdrop.addEventListener('click',()=>close());
 window.addEventListener('popstate',()=>{if(route)close(true);});
-document.addEventListener('keydown',e=>{if(!route)return;if(e.key==='Escape')back();if(e.key==='Tab'){const items=[...sheet.querySelectorAll('button:not(:disabled),input:not(:disabled),select,a[href],summary')],first=items[0],last=items.at(-1);if(e.shiftKey&&(document.activeElement===first||document.activeElement===sheet)){e.preventDefault();last?.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus();}}});
+document.addEventListener('keydown',e=>{if(!route)return;if(e.key==='Escape')back();if(e.key==='Tab'){const items=[...sheet.querySelectorAll('button:not(:disabled),input:not(:disabled),select,a[href],summary')].filter(el=>el.getClientRects().length&&!el.hidden),first=items[0],last=items.at(-1);if(e.shiftKey&&(document.activeElement===first||document.activeElement===sheet)){e.preventDefault();last?.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus();}}});
 render(false);
 window.__timeworthPreview={navigate,reset:()=>{M.reset();navigate('home');},getState:()=>M.clone(state()),finance:M.finance,parseCSV,validateBackup};
 if(M.storageError)toast('浏览器存储暂不可用，修改后请导出备份');

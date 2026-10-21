@@ -1,4 +1,4 @@
-# TimeWorth · interaction prototype 03
+# TimeWorth · interaction prototype 04
 
 Owner-private preview: https://timeworth-mobile-preview.cloudyloom133.chatgpt.site
 
@@ -8,22 +8,23 @@ A browser-local, mobile-first testbed for an eventual Android app. Initial data 
 
 Fewer steps is the primary constraint. The main question is “after salary arrives, what may remain at month end?” Category budgets are absent from the primary experience. Manual recording is an optional correction, not the daily workflow. Settings have no avatar or motivational header.
 
-- Salary confirmation takes one amount and one save; editing the same salary does not duplicate it. Current available balance can be calibrated without rebuilding historic records.
-- Home shows month-end estimate, received income and upcoming repayments. Calculation assumptions are inspectable.
-- Repayments accept one sentence such as `招商信用卡 每月680 剩6期 25号`. Any provider name is supported. Known all-in payments do not invent a principal/interest breakdown. One-period amounts can be edited directly. Paid state affects cash flow without double counting.
-- The purchase calculator can create a repayment directly, without another entity form. Supports interest, periodic fees, upfront fees and detailed installments.
-- Wish collection uses photo cards; savings goals use full-width cover/progress cards. A wish becomes a goal in one action, with no required monthly saving commitment. Covers can be chosen or uploaded locally.
-- Four themes (frost, cream, forest, night) apply immediately and persist.
-- Collection offers a whole statement file or pasted message. Standard/common-header CSV and Excel are parsed locally; normal records are batched, suspected duplicates skipped unless explicitly reviewed. The UI explains what CSV means and supports arbitrary account names.
-- Notification collection is explicitly a future native Android capability. The notification example is a labelled text simulation and never requests notification permission.
+- Home follows **this calendar month’s salary**, the salary already retained, and the estimated month-end remainder. Historical savings, balance anchors and other income do not increase it. Previous months show recorded remainder without a future projection.
+- Salary confirmation needs one amount and one save. Generic incoming messages are other income unless explicitly identified as payroll. Imported non-payroll receipts stay separate.
+- Cash expenses default to this month’s salary; an optional correction attributes a payment to other funds. This is a declared accounting convention, not per-yuan tracing across bank accounts.
+- “Flow” starts with the salary split and category summary. Individual records are one optional drill-down. Transfers into personal savings goals are shown separately and do not count as consumption.
+- Any provider is accepted for repayment entry. A sentence such as `信用卡 原价6000 每期520 共12期 25号` infers total repayment 6240 and aggregate interest/fees 240. Original price is optional.
+- The calculator accepts total repayment, an all-in payment, or a rate. Known all-in amounts are not charged interest again. A quoted difference combines interest and fees; pure interest cannot be isolated from those totals alone. Optional down payment is excluded from financed principal. Repayment schedules allocate exact cents.
+- Time cost includes workdays, work months and approximate calendar days of income. At salary 10000, 22 workdays/month and 8h/day, 6240 equals about 13 workdays 5h49m, 0.62 work months or 19 calendar days of income. Calendar days describe earnings equivalence, not life expectancy. Commute is optional in effective hourly rate and uses minutes in entry.
+- Wishes have independent custom symbols, emoji/text or uploaded icons, alongside optional photos. Icons carry into savings goals. There is no mandatory monthly saving target.
+- Four skins change materials, typography, borders, spacing and navigation surfaces. Density and optional photo wallpaper persist locally.
+- Related choices use custom in-context menus. Tab movement is interruptible, preserves scroll and respects reduced-motion preference.
+- Collection offers a statement file or pasted message, with batch acceptance and exception review. Sources are arbitrary; native notification collection remains explicitly unimplemented.
 
-## Cash-flow estimate
+## Salary retention estimate
 
-Current derived available amount = opening available money + received cash income − recorded cash expenses (refunds netted) − actually paid installments − current-month goal allocations. Credit-funded purchases are excluded from cash expenses and deducted at repayment instead. A balance calibration sets an anchor and subsequent recorded differences adjust that anchor.
+Current retained salary = received salary this month − net salary-funded cash expenses − installments actually paid this month. Credit-funded purchases are excluded from cash expenses and deducted at repayment instead. Historical assets, other income and personal goal transfers are excluded from this calculation.
 
-Month-end estimate = current available + confirmed expected future income − outstanding installments − unmatched fixed bills − estimated remaining everyday cash spending. Everyday spending uses current-month nonfixed recorded cash spending / elapsed days. This is sensitive to missing records; the UI shows sample size and warns it is not a live bank balance. The reference range varies only projected daily spending by ±30%; it is not a confidence interval. The small curve is an explicitly documented schematic, not an account history chart. Month-specific estimates are a prototype, not a complete multi-account accounting engine.
-
-A paid installment reduces current cash and removes the corresponding future obligation, leaving the month-end estimate unchanged when the payment matches the reserved amount. Receipts and repayments are separate from consumption so the same credit purchase is not deducted twice.
+Month-end salary remainder = current retained salary + known expected salary − unpaid installments − unmatched fixed bills − estimated remaining everyday salary spending. The everyday estimate uses recorded current-month nonfixed cash spending / elapsed days. It is sensitive to missing records and is not a live bank balance. Paying a reserved installment lowers current retention and removes its future obligation, preserving the month-end estimate when amounts match. Prior prototype balance anchors remain in backup data but no longer drive this screen. Goals can include historical savings and are never represented as entirely funded by this month’s salary.
 
 ## Current file support and limits
 
@@ -36,10 +37,13 @@ Current browser changes, uploaded covers and backup restores remain local. JSON 
 - Android NotificationListenerService: https://developer.android.com/reference/android/service/notification/NotificationListenerService — native notifications are an incremental source, not a complete historical ledger.
 - AutoAccounting: https://github.com/AutoAccountingOrg/AutoAccounting — investigated notification/SMS/OCR/Hook collection and plugin adapters. Its README documents varying Root/LSPosed, LSPatch and OCR prerequisites; GPL-3.0 license. No code copied or integration claimed.
 - Copilot Money: https://help.copilot.money/en/articles/11157550-quick-start-guide — income/cash-flow, recurrence and exception review inspiration; US integrations do not imply availability for Chinese payment accounts.
+- Apple motion: https://developer.apple.com/design/human-interface-guidelines/motion — short, interruptible transitions and reduced motion.
+- Apple pickers: https://developer.apple.com/design/human-interface-guidelines/pickers — keep short choices in context.
+- Apple segmented controls: https://developer.apple.com/design/human-interface-guidelines/segmented-controls
 - Apple materials guidance: https://developer.apple.com/design/human-interface-guidelines/materials
 - SheetJS: https://docs.sheetjs.com/docs/solutions/input/ ; bundled license at `dist/vendor/LICENSE-SheetJS.txt` (Apache-2.0).
 - Photos: Unsplash images `photo-1546435770-a3e426bf472b`, `photo-1600210492486-724fe5c67fb0`, `photo-1469474968028-56623f02e42e`. Downloaded static assets; no third-party runtime image requests.
 
 ## Verification
 
-Cloud Chromium checks covered salary edit/idempotence, estimates without budgets, arbitrary-provider sentence entry, single-period amount editing, the paid-cash invariant, theme persistence, photo wishes/one-tap goal conversion, deposits, direct calculator-to-debt with fees, custom sources, labelled notification-text demo, actual Excel upload including income, bulk review, backup validation and 360/390/430/1280px layouts. No live bank or payment integrations were tested or enabled.
+Cloud Chromium v4 checks passed for salary isolation from assets/other income/old anchors; goal self-transfer; expense attribution; paid-installment invariance; original-price versus total/payment quotes; exact schedule cents; day/month/calendar equivalents; custom menu selection/outside click/Escape/reopen; custom emoji/tint/image icon and goal carry; material/font/layout theme changes, density/wallpaper persistence; summary-first flow; interruptible tabs/reduced motion; and 360/390/430/1280px layouts. A final targeted check passed for generic versus payroll incoming-message classification. Earlier v3 coverage included real Excel file upload, bulk review and backup validation. No real financial connection, Android device or APK was tested.
