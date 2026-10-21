@@ -4,6 +4,16 @@
   "source": "h516df/vibe-ui-quality-kit@6bdaf2e7c9ec63f1cf7d02760a83a32b595bd1a0/workflow",
   "checks": [
     {
+      "name": "syntax finance rules",
+      "level": "quick",
+      "command": [
+        "node",
+        "--check",
+        "ui-preview/dist/finance.js"
+      ],
+      "timeout_seconds": 30
+    },
+    {
       "name": "syntax dist/model.js",
       "level": "quick",
       "command": [
@@ -60,6 +70,26 @@
         "node",
         "--check",
         "ui-preview/qa/focused-v4.cjs"
+      ],
+      "timeout_seconds": 30
+    },
+    {
+      "name": "syntax monthly experience check",
+      "level": "quick",
+      "command": [
+        "node",
+        "--check",
+        "ui-preview/qa/monthly-v5.cjs"
+      ],
+      "timeout_seconds": 30
+    },
+    {
+      "name": "salary and installment financial rules",
+      "level": "core",
+      "command": [
+        "node",
+        "--test",
+        "ui-preview/qa/finance.test.cjs"
       ],
       "timeout_seconds": 30
     },

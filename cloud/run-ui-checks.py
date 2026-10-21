@@ -27,7 +27,7 @@ def main():
         thread.start()
         environment['PREVIEW_URL'] = f'http://127.0.0.1:{server.server_port}'
         try:
-            for script in ['check-v4.cjs', 'focused-v4.cjs']:
+            for script in ['check-v4.cjs', 'focused-v4.cjs', 'monthly-v5.cjs']:
                 print('RUN browser check:', script, flush=True)
                 result = subprocess.run(['node', 'ui-preview/qa/' + script], cwd=ROOT,
                                         env=environment, timeout=240)

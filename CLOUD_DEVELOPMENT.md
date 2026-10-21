@@ -67,4 +67,10 @@ GitHub Actions 的 **Cloud development** 在 PR、main 推送及手动运行时�
 - PLAYWRIGHT_MODULE/CHROMIUM_PATH 只用于已有工具的云端适配；PREVIEW_URL 由临时服务器设置，ARTIFACT_DIR 控制合成数据截图位置。
 - 原 `bash cloud/check.sh` 仍是规划/环境守卫，不能代替网页功能检查。正式设备、真实账户同步和 APK 另行验证。
 
-项目代码结构整理与发布平台自动化尚未实施，继续产品开发前按授权范围评估；本轮不重新发布网页。
+工资、时间和报价分期的计算已提取到 ui-preview/dist/finance.js；检查工具继续沿用固定版本，新增 Node 规则用例和月度工资浏览器场景。发布仍使用现有 Sites 官方接口；GitHub 产品源提交与 Sites 源码/部署的映射见 HANDOFF。
+
+## 通用入口与本轮检查
+
+各项目共用的完整规则见 [vibe-ui-quality-kit/workflow](https://github.com/h516df/vibe-ui-quality-kit/blob/main/workflow/README.md)，本仓库 AGENTS 保留同版简要规则。这里原有的固定提交指检查工具采用来源，不代表规则只读旧版本。任务发现与接入由代理执行，旧续接示例不要求用户粘贴提示或记分支。
+
+新增 `node --test ui-preview/qa/finance.test.cjs`；完整入口仍为 `python3 cloud/workflow.py check --level core`，会运行金额规则和三组浏览器检查。GitHub UI preview checks 在安装浏览器前先跑金额用例，然后执行相同浏览器脚本。

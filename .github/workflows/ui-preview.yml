@@ -39,6 +39,8 @@ jobs:
           cache-dependency-path: ui-preview/package-lock.json
       - name: Check syntax before installing browser dependencies
         run: python3 cloud/workflow.py check --level quick
+      - name: Check salary and installment calculations
+        run: node --test ui-preview/qa/finance.test.cjs
       - run: npm ci --ignore-scripts --prefix ui-preview
       - name: Install locked Playwright browser
         working-directory: ui-preview

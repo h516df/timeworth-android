@@ -1,4 +1,4 @@
-# TimeWorth · interaction prototype 04
+# TimeWorth · interaction prototype 05
 
 Owner-private preview: https://timeworth-mobile-preview.cloudyloom133.chatgpt.site
 
@@ -19,6 +19,14 @@ Fewer steps is the primary constraint. The main question is “after salary arri
 - Four skins change materials, typography, borders, spacing and navigation surfaces. Density and optional photo wallpaper persist locally.
 - Related choices use custom in-context menus. Tab movement is interruptible, preserves scroll and respects reduced-motion preference.
 - Collection offers a statement file or pasted message, with batch acceptance and exception review. Sources are arbitrary; native notification collection remains explicitly unimplemented.
+
+## Monthly receipts and financial rules
+
+Salary entry follows the selected month. Editing a past month preserves the current month and current hourly-rate setting; repeated saves update one record. Multiple salary receipts can be added separately, and imported payroll is edited in place rather than copied into a second income store. Explicit payroll flags are preserved when editing a receipt whose ID is not a salary prefix.
+
+Installments offer this-month or next-month start without another entity form. A next-month first payment does not reduce this month’s forecast. In all-in-payment mode a separately charged first-period fee remains on the first period: 6000 original price, 12 × 520 and an extra 100 means 6340 total, 340 aggregate cost, first payment 620 and subsequent payments 520. Leave the extra field at zero for already-inclusive fees. Internal quoted principal/fee allocations reconcile cents; they are not a lender-certified principal/interest breakdown.
+
+`dist/finance.js` contains pure salary, time and quoted-installment rules, shared by the UI and Node checks. The existing model still owns the rate-based financing/calendar functions. UI integration remains in the existing modules; this is a bounded extraction, not a full rewrite or framework migration. Browser-local storage stays at version 2 and existing records are retained.
 
 ## Salary retention estimate
 
@@ -46,8 +54,10 @@ Current browser changes, uploaded covers and backup restores remain local. JSON 
 
 ## Verification
 
-Cloud Chromium v4 checks passed for salary isolation from assets/other income/old anchors; goal self-transfer; expense attribution; paid-installment invariance; original-price versus total/payment quotes; exact schedule cents; day/month/calendar equivalents; custom menu selection/outside click/Escape/reopen; custom emoji/tint/image icon and goal carry; material/font/layout theme changes, density/wallpaper persistence; summary-first flow; interruptible tabs/reduced motion; and 360/390/430/1280px layouts. A final targeted check passed for generic versus payroll incoming-message classification. Earlier v3 coverage included real Excel file upload, bulk review and backup validation. No real financial connection, Android device or APK was tested.
+Cloud Chromium v4 baseline checks passed for salary isolation from assets/other income/old anchors; goal self-transfer; expense attribution; paid-installment invariance; original-price versus total/payment quotes; exact schedule cents; day/month/calendar equivalents; custom menu selection/outside click/Escape/reopen; custom emoji/tint/image icon and goal carry; material/font/layout theme changes, density/wallpaper persistence; summary-first flow; interruptible tabs/reduced motion; and 360/390/430/1280px layouts. A final targeted check passed for generic versus payroll incoming-message classification. Earlier v3 coverage included real Excel file upload, bulk review and backup validation. No real financial connection, Android device or APK was tested.
 
 ## 固定检查入口
 
 采用的通用工作流与版本见根 HANDOFF/CLOUD_DEVELOPMENT。`python3 cloud/workflow.py check --level quick` 检查 6 个 JS/QA 文件语法；`--level core` 再通过 `cloud/run-ui-checks.py` 执行现有两组浏览器脚本。依赖锁定在 ui-preview/package-lock.json，测试时启动独占回环随机端口并自动清理。GitHub UI preview checks 使用这些入口，不构建或发布 App。
+
+Current cloud v5 verification: seven financial-rule cases and three browser scripts passed. New cases cover historical salary edit/idempotence, multiple receipts, imported-payroll reuse, month attribution, next-month installments and separately charged first fees. Static syntax and Actions semantic checks passed. A focused rerun followed the final profile/context and snapshot changes; CI status is tied to the source commit in HANDOFF. No Android or real financial connection was tested.
