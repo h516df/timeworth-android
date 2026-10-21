@@ -4,6 +4,15 @@ User request: “好，开发吧，让我可以使用”. Cloud only; continue t
 
 Base: product PR #3 / `f06c0a85d79589d2fbd75147276391cf6015ef62`. Independent branch `codex/android-first-release-20261021`; ownership registered in the shared coordination branch. Existing product branch is preserved. Batch: `android-first-release-20261021`.
 
+## Delivery checkpoint
+
+- APK product source: `718832345d6cf46fdf7be92f1cf8c0c5872dc348`; Android 8.0+, universal (no native ABI libraries), distinct `dev.h516.timeworth.preview` / version `0.1.0-preview` / code 1. The original stable certificate is unchanged.
+- Original signed build run [39598429467](https://github.com/h516df/timeworth-android/actions/runs/39598429467) failed before any steps. Check annotation explicitly says account payments failed or spending limit must be increased. No billing settings changed; workflow now runs on demand rather than retrying on every push.
+- API-30 software emulator booted but its system services died (`com.android.systemui`, phone and Bluetooth `DeadSystemException`); installation did not complete. Emulator stopped; no physical phone check is claimed.
+- Final native browser check also disabled `crypto.randomUUID` to exercise the secure UUID fallback, saved a wish and restored data successfully. Native engine-upgrade guidance is included for older system WebViews.
+- Android API-26 lint and debug compile passed after adding explicit local-only backup rules and a distinct preview label. Actual native document-provider, update installation and physical-device behavior remain unverified.
+- Private delivery page prepared: https://chatgpt.com/space/page_42f579b273ac81919688f4bb471bd035 . Integration will attach the verified APK; public stable manifest remains unavailable.
+
 ## Scope and acceptance
 
 1. Installable offline Android APK: salary/work-time setup, monthly salary, spending-to-time conversion and existing debt/goals/themes.
