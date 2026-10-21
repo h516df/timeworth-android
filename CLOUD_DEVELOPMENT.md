@@ -56,7 +56,7 @@ GitHub Actions 的 **Cloud development** 在 PR、main 推送及手动运行时�
 
 ## 分层网页检查与采用的工作流
 
-通用规则见 [docs/AI_WORKFLOW.md](docs/AI_WORKFLOW.md)。接入脚本与检查配置协议 0.1 的固定来源：[6bdaf2e](https://github.com/h516df/vibe-ui-quality-kit/tree/6bdaf2e7c9ec63f1cf7d02760a83a32b595bd1a0/workflow)；沿用包内脚本；本轮仅文档经审阅升级为 0.2，固定来源在 AGENTS，不盲目覆盖自定义配置。
+通用规则见 [docs/AI_WORKFLOW.md](docs/AI_WORKFLOW.md)。接入脚本与检查配置协议 0.1 的固定来源：[6bdaf2e](https://github.com/h516df/vibe-ui-quality-kit/tree/6bdaf2e7c9ec63f1cf7d02760a83a32b595bd1a0/workflow)；沿用包内脚本；本轮仅文档经审阅升级为 0.3，固定来源在 AGENTS，不盲目覆盖自定义配置。
 
 - 廉价检查：`python3 cloud/workflow.py check --level quick`。
 - 完整网页主要流程：`npm ci --ignore-scripts --prefix ui-preview`，在 ui-preview 执行 `npx --no-install playwright install --with-deps chromium`，再从仓库根执行 `python3 cloud/workflow.py check --level core`。
@@ -78,3 +78,7 @@ GitHub Actions 的 **Cloud development** 在 PR、main 推送及手动运行时�
 需求唯一入口为 [#6](https://github.com/h516df/timeworth-android/issues/6)，当前 TW-001 动画反馈待做。讨论/反馈记录不触发构建或部署；明确实施请求按本批范围执行。数据迁移、签名恢复、匿名下载与实体手机覆盖安装的验收顺序见 [ANDROID_DELIVERY](docs/ANDROID_DELIVERY.md)。
 
 GitHub Actions 因付款/支出上限拒绝启动的外部阻塞尚未解除；本次不改费用、不盲目重试。云端工作区测试、Actions 测试与正式 APK 构建分别记证据。
+
+## 多 Codex 协作
+
+[项目入口](docs/MULTI_CODEX.md) 与 codex-coordination-v1 分支共享登记由代理维护。每个活跃会话独立分支/工作区，先原子领取任务与范围，旧写手已停才接力；工作任务在自己PR或任务记录交接，由登记整合者汇总公共HANDOFF、核对确切成员并检查整合后的源码。新增cloud/coordinate.py与已验证通用源逐字一致，原检查器/配置不改；用户无需搬运聊天或管理分支。登记不是权限隔离，不能阻止绕过工具直接写库。
