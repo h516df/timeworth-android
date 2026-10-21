@@ -1,0 +1,15 @@
+{
+  "applicationId": "dev.h516.timeworth.preview",
+  "versionCode": 1,
+  "versionName": "0.1.0-preview",
+  "minSdk": 26,
+  "abis": [],
+  "signingCertificateSha256": "a881ff7122de078ba157fbe903ae71e715a0e00ca3717918afb722e78dbfc8a9",
+  "size": 3041867,
+  "sha256": "6d20683339f12e1f5707b39cf5769e46b564c809acab8f26fb7a2b8c5f1fa815",
+  "productAssetsMatchSource": true,
+  "debuggable": true,
+  "sourceSha": "4b97f9d8faec054629b371a2a5fe2fd38633b144",
+  "sourceRepository": "h516df/timeworth-android",
+  "deviceVerification": "not completed: software emulator system services died"
+}
