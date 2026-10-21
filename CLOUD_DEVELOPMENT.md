@@ -62,6 +62,10 @@ main 保存规划与接续入口，网页 05 在产品 PR #3；尚无原生 Andr
 
 ## 需求与当前外部阻塞
 
-任务开始先读 [需求池 #6](https://github.com/h516df/timeworth-android/issues/6)，按自然语言判断收集或实施，纠正当前任务及时处理。通用协作规则 0.2 见 [docs/AI_WORKFLOW.md](docs/AI_WORKFLOW.md)，嵌入简版 r2 可在通用私有库暂不可读时执行。
+任务开始先读 [需求池 #6](https://github.com/h516df/timeworth-android/issues/6)，按自然语言判断收集或实施，纠正当前任务及时处理。通用协作规则 0.3 见 [docs/AI_WORKFLOW.md](docs/AI_WORKFLOW.md)，嵌入简版 r3 可在通用私有库暂不可读时执行。
 
 GitHub Actions 曾因付款/支出上限拒绝启动；本轮不改计费也不盲目重试。工作区测试、Actions 运行和正式 APK 构建分别记录，不能相互冒充。后续先处理实际阻塞或验证可用云端构建通道，保持纯云端与私有源码。
+
+## 多 Codex 协作
+
+先读 [docs/MULTI_CODEX.md](docs/MULTI_CODEX.md) 和本项目 codex-coordination-v1 分支的共享登记。新增标准库 cloud/coordinate.py，既有 cloud/workflow.py 与 .ai-workflow.json 保持原样；每个会话独立工作区/分支、原子领取范围，工作会话记录各自 PR/任务交接，整合者更新公共交接并验证整合后的源码。Git/连接器操作步骤由代理执行，用户无需运行命令。未确认旧写手停止不接管，不把 Actions 或真实手机能力混入登记验证。
