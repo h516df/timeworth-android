@@ -14,6 +14,7 @@ jobs:
       ANDROID_HOME: /workspace/android-sdk
       ANDROID_SDK_ROOT: /workspace/android-sdk
       GRADLE_USER_HOME: /home/agent/.gradle
+      JAVA_HOME: /workspace/jdk21
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
@@ -23,7 +24,7 @@ jobs:
         run: |
           set -euo pipefail
           test -x /workspace/android-sdk/build-tools/35.0.0/apksigner
-          java -version
+          "$JAVA_HOME/bin/javac" -version
           test -x /workspace/gradle-8.11.1/bin/gradle
       - name: Check financial rules
         run: node --test ui-preview/qa/finance.test.cjs
