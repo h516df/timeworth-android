@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "repository": "h516df/timeworth-android",
+  "tag": "v0.1.0",
+  "kind": "release",
+  "require_latest": true,
+  "target_commit": "4097e5f5ca2e32749dffd6d96a802e9076415b1f",
+  "assets": [
+    {
+      "name": "timeworth-0.1.0.apk",
+      "size": 2394158,
+      "sha256": "3838d5bc17c33bfb0e4ed8d40303455121ebe8224041ab939100da3b9ac7abc5"
+    },
+    {
+      "name": "apk-metadata.json",
+      "size": 633,
+      "sha256": "3131d52ef8d3f75b291cca3e43995878d50a66fdffd0a17205ee99da964c6b38"
+    },
+    {
+      "name": "SHA256SUMS.txt",
+      "size": 86,
+      "sha256": "6b23aa1df9dade8a536413269603268cf607639fcaafd792b7e98c98e7d22f31"
+    },
+    {
+      "name": "SOURCE_SHA.txt",
+      "size": 41,
+      "sha256": "3dc611366141e05452f6e253b07e43406527883fea1737a5fcb9dc5ae5441ce5"
+    }
+  ]
+}

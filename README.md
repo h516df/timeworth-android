@@ -2,7 +2,7 @@
 
 把工作、时间、收入、消费和生活目标联系起来的安卓手机 App。
 
-> 当前状态：main 保存规划与协作入口；手机网页体验版 05 位于 [产品 PR #3](https://github.com/h516df/timeworth-android/pull/3)，尚未合并。尚无原生 Android 工程或 APK。
+> 当前状态：[Android v0.1.0已正式发布](https://github.com/h516df/timeworth-android/releases/tag/v0.1.0)，原生附件timeworth-0.1.0.apk约2.4MB，Android8+、原签名非调试包。main保存协作入口和工作流，完整应用源码在发布标签及[PR #15](https://github.com/h516df/timeworth-android/pull/15)依赖链；尚未合入main。
 
 ## 产品方向
 
@@ -23,7 +23,7 @@
 
 - [需求池 #6](https://github.com/h516df/timeworth-android/issues/6)：讨论/体验反馈先记录；明确要求开发或修复时直接推进。由代理组织相关批次、集中检查与交付，用户无需管理 GitHub。
 - [当前交接](HANDOFF.md)：核对产品 PR 和任务分支后接续，不只按 main 的旧规划重做。
-- [通用工作流 0.3](docs/AI_WORKFLOW.md)；[安卓交付与更新缺口](docs/ANDROID_DELIVERY.md)。
+- [通用工作流 0.4](docs/AI_WORKFLOW.md)；[安卓交付与更新缺口](docs/ANDROID_DELIVERY.md)。
 
 - [多个 Codex 的分工与整合](docs/MULTI_CODEX.md)：共享登记、独立任务和一个整合者，用户无需调度。
 
@@ -35,15 +35,15 @@
 - [开发与发布准备情况](docs/READINESS.md)
 - [纯云端开发、签名与交付](docs/CLOUD_DELIVERY.md)
 
-## 开发状态
+## 开发与交付状态
 
-技术栈、最低安卓版本、应用包名、正式中文名称、发布方式和项目许可证尚未确定。main 尚无原生构建命令或 APK；网页成果与已验证功能见产品 PR 和对应分支交接。
+执行方式为纯云端，不依赖用户本地电脑。已有Android工程和原签名APK，包名dev.h516.timeworth，最低Android8.0；实际构建与GitHub正式发行均已完成。根main不包含未合并产品源码，继续应用开发时先读[当前交接](HANDOFF.md)及发布标签/相关PR。
 
-已确定需要供他人使用，并支持应用内检查更新。当前仓库保存私有源码；公开安装包和更新信息的分发渠道将在发布阶段配置。仓库中的手动环境检查工作流只验证 GitHub 托管运行器的基础工具，不构建或发布 App。
+当前下载位于私有GitHub Release，需有访问权的GitHub登录。公开分发与自动更新仍复用既有h516df/app-releases的独立timeworth入口，但尚未切换stable清单；真机安装/覆盖升级和独立长期签名恢复未验收。
 
-执行方式已确定为**纯云端**，不依赖用户本地电脑。公开分发复用已有 `h516df/app-releases`，TimeWorth 使用独立的 `timeworth` 入口。签名 Secrets 已经通过云端连接写入 GitHub，并通过证书指纹、临时文件签名和验签检查；实际 APK 构建和安装尚未开始，详见交付文档。
+本轮[交付复盘](docs/RETROSPECTIVE_20261021.md)已落实为[规则与核验工具](docs/DELIVERY.md)。发行时由代理运行`python3 cloud/verify_release.py --contract release/delivery-contract.json --receipt /tmp/timeworth-release-receipt.json`，核对真实发行级别、原生附件摘要、标签与latest；用户无需填写技术表格。
 
-真实工资、个人账单、账号密钥、签名文件和私人备份不应提交到仓库。测试数据应使用明确标注的合成数据。
+真实工资、个人账单、账号密钥、签名文件和私人备份不应提交到仓库。测试使用明确标注的合成数据。正式GitHub发行不代表未测设备或公开更新渠道已经通过。
 
 ## 云端开发入口
 

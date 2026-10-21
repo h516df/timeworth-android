@@ -16,7 +16,9 @@
 
 9. 多 Codex 协作按 [MULTI_CODEX](https://github.com/h516df/vibe-ui-quality-kit/blob/main/workflow/MULTI_CODEX.md) 使用每项目 codex-coordination-v1 分支的共享登记：更新需比较当前提交，领取/续租/暂停/移交有状态和代次，过期不自动抢占。编辑、交付与发布前核对所有权；同批一个整合者，测试绑定整合后的源码。无登记访问时先做隔离草稿并说明限制，不宣称防冲突已生效。
 
-简版修订：2026-10-21-r3；完整协作规则 0.3。新项目创建时接入；已有项目升级保留自定义内容。跨会话生效依据实际读取的项目规则，GitHub 存档不等于账户级设置。
+10. 交付先核对用户指定渠道、发行级别和可用产物；正式 GitHub Release 回读非草稿、非预发行、原生附件名/大小/摘要及所需 latest，不能把构建或仓库文件链接当完成。未测限制如实披露，不擅加发行前置条件；单通道失败先定位并查已授权替代路径，不直接要求付费或反复催用户。细则与只读核验工具见 [DELIVERY](https://github.com/h516df/vibe-ui-quality-kit/blob/main/workflow/DELIVERY.md)。
+
+简版修订：2026-10-21-r4；完整协作规则 0.4。新项目创建时接入；已有项目升级保留自定义内容。跨会话生效依据实际读取的项目规则，GitHub 存档不等于账户级设置。
 <!-- shared-cloud-workflow:end -->
 
 
@@ -39,8 +41,8 @@
 ## 需求、批次与安卓交付
 
 - 唯一产品需求入口：[需求池 #6](https://github.com/h516df/timeworth-android/issues/6)。先读最新状态；讨论/体验反馈先记，明确开发或修复请求直接执行。本批口径纠正及时处理，独立新想法进候选；无需固定开工口令。
-- 产品成果目前在 [PR #3](https://github.com/h516df/timeworth-android/pull/3) 的任务分支，代理按目标核对实时状态并读对应交接，不能只用 main 的旧规划重新实现。
-- 本地通用规则见 [docs/AI_WORKFLOW.md](docs/AI_WORKFLOW.md)，文档来源固定为工具库 [13ff0db](https://github.com/h516df/vibe-ui-quality-kit/commit/13ff0dbcdae921c0ce972630fe5947d98a62b8f0)；接入脚本与检查配置协议仍为 0.1，未自动升级；新增独立协调器协议 1；安卓准备与未验收项见 [docs/ANDROID_DELIVERY.md](docs/ANDROID_DELIVERY.md)，既有签名证据见 [docs/CLOUD_DELIVERY.md](docs/CLOUD_DELIVERY.md)。
+- v0.1.0已正式发布，原生APK附件见 [Release](https://github.com/h516df/timeworth-android/releases/tag/v0.1.0)。应用源码在已发布标签及[整合PR #15](https://github.com/h516df/timeworth-android/pull/15)，产品PR尚未合入main；先按目标核对实时状态，不从main旧规划重新实现。
+- 本地通用规则见 [docs/AI_WORKFLOW.md](docs/AI_WORKFLOW.md)，文档来源固定为工具库 [8416611](https://github.com/h516df/vibe-ui-quality-kit/commit/84166117b827309daca6fb14e56fcc5df3c15052)；接入脚本与检查配置协议仍为 0.1，未自动升级；新增独立协调器协议 1；安卓准备与未验收项见 [docs/ANDROID_DELIVERY.md](docs/ANDROID_DELIVERY.md)，既有签名证据见 [docs/CLOUD_DELIVERY.md](docs/CLOUD_DELIVERY.md)。
 - 一批围绕一组相关体验，内部可分步提交和检查，集中交付一个完成预览；不按每条反馈发布，不把需求池当自动开发或自动公开发布授权。
 
 ## 多 Codex 协作入口
@@ -48,3 +50,7 @@
 先读 [MULTI_CODEX](docs/MULTI_CODEX.md) 与[本项目协调登记](https://github.com/h516df/timeworth-android/blob/codex-coordination-v1/.codex-coordination/state.json)，按当前 ref 原子领取任务/分支/范围。工具为 [cloud/coordinate.py](cloud/coordinate.py)。每个会话独立工作区/分支，旧写手已停才顺序接力；工作任务保存各自 PR/任务交接，由登记的整合者汇总公共文档、核对整合源码并统一发布。
 
 历史产品 PR #3 未合并；先核对其当前 head 和写手是否已停，不能因登记中没有旧任务就直接接管。缺少协调访问时先做独立草稿，说明未取得共享交付资格；不要求用户手动调度所有 Codex。
+
+## 交付完成条件
+
+GitHub发行按[交付规则](docs/DELIVERY.md)和release/delivery-contract.json核对；执行cloud/verify_release.py取得本次成功回执才报告发布状态/附件核验完成。用户指定的正式/预发行、访问条件与原生APK附件不可被Page、源码ZIP或仓库文件链接替代。真机、长期签名恢复和公开更新仍分别记录，不擅加用户未要求的发行阻止条件。构建/上传通道失败先分类定位并检查授权内替代路径，不直接要求付费或重复授权。
