@@ -38,7 +38,7 @@ GitHub Actions 的 **Cloud development** 在 PR、main 推送及手动运行时�
 - **当前进度**：维护 HANDOFF 顶部“当前接续记录”，替换过时状态，保留下面原有历史和证据链接。不同任务的未合并进度留在各自分支/PR，合并时整合当前记录。
 - **交接最少字段**：当前目标；已完成和待完成；仓库与分支/PR；基线或验证提交；运行/测试命令及 passed / failed / not run；所需配置的名称与来源；阻塞；下一步。
 - **远端副本**：提交本任务源码与交接，推送独立分支，再核对 GitHub 上的提交 SHA。PR 尚未合并也可继续，但必须告知准确分支/PR；不要仅保存到旧会话的磁盘。
-- **交付回执**：给用户仓库、分支/PR、远端提交 SHA 与下一次可直接粘贴的续接提示。远端未确认前不能说“可以删除旧会话”。
+- **交付回执**：给用户仓库、分支/PR、远端提交 SHA 与简短接续摘要（不要求用户复制）。远端未确认前不能说“可以删除旧会话”。
 
 只写配置的键名与申请位置，不写值、个人资料或私人日志。未推送的文件、任务 VM 和 Actions 临时附件不作为唯一长期备份。
 
@@ -48,21 +48,19 @@ GitHub Actions 的 **Cloud development** 在 PR、main 推送及手动运行时�
 
 密钥通过所选环境的变量/Secret 配置提供；GitHub Actions Secrets、Codex Cloud 凭据和旧电脑登录态不是同一处配置。本轮只建立仓库接续方式，没有读取或迁移凭据，也不声称已修改 Codex Cloud 的已发布环境。
 
-### 给新会话的提示
+### 代理负责接续
 
-> 请继续这个仓库的工作。先读 AGENTS.md、CLOUD_DEVELOPMENT.md 和 HANDOFF.md，核对远端 main 与交接指定分支/PR，简短说明已知进度和下一步，再继续未完成任务。不要把历史测试或未合并候选当作当前主线；把本轮进度与代码一起保存并推送。
-
-如果要继续尚未合并的任务，在这段话前补上旧会话给出的分支或 PR 链接。
+用户无需粘贴启动提示、记分支或重复授权已有连接。代理按本次意图读取 AGENTS 的统一入口、需求池 #6 和当前 HANDOFF，核对远端及相关 PR；明确实施直接推进，讨论/零散反馈先记，本批纠正及时处理，没有固定开工口令。
 
 参考：[Codex Cloud 的环境复用和任务保存机制](https://learn.chatgpt.com/docs/environments/cloud-environments#reuse-and-update-saved-state)。
 
 ## 分层网页检查与采用的工作流
 
-通用规则见 [docs/AI_WORKFLOW.md](docs/AI_WORKFLOW.md)。工作流 0.1 固定来源：[6bdaf2e](https://github.com/h516df/vibe-ui-quality-kit/tree/6bdaf2e7c9ec63f1cf7d02760a83a32b595bd1a0/workflow)；采用包内脚本与规则，不跟随 main 自动更新。
+通用规则见 [docs/AI_WORKFLOW.md](docs/AI_WORKFLOW.md)。接入脚本与检查配置协议 0.1 的固定来源：[6bdaf2e](https://github.com/h516df/vibe-ui-quality-kit/tree/6bdaf2e7c9ec63f1cf7d02760a83a32b595bd1a0/workflow)；沿用包内脚本；本轮仅文档经审阅升级为 0.2，固定来源在 AGENTS，不盲目覆盖自定义配置。
 
 - 廉价检查：`python3 cloud/workflow.py check --level quick`。
 - 完整网页主要流程：`npm ci --ignore-scripts --prefix ui-preview`，在 ui-preview 执行 `npx --no-install playwright install --with-deps chromium`，再从仓库根执行 `python3 cloud/workflow.py check --level core`。
-- CI 的 UI preview checks 先跑廉价检查，再安装锁定 Playwright/Chromium 并跑现有两组浏览器场景。按路径触发、取消同分支旧任务；失败截图保留 3 天，不开启发布。
+- CI 的 UI preview checks 先跑廉价检查，再安装锁定 Playwright/Chromium 并跑三组浏览器场景。按路径触发、取消同分支旧任务；失败截图保留 3 天，不开启发布。
 - `cloud/run-ui-checks.py` 使用临时本机回环端口并自动关闭服务；无需用户本地电脑，也不占用其他任务端口。
 - PLAYWRIGHT_MODULE/CHROMIUM_PATH 只用于已有工具的云端适配；PREVIEW_URL 由临时服务器设置，ARTIFACT_DIR 控制合成数据截图位置。
 - 原 `bash cloud/check.sh` 仍是规划/环境守卫，不能代替网页功能检查。正式设备、真实账户同步和 APK 另行验证。
@@ -74,3 +72,9 @@ GitHub Actions 的 **Cloud development** 在 PR、main 推送及手动运行时�
 各项目共用的完整规则见 [vibe-ui-quality-kit/workflow](https://github.com/h516df/vibe-ui-quality-kit/blob/main/workflow/README.md)，本仓库 AGENTS 保留同版简要规则。这里原有的固定提交指检查工具采用来源，不代表规则只读旧版本。任务发现与接入由代理执行，旧续接示例不要求用户粘贴提示或记分支。
 
 新增 `node --test ui-preview/qa/finance.test.cjs`；完整入口仍为 `python3 cloud/workflow.py check --level core`，会运行金额规则和三组浏览器检查。GitHub UI preview checks 在安装浏览器前先跑金额用例，然后执行相同浏览器脚本。
+
+## 需求批次与外部阻塞
+
+需求唯一入口为 [#6](https://github.com/h516df/timeworth-android/issues/6)，当前 TW-001 动画反馈待做。讨论/反馈记录不触发构建或部署；明确实施请求按本批范围执行。数据迁移、签名恢复、匿名下载与实体手机覆盖安装的验收顺序见 [ANDROID_DELIVERY](docs/ANDROID_DELIVERY.md)。
+
+GitHub Actions 因付款/支出上限拒绝启动的外部阻塞尚未解除；本次不改费用、不盲目重试。云端工作区测试、Actions 测试与正式 APK 构建分别记证据。

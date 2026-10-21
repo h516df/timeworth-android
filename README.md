@@ -25,6 +25,10 @@
 
 花呗、京东白条是重要需求。实际文件导入格式、消费与分期数据的可获得性仍待验证；目前不承诺完整自动同步。
 
+## 需求与交付
+
+[需求池 #6](https://github.com/h516df/timeworth-android/issues/6) 是唯一产品反馈入口；明确开发/修复请求直接推进，讨论和零散反馈先收集，相关批次集中交付一个预览。安卓签名恢复、更新、数据迁移与真机缺口见 [ANDROID_DELIVERY](docs/ANDROID_DELIVERY.md)。
+
 ## 文档
 
 - [产品草案与计算规则](docs/PRODUCT.md)
@@ -49,4 +53,4 @@
 
 ## 开发工作流
 
-已接入 [通用云端工作流](docs/AI_WORKFLOW.md)，固定来源 6bdaf2e7c9ec63f1cf7d02760a83a32b595bd1a0。验证入口和 CI 说明见 [CLOUD_DEVELOPMENT](CLOUD_DEVELOPMENT.md)。新会话沿用需求例子、完成条件、按风险检查和远端回执；本轮仅改工作流，App 功能暂停。
+已接入 [通用云端工作流 0.2](docs/AI_WORKFLOW.md)，文档来源固定为工具库 [1f3ff63](https://github.com/h516df/vibe-ui-quality-kit/commit/1f3ff63a8ec0bb85320fc7a31111c673aa9cf0a6)。接入脚本和检查配置协议仍为 0.1，采用来源保持 6bdaf2e7c9ec63f1cf7d02760a83a32b595bd1a0，没有顺带升级。验证命令见 [CLOUD_DEVELOPMENT](CLOUD_DEVELOPMENT.md)。本轮只落实工作流，TW-001 动画反馈仍待做，网页 05 未重新发布。
