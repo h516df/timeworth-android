@@ -19,6 +19,8 @@ fs.mkdirSync(artifacts, { recursive: true });
     await route.fulfill({ path: file });
   });
   await context.addInitScript(() => {
+    // Android WebView versions before 92 need the secure getRandomValues UUID fallback.
+    Object.defineProperty(crypto, 'randomUUID', { value: undefined });
     window.bridgeCalls = [];
     window.TimeWorthHost = { postMessage(message) { window.bridgeCalls.push(JSON.parse(message)); } };
   });
@@ -48,6 +50,9 @@ fs.mkdirSync(artifacts, { recursive: true });
   await dialog.getByRole('spinbutton', { name: '商品原价', exact: true }).fill('100');
   assert.match(await page.locator('#calc-results').innerText(), /6小时\s*56分钟/);
   await page.screenshot({ path: path.join(artifacts, 'time-cost.png') });
+  await dialog.getByRole('button', { name: '收藏这个心愿', exact: true }).click();
+  assert.equal(await page.evaluate(() => __timeworthPreview.getState().wishes.length), 1);
+  assert.match(await page.evaluate(() => __timeworthPreview.getState().wishes[0].id), /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/);
   assert.equal(await page.evaluate(() => __timeworthNative.back()), true);
   await page.locator('#tab-bar').getByRole('button', { name: '设置', exact: true }).click();
   await page.getByRole('button', { name: /导出数据备份/ }).click();

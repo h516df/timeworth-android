@@ -2,7 +2,7 @@
 window.TW = (() => {
   const KEY='timeworth-ui-v2';
   const round=n=>Math.round((Number(n)+Number.EPSILON)*100)/100;
-  const uid=()=>crypto.randomUUID();
+  const uid=()=>typeof crypto.randomUUID==='function'?crypto.randomUUID():Array.from(crypto.getRandomValues(new Uint8Array(16)),(n,i)=>((i===6?(n&15)|64:i===8?(n&63)|128:n).toString(16).padStart(2,'0'))).map((n,i)=>([4,6,8,10].includes(i)?'-':'')+n).join('');
   const today=()=>new Date().toLocaleDateString('sv-SE');
   const month=()=>today().slice(0,7);
   const shiftMonth=(m,n)=>{const [y,mm]=m.split('-').map(Number),d=new Date(y,mm-1+n,1);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;};
