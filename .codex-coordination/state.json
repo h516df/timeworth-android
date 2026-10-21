@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 28,
+  "revision": 29,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -362,6 +362,27 @@
       "updated_at": 1792592131,
       "history": [],
       "handoff": "Verified original-key APK unchanged. Manual ephemeral upload workflow and v0.1.0 notes ready. Integrator to create draft, upload native assets via job token, verify assets then publish with prerelease=false and make_latest=true. Explicit user release request takes precedence over previously inferred physical-device release gating; limitations remain disclosed."
+    },
+    "github-formal-integration-20261021": {
+      "owner": "codex-formal-integration-20261021",
+      "workspace": "cloud-formal-integration-20261021",
+      "batch": "github-formal-release-20261021",
+      "role": "integrator",
+      "branch": "codex/github-formal-integration-20261021",
+      "scopes": [
+        "AGENTS.md",
+        "HANDOFF.md",
+        "README.md",
+        "@integration",
+        "@publish"
+      ],
+      "base": "70e092c2ffd0b9162f6dc1f176cfe267b47c9fb4",
+      "head": "70e092c2ffd0b9162f6dc1f176cfe267b47c9fb4",
+      "status": "active",
+      "generation": 1,
+      "lease_until": 1792599361,
+      "updated_at": 1792592161,
+      "history": []
     }
   },
   "batches": {
@@ -386,7 +407,8 @@
       "integrator": "cloud-signed-build-integration-20261021"
     },
     "github-formal-release-20261021": {
-      "status": "open"
+      "status": "sealed",
+      "integrator": "github-formal-integration-20261021"
     }
   }
 }
