@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 13,
+  "revision": 14,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -165,12 +165,40 @@
         "@publish"
       ],
       "base": "69f57c387bcaf9a43456db1c196d52a04cdd56bc",
-      "head": "69f57c387bcaf9a43456db1c196d52a04cdd56bc",
+      "head": "4b97f9d8faec054629b371a2a5fe2fd38633b144",
       "status": "active",
       "generation": 1,
       "lease_until": 1792592972,
-      "updated_at": 1792585772,
-      "history": []
+      "updated_at": 1792586034,
+      "history": [],
+      "receipt": {
+        "source_sha": "4b97f9d8faec054629b371a2a5fe2fd38633b144",
+        "members": {
+          "android-first-release-20261021": "69f57c387bcaf9a43456db1c196d52a04cdd56bc"
+        },
+        "checks": [
+          {
+            "name": "financial rules: 7 groups; native-origin Chromium first run/wish/fallback/reload/restore/layout/reduced motion",
+            "status": "passed",
+            "source_sha": "4b97f9d8faec054629b371a2a5fe2fd38633b144"
+          },
+          {
+            "name": "Android assembleDebug and lintDebug on integrated source",
+            "status": "passed",
+            "source_sha": "4b97f9d8faec054629b371a2a5fe2fd38633b144"
+          },
+          {
+            "name": "APK package/version/signature/size/SHA256 and every product asset equals integrated source",
+            "status": "passed",
+            "source_sha": "4b97f9d8faec054629b371a2a5fe2fd38633b144"
+          },
+          {
+            "name": "integrated implementation unchanged from frozen work member; remote heads and ancestor relationship",
+            "status": "passed",
+            "source_sha": "4b97f9d8faec054629b371a2a5fe2fd38633b144"
+          }
+        ]
+      }
     }
   },
   "batches": {
