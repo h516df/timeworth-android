@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 8,
+  "revision": 9,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -100,12 +100,30 @@
         "@publish"
       ],
       "base": "114409deae1b586a5e6e8a1b758c4a39326bf243",
-      "head": "114409deae1b586a5e6e8a1b758c4a39326bf243",
+      "head": "4d4572a530e5dcb59054bcb587cb14d35a7096a4",
       "status": "active",
       "generation": 1,
       "lease_until": 1792588423,
-      "updated_at": 1792581223,
-      "history": []
+      "updated_at": 1792581270,
+      "history": [],
+      "receipt": {
+        "source_sha": "4d4572a530e5dcb59054bcb587cb14d35a7096a4",
+        "members": {
+          "product-entry-sync": "4d4572a530e5dcb59054bcb587cb14d35a7096a4"
+        },
+        "checks": [
+          {
+            "name": "8 synchronization file blobs, policy/module parity and source scopes",
+            "status": "passed",
+            "source_sha": "4d4572a530e5dcb59054bcb587cb14d35a7096a4"
+          },
+          {
+            "name": "all 36 original non-Markdown product files unchanged; history preserved and whitespace passed",
+            "status": "passed",
+            "source_sha": "4d4572a530e5dcb59054bcb587cb14d35a7096a4"
+          }
+        ]
+      }
     }
   },
   "batches": {
