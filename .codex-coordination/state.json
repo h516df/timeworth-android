@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 27,
+  "revision": 28,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -355,12 +355,13 @@
         "release/v0.1.0-notes.md"
       ],
       "base": "5b1920e201e7c6f5aa50d818689285381febcb23",
-      "head": "5b1920e201e7c6f5aa50d818689285381febcb23",
-      "status": "active",
+      "head": "70e092c2ffd0b9162f6dc1f176cfe267b47c9fb4",
+      "status": "ready",
       "generation": 1,
-      "lease_until": 1792599284,
-      "updated_at": 1792592084,
-      "history": []
+      "lease_until": 0,
+      "updated_at": 1792592131,
+      "history": [],
+      "handoff": "Verified original-key APK unchanged. Manual ephemeral upload workflow and v0.1.0 notes ready. Integrator to create draft, upload native assets via job token, verify assets then publish with prerelease=false and make_latest=true. Explicit user release request takes precedence over previously inferred physical-device release gating; limitations remain disclosed."
     }
   },
   "batches": {
