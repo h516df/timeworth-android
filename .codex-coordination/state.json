@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 22,
+  "revision": 23,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -284,12 +284,13 @@
         "release/downloads/v0.1.0-signed"
       ],
       "base": "89cab741672e03ce8eba152b6e8e8ad39498f758",
-      "head": "89cab741672e03ce8eba152b6e8e8ad39498f758",
-      "status": "active",
+      "head": "6a8101de88d54ffa9aedea6e0e8ee860f3cc33f2",
+      "status": "ready",
       "generation": 1,
-      "lease_until": 1792598104,
-      "updated_at": 1792591498,
-      "history": []
+      "lease_until": 0,
+      "updated_at": 1792591581,
+      "history": [],
+      "handoff": "Original-key release APK built and independently verified; run39613534837 succeeded on0b42bab. Versioned APK and metadata committed. Ephemeral runner exited. Integrator to verify remote APK, clean runtime, update GitHub prerelease primary link without claiming stable/device/backup verification."
     }
   },
   "batches": {
