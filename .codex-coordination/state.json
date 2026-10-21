@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 12,
+  "revision": 13,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -149,6 +149,28 @@
       "updated_at": 1792585770,
       "history": [],
       "handoff": "https://github.com/h516df/timeworth-android/pull/11"
+    },
+    "android-first-release-integration": {
+      "owner": "codex-2bf9bede57d0-i",
+      "workspace": "cloud-a9f871b22566-i",
+      "batch": "android-first-release-20261021",
+      "role": "integrator",
+      "branch": "codex/android-first-integration-20261021",
+      "scopes": [
+        "AGENTS.md",
+        "HANDOFF.md",
+        "README.md",
+        "docs/ANDROID_DELIVERY.md",
+        "@integration",
+        "@publish"
+      ],
+      "base": "69f57c387bcaf9a43456db1c196d52a04cdd56bc",
+      "head": "69f57c387bcaf9a43456db1c196d52a04cdd56bc",
+      "status": "active",
+      "generation": 1,
+      "lease_until": 1792592972,
+      "updated_at": 1792585772,
+      "history": []
     }
   },
   "batches": {
@@ -161,7 +183,8 @@
       "integrator": "product-entry-integration"
     },
     "android-first-release-20261021": {
-      "status": "open"
+      "status": "sealed",
+      "integrator": "android-first-release-integration"
     }
   }
 }
