@@ -1,33 +1,45 @@
-# TimeWorth · mobile interaction prototype 02
+# TimeWorth · interaction prototype 03
 
 Owner-private preview: https://timeworth-mobile-preview.cloudyloom133.chatgpt.site
 
-Buildless HTML/CSS/JavaScript in `dist/`; serve with a static HTTP server. No framework build or external assets are required. The native Android implementation is a later phase; this is not an APK.
+A browser-local, mobile-first testbed for an eventual Android app. Initial data are fictional. No payment account, notification listener or remote financial storage is connected. No Android APK is produced in this phase.
 
-## Implemented interactions
+## Product direction
 
-- Apple-inspired large titles, grouped lists, focused value editors, minute-based commute presets/slider, translucent navigation, dark appearance and reduced-motion support.
-- Editable income, work days/hours/costs, two consistent hourly-rate bases, category budgets and net spending.
-- Purchase calculator with custom terms, zero interest, fixed periodic fee, nominal annual interest with equal installments, upfront fee, penny-adjusted schedule and cashflow-derived reference annual rate. Example fees are not platform offers.
-- Repayment create/edit/delete, per-period principal/fee/date editing and paid/unpaid toggles. Changes affect monthly totals. Regenerating an already paid schedule requires an explicit warning.
-- Wish create/edit/delete, conversion to a savings goal; goal edits, deposits/withdrawals and movement deletion, with current-month allocation reflected on the overview.
-- All demo import records are selectable, source switching, refund classification, explicit duplicate override, existing repayment merge without double-counting consumption.
-- Browser-local CSV parsing, quoted cells, UTF-8/GB18030, standard template download, common Alipay/WeChat header recognition, review before import. Supports standard CSV for other accounts; Huabei/Baitiao PDF/screenshots and platform-specific exports remain unimplemented.
-- Transaction editing/deletion; local persistence, prior-preview work/record migration, JSON backup export and validated restore.
+Fewer steps is the primary constraint. The main question is “after salary arrives, what may remain at month end?” Category budgets are absent from the primary experience. Manual recording is an optional correction, not the daily workflow. Settings have no avatar or motivational header.
 
-## Calculation boundaries
+- Salary confirmation takes one amount and one save; editing the same salary does not duplicate it. Current available balance can be calibrated without rebuilding historic records.
+- Home shows month-end estimate, received income and upcoming repayments. Calculation assumptions are inspectable.
+- Repayments accept one sentence such as `招商信用卡 每月680 剩6期 25号`. Any provider name is supported. Known all-in payments do not invent a principal/interest breakdown. One-period amounts can be edited directly. Paid state affects cash flow without double counting.
+- The purchase calculator can create a repayment directly, without another entity form. Supports interest, periodic fees, upfront fees and detailed installments.
+- Wish collection uses photo cards; savings goals use full-width cover/progress cards. A wish becomes a goal in one action, with no required monthly saving commitment. Covers can be chosen or uploaded locally.
+- Four themes (frost, cream, forest, night) apply immediately and persist.
+- Collection offers a whole statement file or pasted message. Standard/common-header CSV and Excel are parsed locally; normal records are batched, suspected duplicates skipped unless explicitly reviewed. The UI explains what CSV means and supports arbitrary account names.
+- Notification collection is explicitly a future native Android capability. The notification example is a labelled text simulation and never requests notification permission.
 
-The overview is an income-allocation estimate, not a bank balance: income minus per-category maximum of budget/net spending, minus all installment obligations for the current month, minus current-month net goal deposits. Marking an installment paid reduces pending repayments without freeing its already reserved allocation. Repayment imports do not create another expense. Initial goal savings are historical and do not subtract again this month. Refunds reduce net category spending.
+## Cash-flow estimate
 
-Calculator fixed fees are charged against the original financed principal each period. APR mode uses nominal annual rate / 12 and equal monthly installments. Upfront fee is charged with the first installment. Reference annualized rate is monthly cashflow IRR × 12, assuming equally spaced months; actual due-date day counts and platform APR disclosures can differ.
+Current derived available amount = opening available money + received cash income − recorded cash expenses (refunds netted) − actually paid installments − current-month goal allocations. Credit-funded purchases are excluded from cash expenses and deducted at repayment instead. A balance calibration sets an anchor and subsequent recorded differences adjust that anchor.
+
+Month-end estimate = current available + confirmed expected future income − outstanding installments − unmatched fixed bills − estimated remaining everyday cash spending. Everyday spending uses current-month nonfixed recorded cash spending / elapsed days. This is sensitive to missing records; the UI shows sample size and warns it is not a live bank balance. The reference range varies only projected daily spending by ±30%; it is not a confidence interval. The small curve is an explicitly documented schematic, not an account history chart. Month-specific estimates are a prototype, not a complete multi-account accounting engine.
+
+A paid installment reduces current cash and removes the corresponding future obligation, leaving the month-end estimate unchanged when the payment matches the reserved amount. Receipts and repayments are separate from consumption so the same credit purchase is not deducted twice.
+
+## Current file support and limits
+
+Bundled SheetJS Community Edition 0.20.3 reads the first Excel worksheet locally. CSV accepts UTF-8/GB18030 and quoted cells. Headers must contain recognizable date, amount and name/type columns; generic fields are `日期,名称,金额,类型,分类,账户,订单号`. Known Alipay/WeChat-style headers are recognized, but not every platform/version has been tested. CSV/Excel files containing ordinary income are supported. ZIP, encrypted workbooks, PDF and screenshot OCR remain unimplemented. Loan and platform-specific adapters need real, desensitized samples before claims of compatibility.
+
+Current browser changes, uploaded covers and backup restores remain local. JSON export/restore and v1/v2 work/record migration remain available.
+
+## Research / dependencies
+
+- Android NotificationListenerService: https://developer.android.com/reference/android/service/notification/NotificationListenerService — native notifications are an incremental source, not a complete historical ledger.
+- AutoAccounting: https://github.com/AutoAccountingOrg/AutoAccounting — investigated notification/SMS/OCR/Hook collection and plugin adapters. Its README documents varying Root/LSPosed, LSPatch and OCR prerequisites; GPL-3.0 license. No code copied or integration claimed.
+- Copilot Money: https://help.copilot.money/en/articles/11157550-quick-start-guide — income/cash-flow, recurrence and exception review inspiration; US integrations do not imply availability for Chinese payment accounts.
+- Apple materials guidance: https://developer.apple.com/design/human-interface-guidelines/materials
+- SheetJS: https://docs.sheetjs.com/docs/solutions/input/ ; bundled license at `dist/vendor/LICENSE-SheetJS.txt` (Apache-2.0).
+- Photos: Unsplash images `photo-1546435770-a3e426bf472b`, `photo-1600210492486-724fe5c67fb0`, `photo-1469474968028-56623f02e42e`. Downloaded static assets; no third-party runtime image requests.
 
 ## Verification
 
-Cloud Chromium checks covered minute editing, hourly-basis changes, calculator fees/APR, schedule cent rounding, repayment creation/edit/paid toggles, wish-to-goal conversion, deposits/withdrawals, all import selections and duplicate review, repayment merging, actual quoted CSV upload, expense editing, persistence, JSON restore, prior-version migration, modal dismissal and layouts at 360/390/430/1280px. Scripts are retained in the cloud task artifacts. No live financial accounts or production billing formats were used.
-
-## References
-
-- Apple Human Interface Guidelines / Materials: https://developer.apple.com/design/human-interface-guidelines/materials — glass is used sparingly for navigation and controls; financial content remains readable.
-- Cashew: https://github.com/jameskokoska/Cashew — inspiration for editable budgets, goals and transactions. No source code copied.
-
-All initial records are synthetic. User changes and files stay in the current browser; there is no server-side financial storage or cross-device sync. Export a backup before clearing browser data.
+Cloud Chromium checks covered salary edit/idempotence, estimates without budgets, arbitrary-provider sentence entry, single-period amount editing, the paid-cash invariant, theme persistence, photo wishes/one-tap goal conversion, deposits, direct calculator-to-debt with fees, custom sources, labelled notification-text demo, actual Excel upload including income, bulk review, backup validation and 360/390/430/1280px layouts. No live bank or payment integrations were tested or enabled.
