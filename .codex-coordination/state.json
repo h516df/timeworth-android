@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 37,
+  "revision": 38,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -438,10 +438,10 @@
       ],
       "base": "dbc90ee2afb4d588a39319ad321840eb7bebcc4f",
       "head": "8a07ef90a1dc5351300be03bb686ee8472cbdbcd",
-      "status": "ready",
+      "status": "integrated",
       "generation": 1,
       "lease_until": 0,
-      "updated_at": 1792593752,
+      "updated_at": 1792594101,
       "history": [],
       "handoff": "Default-branch-only workflow adoption, not product merge: exact shared0.4 source8416611, portable read-only verifier, pinned v0.1.0 native-asset contract and evidence-based retrospective. Real API verification passed. Integrator to correct stale current docs/entry, archive old handoff, preserve product constraints, then merge only workflow changes into main."
     },
@@ -466,10 +466,10 @@
       ],
       "base": "8a07ef90a1dc5351300be03bb686ee8472cbdbcd",
       "head": "c3da902b8726b7b8e59f3f55dd4d6dfb90b7d4be",
-      "status": "active",
+      "status": "integrated",
       "generation": 1,
-      "lease_until": 1792601016,
-      "updated_at": 1792594032,
+      "lease_until": 0,
+      "updated_at": 1792594101,
       "history": [],
       "receipt": {
         "source_sha": "c3da902b8726b7b8e59f3f55dd4d6dfb90b7d4be",
@@ -483,6 +483,17 @@
             "source_sha": "c3da902b8726b7b8e59f3f55dd4d6dfb90b7d4be"
           }
         ]
+      },
+      "publication": {
+        "source_sha": "c3da902b8726b7b8e59f3f55dd4d6dfb90b7d4be",
+        "url": "https://github.com/h516df/timeworth-android/blob/main/docs/RETROSPECTIVE_20261021.md",
+        "kind": "workflow0.4 adopted in default branch, no product PR merged",
+        "merge_sha": "b387f28be677b5e9728ea7418fd18aecbf708b53",
+        "pr": "https://github.com/h516df/timeworth-android/pull/16",
+        "shared_source_sha": "84166117b827309daca6fb14e56fcc5df3c15052",
+        "release_verification": "v0.1.0 formal/native4assets/target/latest passed",
+        "product_prs": "unchanged",
+        "account_global_configuration": "not changed"
       }
     }
   },
@@ -512,7 +523,7 @@
       "integrator": "github-formal-integration-20261021"
     },
     "delivery-workflow-adoption-20261021": {
-      "status": "sealed",
+      "status": "completed",
       "integrator": "delivery-adoption-integration-20261021"
     }
   }
