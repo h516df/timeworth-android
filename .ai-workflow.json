@@ -1,7 +1,7 @@
 {
   "version": 1,
   "workflow_version": "0.1",
-  "source": "h516df/vibe-ui-quality-kit@4830e82c04392501c19779517ec55714a5748494/workflow",
+  "source": "h516df/vibe-ui-quality-kit@6bdaf2e7c9ec63f1cf7d02760a83a32b595bd1a0/workflow",
   "checks": [
     {
       "name": "syntax dist/model.js",

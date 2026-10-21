@@ -58,7 +58,7 @@ GitHub Actions 的 **Cloud development** 在 PR、main 推送及手动运行时�
 
 ## 分层网页检查与采用的工作流
 
-通用规则见 [docs/AI_WORKFLOW.md](docs/AI_WORKFLOW.md)。工作流 0.1 固定来源：[4830e82](https://github.com/h516df/vibe-ui-quality-kit/tree/4830e82c04392501c19779517ec55714a5748494/workflow)；采用包内脚本与规则，不跟随 main 自动更新。
+通用规则见 [docs/AI_WORKFLOW.md](docs/AI_WORKFLOW.md)。工作流 0.1 固定来源：[6bdaf2e](https://github.com/h516df/vibe-ui-quality-kit/tree/6bdaf2e7c9ec63f1cf7d02760a83a32b595bd1a0/workflow)；采用包内脚本与规则，不跟随 main 自动更新。
 
 - 廉价检查：`python3 cloud/workflow.py check --level quick`。
 - 完整网页主要流程：`npm ci --ignore-scripts --prefix ui-preview`，在 ui-preview 执行 `npx --no-install playwright install --with-deps chromium`，再从仓库根执行 `python3 cloud/workflow.py check --level core`。

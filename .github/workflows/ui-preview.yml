@@ -25,8 +25,6 @@ jobs:
   browser:
     runs-on: ubuntu-24.04
     timeout-minutes: 12
-    env:
-      ARTIFACT_DIR: ${{ runner.temp }}/timeworth-ui-qa
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
@@ -46,6 +44,8 @@ jobs:
         working-directory: ui-preview
         run: npx --no-install playwright install --with-deps chromium
       - name: Run existing browser scenarios
+        env:
+          ARTIFACT_DIR: ${{ runner.temp }}/timeworth-ui-qa
         run: python3 cloud/run-ui-checks.py
       - name: Keep failure screenshots briefly
         if: failure()
