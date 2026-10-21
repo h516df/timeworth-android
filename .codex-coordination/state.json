@@ -1,7 +1,36 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 0,
-  "tasks": {},
-  "batches": {}
+  "revision": 1,
+  "tasks": {
+    "multi-codex-workflow": {
+      "owner": "codex-root-1792579521902",
+      "workspace": "cloud-tw-1792579521902",
+      "batch": "multi-codex-20261021",
+      "role": "work",
+      "branch": "codex/multi-codex-workflow-20261021",
+      "scopes": [
+        "AGENTS.md",
+        "CLOUD_DEVELOPMENT.md",
+        "HANDOFF.md",
+        "README.md",
+        "cloud/coordinate.py",
+        "docs/AI_WORKFLOW.md",
+        "docs/MULTI_CODEX.md",
+        "docs/TASK.md"
+      ],
+      "base": "92f96014502744f6da35fc741bda74fc3af9b51e",
+      "head": "92f96014502744f6da35fc741bda74fc3af9b51e",
+      "status": "active",
+      "generation": 1,
+      "lease_until": 1792586779,
+      "updated_at": 1792579579,
+      "history": []
+    }
+  },
+  "batches": {
+    "multi-codex-20261021": {
+      "status": "open"
+    }
+  }
 }
