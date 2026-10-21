@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 36,
+  "revision": 37,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -465,12 +465,25 @@
         "docs/history/HANDOFF-before-delivery-0.4.md"
       ],
       "base": "8a07ef90a1dc5351300be03bb686ee8472cbdbcd",
-      "head": "8a07ef90a1dc5351300be03bb686ee8472cbdbcd",
+      "head": "c3da902b8726b7b8e59f3f55dd4d6dfb90b7d4be",
       "status": "active",
       "generation": 1,
       "lease_until": 1792601016,
-      "updated_at": 1792594024,
-      "history": []
+      "updated_at": 1792594032,
+      "history": [],
+      "receipt": {
+        "source_sha": "c3da902b8726b7b8e59f3f55dd4d6dfb90b7d4be",
+        "members": {
+          "delivery-workflow-adoption-20261021": "8a07ef90a1dc5351300be03bb686ee8472cbdbcd"
+        },
+        "checks": [
+          {
+            "name": "Exact shared0.4 tested script/rule bytes; real v0.1.0 formal/native assets/target/latest receipt; preserved product constraints/history; default-entry parity/links/whitespace; no product or runtime workflow changes",
+            "status": "passed",
+            "source_sha": "c3da902b8726b7b8e59f3f55dd4d6dfb90b7d4be"
+          }
+        ]
+      }
     }
   },
   "batches": {
