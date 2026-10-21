@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 3,
+  "revision": 4,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -39,12 +39,30 @@
         "@publish"
       ],
       "base": "92f96014502744f6da35fc741bda74fc3af9b51e",
-      "head": "92f96014502744f6da35fc741bda74fc3af9b51e",
+      "head": "2933c40049d8acb5109fc62c53511118c94d3632",
       "status": "active",
       "generation": 1,
       "lease_until": 1792587669,
-      "updated_at": 1792580469,
-      "history": []
+      "updated_at": 1792580826,
+      "history": [],
+      "receipt": {
+        "source_sha": "2933c40049d8acb5109fc62c53511118c94d3632",
+        "members": {
+          "multi-codex-workflow": "31670ee2810a92d6fc6f7644658a53b8eea01944"
+        },
+        "checks": [
+          {
+            "name": "adopted coordinator exactly matches tested kit candidate 13ff0dbc; policy parity and project constraints",
+            "status": "passed",
+            "source_sha": "2933c40049d8acb5109fc62c53511118c94d3632"
+          },
+          {
+            "name": "staged whitespace and all 7 source document/module blobs read back",
+            "status": "passed",
+            "source_sha": "2933c40049d8acb5109fc62c53511118c94d3632"
+          }
+        ]
+      }
     }
   },
   "batches": {
