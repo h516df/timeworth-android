@@ -85,12 +85,17 @@ def validate(state):
             isinstance(state.get('tasks'), dict) and isinstance(state.get('batches'), dict),
             'Invalid registry; preserve it and investigate.')
     empty(state.get('project'))
+    for key, batch in state['batches'].items():
+        identifier(key)
+        require(isinstance(batch, dict) and batch.get('status') in {'open', 'sealed', 'completed'},
+                'Invalid batch.')
     for key, task in state['tasks'].items():
         identifier(key)
         require(isinstance(task, dict), 'Invalid task.')
         identifier(task.get('owner'))
         identifier(task.get('workspace'))
         identifier(task.get('batch'))
+        require(task['batch'] in state['batches'], 'Task batch missing.')
         branch(task.get('branch'))
         require(task.get('status') in RESERVED | TERMINAL and
                 task.get('role') in {'work', 'integrator'} and
@@ -198,9 +203,8 @@ def transition(original, request, now=None):
         key = identifier(request.get('task'))
         require(key in state['tasks'], 'Task not found.')
         task = state['tasks'][key]
-        require(task['role'] == 'work' and
-                (task['status'] == 'paused' or
-                 task['status'] == 'active' and task['lease_until'] <= now),
+        require(task['status'] == 'paused' or
+                task['status'] == 'active' and task['lease_until'] <= now,
                 'Recovery requires paused or expired work; a live owner cannot be displaced.')
         require(request.get('confirmed_stopped') is True and request.get('reason'),
                 'Expiry is not consent: verify the writer stopped and preserve its branch.')
@@ -214,7 +218,7 @@ def transition(original, request, now=None):
                 task['owner'] != old['owner'], 'Recovery must isolate the old writer.')
         free(state, task, ignore=key)
         task['history'].append({'owner': old['owner'], 'branch': old['branch'],
-                                'head': old['head'], 'reason': str(request['reason'])[:1000]})
+                                'head': request['head'], 'reason': str(request['reason'])[:1000]})
         task.pop('receipt', None)
     else:
         live = action in {'renew', 'pause', 'ready', 'verify', 'complete', 'expand'}
@@ -244,9 +248,10 @@ def transition(original, request, now=None):
                         head=sha(request.get('head')))
             task.pop('receipt', None)
         elif action == 'handoff':
-            require(task['role'] == 'work' and request.get('confirmed_stopped') is True and
+            require(request.get('confirmed_stopped') is True and
                     request.get('handoff'), 'Explicit stopped-writer handoff required.')
-            require(state['batches'][task['batch']]['status'] == 'open', 'Batch sealed.')
+            require(task['role'] == 'integrator' or
+                    state['batches'][task['batch']]['status'] == 'open', 'Batch sealed.')
             old = copy.deepcopy(task)
             task.update(owner=identifier(request.get('new_owner')),
                         workspace=identifier(request.get('new_workspace')),
@@ -256,7 +261,7 @@ def transition(original, request, now=None):
             require(task['owner'] != old['owner'] and task['workspace'] != old['workspace'],
                     'New session and workspace required.')
             free(state, task, ignore=key)
-            task['history'].append({'owner': old['owner'], 'branch': old['branch'], 'head': old['head']})
+            task['history'].append({'owner': old['owner'], 'branch': old['branch'], 'head': request['head']})
             task.pop('receipt', None)
         elif action == 'ready':
             require(task['role'] == 'work' and request.get('handoff'), 'Worker handoff required.')
@@ -392,6 +397,9 @@ class GitStore:
         require(task, 'Task not found.')
         observed = self.remote_head('refs/heads/' + task['branch'])
         require(observed and request.get('head') == observed, 'Source branch head changed; inspect it first.')
+        if action in {'recover', 'handoff'} and request.get('new_branch') != task['branch']:
+            require(self.remote_head('refs/heads/' + branch(request.get('new_branch'))) in (None, observed),
+                    'The proposed handoff branch already contains different work.')
         self.fetch(observed)
         if action == 'ready':
             self.fetch(task['base'])
