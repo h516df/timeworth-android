@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 5,
+  "revision": 6,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -63,12 +63,39 @@
           }
         ]
       }
+    },
+    "product-entry-sync": {
+      "owner": "codex-root-1792579521902",
+      "workspace": "product-sync-1792579521902",
+      "batch": "product-entry-sync-20261021",
+      "role": "work",
+      "branch": "codex/multi-codex-product-entry-20261021",
+      "scopes": [
+        "AGENTS.md",
+        "CLOUD_DEVELOPMENT.md",
+        "HANDOFF.md",
+        "README.md",
+        "cloud/coordinate.py",
+        "docs/AI_WORKFLOW.md",
+        "docs/MULTI_CODEX.md",
+        "docs/TASK.md"
+      ],
+      "base": "114409deae1b586a5e6e8a1b758c4a39326bf243",
+      "head": "114409deae1b586a5e6e8a1b758c4a39326bf243",
+      "status": "active",
+      "generation": 1,
+      "lease_until": 1792588289,
+      "updated_at": 1792581089,
+      "history": []
     }
   },
   "batches": {
     "multi-codex-20261021": {
       "status": "completed",
       "integrator": "multi-codex-integration"
+    },
+    "product-entry-sync-20261021": {
+      "status": "open"
     }
   }
 }
