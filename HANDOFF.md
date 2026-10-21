@@ -1,75 +1,11 @@
-# 当前接续摘要（2026-10-21 · 多 Codex 协作接入）
+# 当前接续（2026-10-21 · 交付复盘和工作流0.4）
 
-- 用户要求解决多 Codex 协作；本轮只接入规则0.3/简版r3、标准库协调器协议1和真实共享登记，不改产品 UI/财务/数据或发布网页。通用源码源 [13ff0db](https://github.com/h516df/vibe-ui-quality-kit/commit/13ff0dbcdae921c0ce972630fe5947d98a62b8f0)，接入器/检查配置协议仍0.1。
-- 项目入口：[AGENTS](AGENTS.md)、[MULTI_CODEX](docs/MULTI_CODEX.md)、[协调登记](https://github.com/h516df/timeworth-android/blob/codex-coordination-v1/.codex-coordination/state.json)。登记中已领取本次实际工作流任务；所有权/租期/范围取实时状态，不从此摘要推断。
-- 任务分支 `codex/multi-codex-workflow-20261021` 基于 main `92f96014502744f6da35fc741bda74fc3af9b51e`，经独立 PR 接入；整合者按登记检查结果并保留业务历史。原产品 PR #3 仍不自动合入 main；开始读取时 head `114409deae1b586a5e6e8a1b758c4a39326bf243`，继续前核对实时状态。
-- 产品需求池仍为 [#6](https://github.com/h516df/timeworth-android/issues/6)，TW-001 动画待做。通用协作反馈与完成证据在工具库 [#8](https://github.com/h516df/vibe-ui-quality-kit/issues/8)，不复制状态。
-- 检查：通用协调器/接入器19项隔离测试实际 passed，含两个独立 Git 工作区竞争、移交、范围/重命名、真实两方源码整合及源码变化使旧检查失效。项目拷入脚本与通用源码一致；实际 GitHub 登记写入与测试 fixture 分开记证据。完整提交/命令/结果见本轮 PR。
-- Actions 新源码检查仍在步骤前失败，已读取最新注释确认账户付款/支出上限；未改费用、不盲重试，不把工作区通过写成 Actions 通过。本轮产品浏览器/金额测试、APK/签名/更新/数据迁移/真机/产品部署 not run。
-- 租期到期/暂停不自动释放；不能确认旧写手停止时保留成果。新会话先查登记和相关 PR，独立任务独立分支/工作区；普通工作会话在自己 PR/任务文件交接，登记整合者维护公共摘要、检查整合源码并集中交付。机制需写手合作，不能阻止绕过工具的直接写入。
-- 网页05仍在原私有地址，源码/部署历史映射见下方交接。下一次按用户明确意图继续；收集反馈不触发产品发布。
+- 用户要求“复盘，改进工作流”。[完整复盘](docs/RETROSPECTIVE_20261021.md)记录目标错位、错误归因账单、擅加发行条件、缺少最终回读、过早结批和当前文档冲突；[交付规则](docs/DELIVERY.md)与只读工具已落地，不止写建议。
+- [v0.1.0正式发行](https://github.com/h516df/timeworth-android/releases/tag/v0.1.0)已存在，draft=false、prerelease=false、latest指向该版，4个原生附件已核对。APK原签名非调试，约2.4MB/Android8+；构建39613534837、上传39615594938均成功。工具以当前契约真实只读核验通过。真机安装/覆盖升级、独立长期签名恢复和公开稳定更新仍未验收，不能冒称通过。
+- 默认main现保存工作流、发布契约和准确入口；完整应用源码在v0.1.0标签（4097e5f）及[PR #15](https://github.com/h516df/timeworth-android/pull/15)依赖链，本批不自动合并旧产品PR，也不从main重新实现产品。
+- 规则0.4/简版r4，通用来源[8416611](https://github.com/h516df/vibe-ui-quality-kit/commit/84166117b827309daca6fb14e56fcc5df3c15052)已合入通用库main；本地脚本/规则字节一致。接入配置协议0.1和协调器协议1不变，没有升级用户账户级配置或批量改其他项目。
+- 验证命令：`python3 cloud/verify_release.py --contract release/delivery-contract.json --receipt /tmp/timeworth-release-receipt.json`。通用32项隔离回归passed（包含13项发布核验回归），本项目不重复执行未改动的产品构建/浏览器/设备检查。只有本次退出码0与本次status=verified才能作为核验回执；API摘要核验不代表真实客户端下载通过。
+- 采用工作分支codex/delivery-workflow-adoption-20261021，就绪8a07ef9；整合分支codex/delivery-adoption-integration-20261021。默认main的合并结果、精确SHA和本批检查见协调批次delivery-workflow-adoption-20261021及本轮PR，不能把只写到分支说成已默认生效。
+- 没有修改产品、当前发行附件、签名、计费、仓库可见性、公开stable清单或运行中服务。后续先读AGENTS和本交接、核对需求池#6、当前发布契约及相关PR；新版本交付由代理同步更新契约和入口，用户不需管理表格或记分支。
 
-<details>
-<summary>以前的交接与产品证据（历史）</summary>
-
-# 当前接续摘要（2026-10-21 · 工作流落地，产品反馈收集）
-
-- **本轮授权/范围**：用户要求落实工作流；完成默认入口、通用规则 0.2 / 简版 r2、需求池协作约定及安卓交付缺口记录。只改文档和 issue；不改 UI、财务规则、数据、签名、CI 或产品部署，不创建测试仓库，不合并产品 PR。
-- **唯一需求入口**：[需求池 #6](https://github.com/h516df/timeworth-android/issues/6)。TW-001“点击选项后内容出现动画体验不好”仍待做；本轮没有实施授权扩展到此条。明确开发/修复请求直接推进，讨论/零散反馈先记录；本批口径纠正及时纳入，独立新想法进候选，无固定开工口令。
-- **通用来源**：[workflow 0.2](https://github.com/h516df/vibe-ui-quality-kit/tree/main/workflow)。规则/模板升级，接入器和检查配置协议仍 0.1；原 cloud/workflow.py 与 .ai-workflow.json 不改。简版本轮只升级工具库、TimeWorth 和新模板，其他 10 个项目通过既有入口读取完整新规则，离线简版仍是旧版。
-- **产品接续**：成果在 [PR #3](https://github.com/h516df/timeworth-android/pull/3) / `codex/low-friction-ui-v3-20261021`，本轮开始 head `a7fb9676412ea9b72f94758999c6cb840fc26f96`。源码 `21a6d3c6aaa9b8d6eae34817fb93799df534f05c` 对应网页 05，原私有预览仍在：https://timeworth-mobile-preview.cloudyloom133.chatgpt.site 。此后文档同步不代表产品新版本。
-- **文档任务基线**：main `432e660e5b98ed32958846dfaeacbab75d9ec77a`；独立分支 `codex/batched-cloud-workflow-20261021` 只保存 main 入口文档。合入后把入口与规则同步到产品分支，保留产品历史，不把产品功能自动合入 main。准确提交/PR/合并状态由远端 ref 与本轮回执核对。
-- **验证范围**：通用接入器四组隔离 unittest 已 passed；本轮文档链接、简版/本地规则一致性、历史/产品约束保留、仅 Markdown 范围与 git diff --check 结果见本轮文档 PR。UI/业务测试、APK、真机、签名恢复与产品发布 not run；旧测试只作为历史。
-- **实际缺口**：[ANDROID_DELIVERY](docs/ANDROID_DELIVERY.md) 按序记录构建、长期签名恢复、匿名更新、发布清单、数据迁移与手机覆盖安装。未开始原生开发，更新未接通。
-- **账户/能力证据**：Make `GET /user` 已返回 h516df / repo scope，满足官方个人私有建仓权限要求，未真正建仓；新任务未必有同样连接。Actions 39578884252 / 39578884129 在步骤前因账户付款/支出上限被拒绝；账单读取 404，原因尚不能细分，本轮未解除。
-- **下一次**：先读本页、AGENTS、#6 以及相关 PR 的最新分支交接；按用户这次意图继续。业务任务进入产品分支，反馈收集不触发部署；不要求用户记分支或复制提示。
-
-<details>
-<summary>以前的交接与采用证据（历史）</summary>
-
-# 当前接续记录（2026-10-21 · 统一通用入口）
-
-- **目标**：适应用户经常新开云端 Codex 的方式；每个项目默认分支都指向同一通用工作流，并保留本地可执行简版，用户无需记启动语或分支名。
-- **通用入口**：[vibe-ui-quality-kit/workflow](https://github.com/h516df/vibe-ui-quality-kit/blob/main/workflow/README.md)。简版修订 2026-10-21-r1；项目 AGENTS/CLAUDE 的特有约束继续适用。
-- **本轮基线 / 分支**：`17849f696c6811ba85585997a4fa25a376f3665b` / `codex/shared-workflow-entry-20261021`。本轮只改规则与交接文档，不改业务源码、安装器、签名、数据、服务或发布权限。准确提交与 PR 以本次远端记录为准。
-- **已完成**：统一入口、清理有效入口里的失效 agent-rules 引用、独立简版与自动发现相关任务的约定；保留下方项目历史和原检查入口。
-- **验证**：本轮文档范围/简版一致性/项目约束保留/失效入口检查 passed；业务构建、设备、生产发布 not run。通用模板另在工具库验证。新 CI 结果以对应 PR 的实际运行记录为准。
-- **当前任务发现**：下面是本轮开始前的未合并 PR 快照，不是建议合并清单。代理根据用户任务自行核对实时 head、依赖和相关分支交接；不要求用户逐个记住，也不能把最新 PR 自动当主线。
-- **TimeWorth 当前成果**：网页 04、完整产品约定及工作流检查接入位于 [产品 PR #3](https://github.com/h516df/timeworth-android/pull/3) / codex/low-friction-ui-v3-20261021，读取时 head 6288517adb4fda96ad12684cec40c99089cab448。本轮不合并产品 PR、不重新发布网页；用户当前只要求整理通用规则，产品功能仍暂停。接着做产品时先读该分支 AGENTS/HANDOFF。
-- **下一步**：新任务先读本仓库 AGENTS、云端说明与本记录，再按用户目标接续相关成果。完整私有规则暂不可读时先沿用本地简版；不能把存档视为账户级配置。
-
-## 未合并任务快照（2026-10-21）
-
-| PR | 任务分支 | 目标分支 | 读取时 head |
-| --- | --- | --- | --- |
-| [#3: 工资月底结余与低操作成本手机体验（网页 04）](https://github.com/h516df/timeworth-android/pull/3) | `codex/low-friction-ui-v3-20261021` | `main` | `6288517adb4fda96ad12684cec40c99089cab448` |
-
-## 之前的交接（历史保留）
-
-# 当前接续记录（2026-10-21）
-
-本节是会话接续入口；长期规则见 [AGENTS.md](AGENTS.md)，工具链和检查命令见 [CLOUD_DEVELOPMENT.md](CLOUD_DEVELOPMENT.md)。后续任务更新本节，下面已有历史保留。
-
-- **本轮目标**：将项目约定、进度和续接方式保存到 GitHub，使新 Codex 会话可以继续工作。
-- **核对的主线基线**：`3af1bc3a810f785fa7e522e052cba2ba4b37d208`（main 的日期快照，继续前重新读取；不是永远最新提交）。
-- **本轮分支**：`codex/session-continuity-20261021`。此分支仅修改协作与交接文档，PR 和实际合并状态以 GitHub 为准。
-- **已准备**：新会话阅读顺序、结束保存流程、远端提交核对及续接提示；保留原项目规则、既有历史和云端开发配置。
-- **验证范围**：本轮检查文档差异、仓库内链接、原文保留及远端读回；业务测试/构建/设备/发布为 **not run**，历史证据不能重标成本轮结果。实际检查结果与远端提交见本轮 PR。
-- **配置与边界**：已有产品规划与 ui-preview 原型；尚无 Android App 工程或 APK。签名准备以 docs/CLOUD_DELIVERY.md 的当前证据为准，本轮未核验 Secrets 或签名。 其他配置键名、初始化入口及限制仍以云端说明和任务相关文档为准。
-- **下一步**：核对下面 PR 快照及当前 main；按用户的具体目标选择主线或指定分支，读对应 PR 的最新交接后继续。尚未完成的业务工作不因本轮文档完善而视作已完成。
-
-## 打开的 PR 快照
-
-以下仅为 2026-10-21 读取到的列表，不判断是否仍需实施、能否合并，或是否已由其他提交包含；不批量合并、关闭或重复搬运。
-
-读取时无打开的 PR；继续任务前重新确认。
-
-## 下一次交接时更新
-
-请在本节写清本轮目标、完成/待办、工作分支和 PR、所验证的提交 SHA、实际命令与 passed / failed / not run、阻塞、下一步；代码和交接一起推送，再给用户已核实的远端提交链接。未合并时须交代指定分支，不能让新会话只读 main。
-
-本库此前没有根目录 HANDOFF.md；本文从当前可核实的仓库状态建立接续入口，不补造旧会话记录。
-
-</details>
-
-</details>
+以前的交接及当时的约束/证据：[历史归档](docs/history/HANDOFF-before-delivery-0.4.md)。历史“未开发/未发布”的状态不能覆盖上面当前事实。

@@ -12,7 +12,7 @@ GitHub Actions 的 **Cloud development** 在 PR、main 推送及手动运行时�
 
 ## 当前边界
 
-main 保存规划与接续入口，网页 05 在产品 PR #3；尚无原生 Android 工程、Gradle 构建或 APK。签名准备已有历史证据，长期备份恢复和正式 APK 验收仍未完成；见 docs/CLOUD_DELIVERY.md 与 docs/ANDROID_DELIVERY.md。
+main保存工作流与接续入口；Android工程和原签名APK已在v0.1.0标签及产品整合PR #15中交付，尚未把该产品PR链合入main。构建与正式发行已通过；真机安装、独立签名恢复与公开自动更新仍未验收。见docs/ANDROID_DELIVERY.md及当前HANDOFF。
 
 原 README、AGENTS 与交接文件中的 Windows 路径作为历史恢复线索保留；云端开发不依赖这些路径。生产运行与发布步骤按本节边界处理，不自动运行旧的本机派发、安装、隧道或签名脚本。凭据通过平台 Secrets 注入，不能进入源码、日志或构建附件；私有项目继续保持私有。
 
@@ -62,9 +62,11 @@ main 保存规划与接续入口，网页 05 在产品 PR #3；尚无原生 Andr
 
 ## 需求与当前外部阻塞
 
-任务开始先读 [需求池 #6](https://github.com/h516df/timeworth-android/issues/6)，按自然语言判断收集或实施，纠正当前任务及时处理。通用协作规则 0.3 见 [docs/AI_WORKFLOW.md](docs/AI_WORKFLOW.md)，嵌入简版 r3 可在通用私有库暂不可读时执行。
+任务开始先读 [需求池 #6](https://github.com/h516df/timeworth-android/issues/6)，按自然语言判断收集或实施，纠正当前任务及时处理。通用协作规则 0.4 见 [docs/AI_WORKFLOW.md](docs/AI_WORKFLOW.md)，嵌入简版 r4 可在通用私有库暂不可读时执行。
 
-GitHub Actions 曾因付款/支出上限拒绝启动；本轮不改计费也不盲目重试。工作区测试、Actions 运行和正式 APK 构建分别记录，不能相互冒充。后续先处理实际阻塞或验证可用云端构建通道，保持纯云端与私有源码。
+GitHub托管机器曾因付款/支出上限拒绝启动，账单详情未读到，不能推断欠款或额度耗尽。已使用现有云端一次性self-hosted runner成功构建原签名APK并上传原生附件，未修改计费；临时runner已清理，不是永久在线服务。环境初始化先核对java/javac、Gradle版本和SDK/缓存，故障分类见docs/DELIVERY.md。
+
+交付后执行`python3 cloud/verify_release.py --contract release/delivery-contract.json --receipt /tmp/timeworth-release-receipt.json`。该脚本只读GitHub元数据，失败退出非零，不触发构建、发布、付款或签名操作；契约随目标版本由代理更新。
 
 ## 多 Codex 协作
 

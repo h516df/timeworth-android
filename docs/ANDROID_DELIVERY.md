@@ -1,26 +1,23 @@
-# TimeWorth 安卓交付与更新：当前缺口
+# TimeWorth 安卓交付与更新：当前证据和缺口
 
-更新日期：2026-10-21。本轮落实规则与记录，不启动 Android 工程，不发布 APK，不重新生成或读取签名秘密。以下按实际证据区分，勾选必须有来源。
+更新日期2026-10-21。各项按实际证据记录；GitHub发行级别按用户明确要求执行，设备/恢复/公开更新验收单列。核验方法见[DELIVERY](DELIVERY.md)，当前入口见[根交接](../HANDOFF.md)。
 
-## 已知基础
+## 已验证
 
-- 私有源码 `h516df/timeworth-android`；当前可用产品为手机网页 05，成果在 [PR #3](https://github.com/h516df/timeworth-android/pull/3)，尚无原生 Android 工程或 APK。
-- 复用既有 `h516df/android-update-kit` 和公开分发 `h516df/app-releases`，按 `appId: timeworth` / `channel: stable` 隔离；源码不因此公开。
-- [CLOUD_DELIVERY](CLOUD_DELIVERY.md) 已记录云端签名准备、Secrets 写入及一次临时文件验签通过。本轮未读取 Secrets、未复测签名；该记录不等于正式 APK 或长期恢复验收。
-- Make 现有账号/权限符合个人私有建仓接口要求，尚无实际创建证据；非敏感定位及边界见[通用云端能力说明](https://github.com/h516df/vibe-ui-quality-kit/blob/main/workflow/CLOUD_CAPABILITIES.md)。
+- [x] 原签名非调试APK已生成：构建[39613534837](https://github.com/h516df/timeworth-android/actions/runs/39613534837)全部success。包名dev.h516.timeworth，0.1.0/versionCode1，最低Android8.0。原证书、包名/版本、非调试属性、全部产品资源与源码字节及SHA256已独立核对。
+- [x] [v0.1.0正式GitHub发行](https://github.com/h516df/timeworth-android/releases/tag/v0.1.0)：非草稿、非预发行、latest指向此版，4个原生附件名字/状态/大小/摘要已回读。上传[39615594938](https://github.com/h516df/timeworth-android/actions/runs/39615594938)成功。
+- [x] 现有云端一次性JIT runner替代托管机器额度受阻通道；未改费用、原签名或仓库可见性。任务后runner已退出，远端零残留、临时连接材料已删除。
+- [x] 发布契约及只读工具已采用，实际核验v0.1.0通过。不把API摘要核对当作真实客户端匿名下载或安装通过。
 
-## 正式安卓开发时按顺序验证
+完整应用源码在发布标签及PR #15依赖链，尚未合入main。早期网页成果在PR #3；不按main旧规划重新开发。此私有下载需要GitHub登录，不声称匿名可用。
 
-- [ ] **构建通道**：实际产出可安装 APK。已知 Actions 运行 39578884252 / 39578884129 因账户付款或支出上限在步骤前被拒绝；账单 API 返回 404，不能断言额度已用完。本轮未解除限制、未改支付/预算，也未验证替代 APK 构建通道。
-- [ ] **签名恢复**：复用原项目长期签名，落实受控长期保存和独立恢复路径，验证恢复后证书一致。不用临时 VM 或单份 Secrets 替代恢复验证，不把密钥放普通附件。
-- [ ] **更新客户端**：适配普通用户匿名读公开清单/下载安装包，不沿用 update-kit 的私有 GitHub 登录流程；用户无需 GitHub 账号。提供清晰中文说明、下载/取消/失败状态、来源与摘要/包名/签名/版本校验。
-- [ ] **发布顺序**：按项目独立版本发布正式 APK 和说明，实际匿名下载核验后才切换 `apps/timeworth/stable.json`；没有实际 APK 时保持 unavailable，不填假版本，不依赖共享仓库全库 latest。此文不授权现在修改公开入口。
-- [ ] **数据迁移**：网页 localStorage 的导出/导入与原生存储迁移需要明确路径并实测；不能假设换成 App 自动继承浏览器数据。升级前备份，覆盖更新后核对工资、应还、目标、图标和主题。
-- [ ] **最小覆盖升级**：旧版安装 → 写入合成数据 → 发布并获取更高 versionCode 的同包名/兼容签名新版 → 系统覆盖安装 → 数据和核心功能仍在。至少一台目标实体手机验证安装授权与确认；不以网页、云端模拟器或 JAR 验签替代。
-- [ ] **失败与恢复**：断网、取消、损坏包、不兼容包不破坏旧版；保留上版产物/清单回执。Android 低版本通常不能直接覆盖安装，必要时以更高 versionCode 发布修复版，不承诺直接降级或无需系统确认。
+## 仍未完成或需要另行验收
 
-这份清单是验收要求，尚未勾选的项仍未完成。更完整的通用[安卓交付模板](https://github.com/h516df/vibe-ui-quality-kit/blob/main/workflow/templates/ANDROID_DELIVERY.md)供其他项目按需采用。
+- [ ] **独立签名恢复**：继续使用原长期签名，落实受控长期保存和独立恢复路径，验证恢复后证书一致。单份Secrets和临时VM不能冒充独立恢复；私钥不进入普通附件。
+- [ ] **公开更新渠道**：复用既有android-update-kit和app-releases的独立timeworth/stable入口；普通用户匿名读取公开清单/下载APK，取消/失败/来源/大小/摘要/包名/签名/版本验证独立验收。公开stable清单当前仍unavailable，不依赖多App仓库全库latest。
+- [ ] **公开发布顺序**：真实公开APK及匿名下载验证成功后，才切换apps/timeworth/stable.json。本轮不因私有GitHub正式发行更改公开入口。
+- [ ] **真机迁移**：网页与原生包不自动共享数据；已实现JSON导出/恢复及v2兼容，但真实设备上的迁移流程、工资/应还/目标/图标/主题需继续核对。旧preview包与正式包包名不同，先导出再恢复。
+- [ ] **最小覆盖升级**：旧版安装→合成数据→更高versionCode同包名兼容签名新版→系统覆盖安装→核心功能/数据保留。至少一台目标实体手机验证安装授权及确认，不以浏览器、模拟器或JAR验签替代。
+- [ ] **失败与恢复**：断网、取消、损坏和不兼容包不破坏旧版；保留上版产物及回执。Android低版本通常不能直接覆盖安装，必要时发布更高versionCode修复版，不承诺静默安装或直接降级。
 
-## 与当前需求的关系
-
-[需求池 #6](https://github.com/h516df/timeworth-android/issues/6) 收集产品体验，TW-001 动画反馈仍待处理；本次“落地”仅实施工作流。正式 Android 开发及公开更新待对应实施任务，不能把这份文档当作已经接通。
+这份状态不是把全部未来验收自动加成用户未要求的GitHub发行前置条件。当前产品需求继续由[#6](https://github.com/h516df/timeworth-android/issues/6)管理，不在本次工作流复盘中顺带开发新功能。
