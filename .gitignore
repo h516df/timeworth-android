@@ -12,6 +12,8 @@ node_modules/
 local.properties
 *.iml
 *.log
+__pycache__/
+*.py[cod]
 .DS_Store
 Thumbs.db
 

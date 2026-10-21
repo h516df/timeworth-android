@@ -1,0 +1,43 @@
+name: Cloud signing readiness
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  signing:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6.1.0
+        with:
+          persist-credentials: false
+      - name: Verify configured identity and private-key access
+        shell: bash
+        env:
+          TIMEWORTH_KEYSTORE_BASE64: ${{ secrets.TIMEWORTH_KEYSTORE_BASE64 }}
+          TIMEWORTH_KEYSTORE_PASSWORD: ${{ secrets.TIMEWORTH_KEYSTORE_PASSWORD }}
+        run: |
+          set -euo pipefail
+          test -n "$TIMEWORTH_KEYSTORE_BASE64" || { echo 'Signing keystore secret has not been configured.'; exit 1; }
+          test -n "$TIMEWORTH_KEYSTORE_PASSWORD" || { echo 'Signing password secret has not been configured.'; exit 1; }
+          umask 077
+          task_signing_dir=$(mktemp -d "$RUNNER_TEMP/timeworth-signing.XXXXXX")
+          trap 'rm -rf "$task_signing_dir"' EXIT
+          printf '%s' "$TIMEWORTH_KEYSTORE_BASE64" | base64 --decode > "$task_signing_dir/release.p12"
+          keytool -exportcert -keystore "$task_signing_dir/release.p12" -alias timeworth -storepass:env TIMEWORTH_KEYSTORE_PASSWORD -file "$task_signing_dir/certificate.der" >/dev/null
+          python3 - "$task_signing_dir/certificate.der" <<'PY'
+          import hashlib, json, pathlib, sys
+          expected = json.loads(pathlib.Path('release/signing-identity.json').read_text())['certificateSha256']
+          actual = hashlib.sha256(pathlib.Path(sys.argv[1]).read_bytes()).hexdigest()
+          if actual != expected:
+              raise SystemExit('Configured signing certificate does not match the pinned identity.')
+          print('Pinned signing certificate verified: ' + actual)
+          PY
+          printf '%s\n' 'TimeWorth signing probe; not an application build.' > "$task_signing_dir/probe.txt"
+          jar --create --file "$task_signing_dir/probe.jar" -C "$task_signing_dir" probe.txt
+          jarsigner -keystore "$task_signing_dir/release.p12" -storepass:env TIMEWORTH_KEYSTORE_PASSWORD -keypass:env TIMEWORTH_KEYSTORE_PASSWORD -signedjar "$task_signing_dir/signed.jar" "$task_signing_dir/probe.jar" timeworth >/dev/null
+          jarsigner -verify "$task_signing_dir/signed.jar" >/dev/null
+          echo 'Cloud signing key access verified. No APK was built or published.'

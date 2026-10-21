@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "repository": "h516df/timeworth-android",
+    "repositoryId": 1427824994,
+    "visibility": "private"
+  },
+  "distribution": {
+    "repository": "h516df/app-releases",
+    "repositoryId": 1426495445,
+    "ownerId": 155412647,
+    "appId": "timeworth",
+    "displayName": "TimeWorth",
+    "channel": "stable",
+    "manifestPath": "apps/timeworth/stable.json",
+    "releaseTagPattern": "timeworth-stable-v{versionName}"
+  },
+  "execution": {
+    "mode": "cloud-only",
+    "localComputerRequired": false
+  }
+}
