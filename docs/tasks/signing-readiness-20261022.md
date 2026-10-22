@@ -11,3 +11,11 @@ Original signing readiness 用既有私钥签署合成 APK，验证原证书以�
 独立长期备份未发现：此前原材料只在一次性云端受限工作区和不可导出的 GitHub Secrets 中；原 .p12 与其密码的独立加密恢复包不在当前可访问本机签名目录。不能生成新证书代替。新环境存在不等于备份通过，跨机器恢复尚未验证。
 
 未验证：产品 PR #15 在本分支的 Android 构建、数据库/JSON 升级、图片/视频导入失败、空间不足、进程中断及恢复、系统覆盖安装、实体手机和财务数据保持。使用合成资料；原签名不等于数据安全。
+
+## 2026-10-23 再核对
+
+已读取 `v0.1.0:tools/prepare_cloud_signing.py`：它只允许在仓库之外的 POSIX 云执行器目录中创建原 `timeworth-release.p12` 和 `signing-state.json`，后者保存原密码；已有身份时拒绝重新生成。该程序把材料封装后写入 repository Secrets，未建立独立可导出加密恢复包。当前可访问的本机签名目录未找到这两份原材料，不能从证书或已发布 APK 还原私钥，也不能通过 GitHub API 读取 Secret 明文。
+
+新增环境并未缩小既有 repository Secrets 的实际作用域。本轮保留 `TIMEWORTH_KEYSTORE_BASE64`、`TIMEWORTH_KEYSTORE_PASSWORD`，没有假称环境迁移完成。下一步必须在可受控运行本私有仓库且有既有 Secret 注入的临时执行器中核对原证书，将完整原材料加密保存到独立私人存储，另存恢复凭据，实际跨机器恢复；随后才能写入并复验 environment Secrets，最后才可按授权退役 repository 副本。此前已封装的加密 Secret 请求不能代替可恢复原件。
+
+私有 Actions 已知在作业开始前被账户付款／支出限制拒绝，本轮不重跑同一阻断。现有 SentinelX 执行主机离线；Desktop Commander 仅有离线本机；当前 Codespaces 认证缺少 scope，不扩权；已有 Make 场景只提供 GitHub API，不是持久或临时计算环境。未找到可直接复用的受控私有云执行渠道，因此独立备份、跨机器恢复和环境迁移仍未执行。PR #15 与 v0.1.0 产品源码保持原状，不发布、不安装、不操作真实资料。
