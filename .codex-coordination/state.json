@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 38,
+  "revision": 39,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -495,6 +495,30 @@
         "product_prs": "unchanged",
         "account_global_configuration": "not changed"
       }
+    },
+    "signing-readiness-20261022": {
+      "owner": "codex-01a16354",
+      "workspace": "local-cloud-signing-prep-20261022",
+      "batch": "signing-readiness-20261022",
+      "role": "work",
+      "branch": "codex/cloud-signing-prep-20261022",
+      "scopes": [
+        ".github/workflows/signing-check.yml",
+        ".github/workflows/signing-readiness.yml",
+        "cloud/KeyProbe.java",
+        "cloud/check_signing_readiness.py",
+        "cloud/sign_apk.py",
+        "cloud/test_sign_apk.py",
+        "docs/tasks/signing-readiness-20261022.md",
+        "release/signing-identity.json"
+      ],
+      "base": "b387f28be677b5e9728ea7418fd18aecbf708b53",
+      "head": "b387f28be677b5e9728ea7418fd18aecbf708b53",
+      "status": "active",
+      "generation": 1,
+      "lease_until": 1792675948,
+      "updated_at": 1792668748,
+      "history": []
     }
   },
   "batches": {
@@ -525,6 +549,9 @@
     "delivery-workflow-adoption-20261021": {
       "status": "completed",
       "integrator": "delivery-adoption-integration-20261021"
+    },
+    "signing-readiness-20261022": {
+      "status": "open"
     }
   }
 }
