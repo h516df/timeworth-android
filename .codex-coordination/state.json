@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 39,
+  "revision": 40,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -513,12 +513,13 @@
         "release/signing-identity.json"
       ],
       "base": "b387f28be677b5e9728ea7418fd18aecbf708b53",
-      "head": "b387f28be677b5e9728ea7418fd18aecbf708b53",
-      "status": "active",
+      "head": "b87ebbcef908311c530a08a913bc4361b8443e63",
+      "status": "ready",
       "generation": 1,
-      "lease_until": 1792675948,
-      "updated_at": 1792668748,
-      "history": []
+      "lease_until": 0,
+      "updated_at": 1792670041,
+      "history": [],
+      "handoff": "https://github.com/h516df/timeworth-android/pull/17 — Reviewable preparation only. Current private hosted jobs were rejected before any step because of account billing/spending restrictions. Original repository Secrets unchanged; current APK certificate verified. Repository-scope exposure and missing independent original p12/password recovery remain unresolved. Product PR #15 not merged, no version or channel published."
     }
   },
   "batches": {
