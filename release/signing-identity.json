@@ -3,5 +3,6 @@
   "repository": "h516df/timeworth-android",
   "alias": "timeworth",
   "certificateSha256": "fbee77769f3ccde6509b2d70465d2992d2bb20f7edb69fa9a75f6bfa9cc25366",
-  "keyAlgorithm": "RSA-3072"
+  "keyAlgorithm": "RSA-3072",
+  "packageName": "dev.h516.timeworth"
 }
