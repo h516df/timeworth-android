@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 42,
+  "revision": 44,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -503,9 +503,12 @@
       "role": "work",
       "branch": "codex/cloud-signing-prep-20261022",
       "scopes": [
+        ".github/workflows/portable-recovery.yml",
         ".github/workflows/signing-check.yml",
         ".github/workflows/signing-readiness.yml",
+        "cloud/ArchiveOriginal.java",
         "cloud/KeyProbe.java",
+        "cloud/RecoveryVerify.java",
         "cloud/check_signing_readiness.py",
         "cloud/sign_apk.py",
         "cloud/test_sign_apk.py",
@@ -514,10 +517,10 @@
       ],
       "base": "b387f28be677b5e9728ea7418fd18aecbf708b53",
       "head": "4f9acf548f057739cc4da843bfda48925ddf906c",
-      "status": "ready",
+      "status": "active",
       "generation": 1,
-      "lease_until": 0,
-      "updated_at": 1792689645,
+      "lease_until": 1792759309,
+      "updated_at": 1792752109,
       "history": [],
       "handoff": "PR #17: original signer unchanged. Original source tools/prepare_cloud_signing.py at v0.1.0 confirmed ephemeral POSIX signing-state.json and timeworth-release.p12. No independent accessible original found. Private Actions blocked before jobs; repo Secrets preserved, environment migration and cross-machine recovery NOT verified. No publish/install/real-data operation."
     }
