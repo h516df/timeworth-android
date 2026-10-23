@@ -1,3 +1,24 @@
+# 当前交付入口（2026-10-21 · GitHub 下载修正）
+
+- 用户要求从 GitHub 下载。GitHub 发布页：[v0.1.0-preview.1](https://github.com/h516df/timeworth-android/releases/tag/v0.1.0-preview.1)；[APK 下载](https://github.com/h516df/timeworth-android/blob/v0.1.0-preview.1/release/downloads/v0.1.0-preview.1/TimeWorth-0.1.0-preview.apk?raw=true)。本仓库私有，需登录有访问权的 GitHub 账号。以发布页实际非 draft 状态及标签读回为发布成功证据。
+- 下载的是前一轮相同 APK：3,041,867 字节，SHA256 `6d20683339f12e1f5707b39cf5769e46b564c809acab8f26fb7a2b8c5f1fa815`，产品源码 `4b97f9d8faec054629b371a2a5fe2fd38633b144`。产物、元数据保存在 `release/downloads/v0.1.0-preview.1/`。Android 8+、离线、独立 preview 包；真机安装未验证，正式签名与稳定更新仍未发布。
+- 原生 Release 附件上传返回 HTTP 401，Make GitHub API 模块无法访问上传域；因此发布页使用标签内 APK 文件的 GitHub 下载链接，不声称原生附件已上传。未更改任何仓库可见性、正式签名、稳定清单、收费设置或运行中服务。
+- 本次只增加产物与交接，不重复构建/功能检查；整合前后产品源码目录无差异，最终远端 Git blob 及 SHA256、来源祖先关系、路径范围与发布回执另记在共享登记 github-apk-download-20261021。旧 Page 保留历史，不再作为主要交付入口。
+
+# 当前接续摘要 2026-10-21 安卓可安装体验版
+
+- 最新用户要求：“开发吧，让我可以使用”。全部云端执行，不依赖本地电脑。产品基于 PR #3，新增 Android 工作在 [PR #11](https://github.com/h516df/timeworth-android/pull/11)；原产品分支及未合并历史已保留。
+- 安卓源码位于 `android/`，打包同一份 `ui-preview/dist`。首开空账本，填写工资/工时，离线使用时薪、消费折算、分期、心愿/目标；支持系统文件选择/保存和旧网页 v2 JSON 迁移。未接真实账户、通知、OCR。版本 0.1.0-preview，包名 dev.h516.timeworth.preview；正式包名 dev.h516.timeworth，原正式证书保持不变。
+- 下载页：https://chatgpt.com/space/page_42f579b273ac81919688f4bb471bd035 。最终附件、APK 精确摘要、源码提交和分发回执见本轮整合 PR/私有 Release；不把仅创建页面当作安装包已上传。
+- 云端 `assembleDebug`、未签名 `assembleRelease`、Android lint、原七组财务规则/三组浏览器流程，以及新增 native 首用/保存重开/备份拒绝与迁移/布局/减少动态效果检查已实际 passed。最终整合源码另核对并记录，不把单独检查冒充整合验证。
+- 修复恢复备份时双重 history.back 导致离开页面；内容动画只在打开/切换视图时运行；增加旧 WebView 安全 UUID 回退与更新组件提示。系统云备份/设备迁移显式关闭，用户自行导出 JSON。预览包与正式包隔离，切换时导出/恢复，不承诺跨包名覆盖。
+- 原签名构建 [39598429467](https://github.com/h516df/timeworth-android/actions/runs/39598429467) 在所有步骤之前被账户付款/支出上限拒绝，已读取注释；未改收费。签名工作流改为按需，避免每次推送重试。没有导出/替换正式私钥；正式 APK、长期恢复、匿名稳定更新和实体手机覆盖安装仍未完成，公开 stable 清单保持 unavailable。
+- API30 软件模拟器出现 SystemUI/phone/Bluetooth DeadSystemException 和系统服务消失，安装未完成，已停止；没有真机或模拟器安装通过证据。浏览器原点/桥接模拟检查只是浏览器检查。下载页明确这些边界。
+- 本批共享登记 android-first-release-20261021：工作分支 codex/android-first-release-20261021 的确切就绪提交取登记；整合分支 codex/android-first-integration-20261021，发布/完成前核对代次、成员 head 与整合 SHA。原产品 PR #3 不自动合入 main。
+- 下一步：用户可先自行安装体验 APK。账户限制解除后才按需运行原签名构建，核对 APK 原证书，落实长期签名恢复，再完成真实安装/升级与稳定渠道验收。不要重新搭建、替换原签名或把网页通过当正式交付。
+
+## 之前的接续记录
+
 # 当前接续摘要（2026-10-21 · 多 Codex 产品入口同步）
 
 - 用户已要求解决多Codex协作。通用库[整合PR #10](https://github.com/h516df/vibe-ui-quality-kit/pull/10)与本项目[整合PR #9](https://github.com/h516df/timeworth-android/pull/9)已合入默认分支；本次仅同步本产品分支的规则0.3/简版r3、项目入口和标准库协调器。

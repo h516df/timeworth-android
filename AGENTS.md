@@ -22,7 +22,7 @@
 
 适用于本仓库的 Codex 云端任务。开发方式与项目边界见 [CLOUD_DEVELOPMENT.md](CLOUD_DEVELOPMENT.md)，功能与使用说明见 [README.md](README.md)。
 
-已有产品规划与 ui-preview 原型；尚无 Android App 工程或 APK。签名准备以 docs/CLOUD_DELIVERY.md 的当前证据为准，本轮未核验 Secrets 或签名。
+已有 ui-preview 产品与 android/ 离线安卓工程，可安装体验包的源码和边界见 PR #11、HANDOFF 与 android/README.md。正式签名 APK 尚受 Actions 账户限制阻塞；不更换原签名，不把独立 preview 包或浏览器检查当正式覆盖升级/真机通过。
 
 ## 产品约定（用户明确要求）
 

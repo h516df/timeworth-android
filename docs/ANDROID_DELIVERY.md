@@ -1,10 +1,10 @@
 # TimeWorth 安卓交付与更新：当前缺口
 
-更新日期：2026-10-21。本轮落实规则与记录，不启动 Android 工程，不发布 APK，不重新生成或读取签名秘密。以下按实际证据区分，勾选必须有来源。
+更新日期：2026-10-21。已在 PR #11 新增离线安卓工程并编译独立 preview APK，下载与最终证据见根 HANDOFF。GitHub 原签名构建仍因账户付款/支出上限在步骤前受阻；预览不替代下列正式签名、恢复、更新与实体手机验收。原正式签名身份未改变。
 
 ## 已知基础
 
-- 私有源码 `h516df/timeworth-android`；当前可用产品为手机网页 05，成果在 [PR #3](https://github.com/h516df/timeworth-android/pull/3)，尚无原生 Android 工程或 APK。
+- 私有源码 `h516df/timeworth-android`；当前可用产品为手机网页 05，成果在 [PR #3](https://github.com/h516df/timeworth-android/pull/3)，安卓工程与独立体验包见 PR #11；正式签名 APK 尚未完成。
 - 复用既有 `h516df/android-update-kit` 和公开分发 `h516df/app-releases`，按 `appId: timeworth` / `channel: stable` 隔离；源码不因此公开。
 - [CLOUD_DELIVERY](CLOUD_DELIVERY.md) 已记录云端签名准备、Secrets 写入及一次临时文件验签通过。本轮未读取 Secrets、未复测签名；该记录不等于正式 APK 或长期恢复验收。
 - Make 现有账号/权限符合个人私有建仓接口要求，尚无实际创建证据；非敏感定位及边界见[通用云端能力说明](https://github.com/h516df/vibe-ui-quality-kit/blob/main/workflow/CLOUD_CAPABILITIES.md)。
