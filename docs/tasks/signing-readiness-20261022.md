@@ -2,6 +2,8 @@
 
 ## 当前接续（2026-10-23）
 
+实际手动入口为已有 `Original signing readiness` 的 `portable-backup` 模式，再调用下述恢复工作流；新工作流未登记在默认分支时，不能直接按新文件名派发。本次不为注册入口而合并 PR。
+
 GitHub 现状已经变化：产品 PR #15 已由其他任务合入 main，当前仓库为公开；本次没有修改可见性。main 的普通云端检查已成功，不能继续把旧付款阻断当作当前不可执行的结论。下面早期记录按历史保留。
 
 本准备分支新增手动 `Portable original-key recovery`：只在固定准备分支、受保护的 `android-signing` 环境运行。先核对已有 `TIMEWORTH_KEYSTORE_BASE64` / `TIMEWORTH_KEYSTORE_PASSWORD` 的原证书及私钥，再用环境中的 `TIMEWORTH_RECOVERY_KEY_BASE64` 加密完整原 keystore 与原密码；不生成替代签名身份。归档采用与其他 App 一致的 AES-256-GCM 格式，密文只临时转交独立 Linux restore 作业，解密凭据不进入附件，明文原材料只在进程内存中处理。恢复作业只注入恢复凭据，不读取原签名 Secrets；核对完整原文件摘要、固定证书与私钥挑战。

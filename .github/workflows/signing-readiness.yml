@@ -1,6 +1,12 @@
 name: Original signing readiness
 on:
   workflow_dispatch:
+    inputs:
+      mode:
+        description: Verify signing or back up and restore the original signer
+        type: choice
+        options: [verify, portable-backup]
+        default: verify
   push:
     branches: [codex/cloud-signing-prep-20261022]
 permissions:
@@ -10,6 +16,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   policy:
+    if: inputs.mode != 'portable-backup'
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
@@ -43,3 +50,7 @@ jobs:
           SIGNING_STORE_PASSWORD: ${{ secrets.TIMEWORTH_KEYSTORE_PASSWORD }}
           SIGNING_KEY_PASSWORD: ${{ secrets.TIMEWORTH_KEYSTORE_PASSWORD }}
         run: python3 cloud/check_signing_readiness.py
+  portable-recovery:
+    if: github.event_name == 'workflow_dispatch' && inputs.mode == 'portable-backup' && github.repository == 'h516df/timeworth-android' && github.ref == 'refs/heads/codex/cloud-signing-prep-20261022'
+    uses: ./.github/workflows/portable-recovery.yml
+    secrets: inherit
