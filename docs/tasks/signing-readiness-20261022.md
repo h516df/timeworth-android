@@ -1,5 +1,17 @@
 # 原签名准备（2026-10-22）
 
+## 当前接续（2026-10-23）
+
+GitHub 现状已经变化：产品 PR #15 已由其他任务合入 main，当前仓库为公开；本次没有修改可见性。main 的普通云端检查已成功，不能继续把旧付款阻断当作当前不可执行的结论。下面早期记录按历史保留。
+
+本准备分支新增手动 `Portable original-key recovery`：只在固定准备分支、受保护的 `android-signing` 环境运行。先核对已有 `TIMEWORTH_KEYSTORE_BASE64` / `TIMEWORTH_KEYSTORE_PASSWORD` 的原证书及私钥，再用环境中的 `TIMEWORTH_RECOVERY_KEY_BASE64` 加密完整原 keystore 与原密码；不生成替代签名身份。归档采用与其他 App 一致的 AES-256-GCM 格式，密文只临时转交独立 Linux restore 作业，解密凭据不进入附件，明文原材料只在进程内存中处理。恢复作业只注入恢复凭据，不读取原签名 Secrets；核对完整原文件摘要、固定证书与私钥挑战。
+
+新恢复入口尚需以实际运行结果验收，配置存在不能算通过。临时密文应在验证后转存独立私人备份位置并读回校验；Actions 附件不是长期备份。恢复凭据另有受保护的本机 DPAPI 副本，但独立于原电脑的非 GitHub 安全副本尚未确认，不能声称账号同时丢失也能恢复。
+
+原 repository Secrets 保留。只有独立备份、恢复与替代环境配置实际验证成功，并核对当前 main 的所有签名入口已采用环境保护后，才能退役仓库级副本；本任务不自动合并 PR、不改变下载通道、不发布或安装。
+
+## 历史准备记录
+
 独立分支 codex/cloud-signing-prep-20261022；协调任务 signing-readiness-20261022。只核验签名与云端入口，不合并产品 PR、不发布、不操作手机或真实财务数据。
 
 main 主要保存工作流；实际 Android 产品在 v0.1.0 标签及仍未合并的 PR #15 依赖链。已重新下载 v0.1.0 原生 APK、核对大小、SHA256、包名 dev.h516.timeworth 及原证书 fbee77769f3ccde6509b2d70465d2992d2bb20f7edb69fa9a75f6bfa9cc25366。
