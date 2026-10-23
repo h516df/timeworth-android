@@ -1,0 +1,16 @@
+{
+  "applicationId": "dev.h516.timeworth",
+  "versionCode": 1,
+  "versionName": "0.1.0",
+  "minSdk": 26,
+  "abis": [],
+  "signingCertificateSha256": "fbee77769f3ccde6509b2d70465d2992d2bb20f7edb69fa9a75f6bfa9cc25366",
+  "size": 2394158,
+  "sha256": "3838d5bc17c33bfb0e4ed8d40303455121ebe8224041ab939100da3b9ac7abc5",
+  "productAssetsMatchSource": true,
+  "debuggable": false,
+  "sourceSha": "0b42bab8a3d16f4ce6107cf3eb4ecd397f25555c",
+  "buildRun": "https://github.com/h516df/timeworth-android/actions/runs/39613534837",
+  "deviceVerification": "not completed",
+  "channel": "original-key release APK; stable channel not published"
+}

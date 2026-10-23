@@ -12,7 +12,7 @@ GitHub Actions 的 **Cloud development** 在 PR、main 推送及手动运行时�
 
 ## 当前边界
 
-main保存工作流与接续入口；Android工程和原签名APK已在v0.1.0标签及产品整合PR #15中交付，尚未把该产品PR链合入main。构建与正式发行已通过；真机安装、独立签名恢复与公开自动更新仍未验收。见docs/ANDROID_DELIVERY.md及当前HANDOFF。
+已有静态手机网页体验版；尚无原生 Android 工程、Gradle 构建或 APK。沿用已有云端签名准备流程；Secrets 未配置不能称为签名就绪。
 
 原 README、AGENTS 与交接文件中的 Windows 路径作为历史恢复线索保留；云端开发不依赖这些路径。生产运行与发布步骤按本节边界处理，不自动运行旧的本机派发、安装、隧道或签名脚本。凭据通过平台 Secrets 注入，不能进入源码、日志或构建附件；私有项目继续保持私有。
 
@@ -50,24 +50,35 @@ main保存工作流与接续入口；Android工程和原签名APK已在v0.1.0标
 
 ### 代理负责接续
 
-用户无需粘贴启动提示、记分支或重复授权已有连接。代理按本次意图读取 AGENTS 的统一入口、需求池与当前 HANDOFF，查询相关 PR 和分支状态；缺少会改变关键含义的信息才集中询问。没有固定开工口令；明确实施请求直接推进，讨论与零散反馈先收集。
+用户无需粘贴启动提示、记分支或重复授权已有连接。代理按本次意图读取 AGENTS 的统一入口、需求池 #6 和当前 HANDOFF，核对远端及相关 PR；明确实施直接推进，讨论/零散反馈先记，本批纠正及时处理，没有固定开工口令。
 
 参考：[Codex Cloud 的环境复用和任务保存机制](https://learn.chatgpt.com/docs/environments/cloud-environments#reuse-and-update-saved-state)。
 
-## 通用工作流入口
+## 分层网页检查与采用的工作流
 
-通用约定与模板统一维护在 [vibe-ui-quality-kit/workflow](https://github.com/h516df/vibe-ui-quality-kit/blob/main/workflow/README.md)。开始任务由代理主动读取；本仓库 AGENTS 内保留可独立执行的简版，跨仓库读取暂不可用时先沿用，不要求用户重复说明工作流或添加仓库。具体工具链、数据、签名、生产与设备保护仍以本项目约束为准。
+通用规则见 [docs/AI_WORKFLOW.md](docs/AI_WORKFLOW.md)。接入脚本与检查配置协议 0.1 的固定来源：[6bdaf2e](https://github.com/h516df/vibe-ui-quality-kit/tree/6bdaf2e7c9ec63f1cf7d02760a83a32b595bd1a0/workflow)；沿用包内脚本；本轮仅文档经审阅升级为 0.3，固定来源在 AGENTS，不盲目覆盖自定义配置。
 
-新任务从默认分支开始时，代理应按用户描述核对相关未合并 PR、依赖和对应分支交接，不能直接把 main 当作所有最新成果；不根据旧快照自动合并业务 PR。这里的仓库配置不代表 Codex 账户级环境已发布。
+- 廉价检查：`python3 cloud/workflow.py check --level quick`。
+- 完整网页主要流程：`npm ci --ignore-scripts --prefix ui-preview`，在 ui-preview 执行 `npx --no-install playwright install --with-deps chromium`，再从仓库根执行 `python3 cloud/workflow.py check --level core`。
+- CI 的 UI preview checks 先跑廉价检查，再安装锁定 Playwright/Chromium 并跑三组浏览器场景。按路径触发、取消同分支旧任务；失败截图保留 3 天，不开启发布。
+- `cloud/run-ui-checks.py` 使用临时本机回环端口并自动关闭服务；无需用户本地电脑，也不占用其他任务端口。
+- PLAYWRIGHT_MODULE/CHROMIUM_PATH 只用于已有工具的云端适配；PREVIEW_URL 由临时服务器设置，ARTIFACT_DIR 控制合成数据截图位置。
+- 原 `bash cloud/check.sh` 仍是规划/环境守卫，不能代替网页功能检查。正式设备、真实账户同步和 APK 另行验证。
 
-## 需求与当前外部阻塞
+工资、时间和报价分期的计算已提取到 ui-preview/dist/finance.js；检查工具继续沿用固定版本，新增 Node 规则用例和月度工资浏览器场景。发布仍使用现有 Sites 官方接口；GitHub 产品源提交与 Sites 源码/部署的映射见 HANDOFF。
 
-任务开始先读 [需求池 #6](https://github.com/h516df/timeworth-android/issues/6)，按自然语言判断收集或实施，纠正当前任务及时处理。通用协作规则 0.4 见 [docs/AI_WORKFLOW.md](docs/AI_WORKFLOW.md)，嵌入简版 r4 可在通用私有库暂不可读时执行。
+## 通用入口与本轮检查
 
-GitHub托管机器曾因付款/支出上限拒绝启动，账单详情未读到，不能推断欠款或额度耗尽。已使用现有云端一次性self-hosted runner成功构建原签名APK并上传原生附件，未修改计费；临时runner已清理，不是永久在线服务。环境初始化先核对java/javac、Gradle版本和SDK/缓存，故障分类见docs/DELIVERY.md。
+各项目共用的完整规则见 [vibe-ui-quality-kit/workflow](https://github.com/h516df/vibe-ui-quality-kit/blob/main/workflow/README.md)，本仓库 AGENTS 保留同版简要规则。这里原有的固定提交指检查工具采用来源，不代表规则只读旧版本。任务发现与接入由代理执行，旧续接示例不要求用户粘贴提示或记分支。
 
-交付后执行`python3 cloud/verify_release.py --contract release/delivery-contract.json --receipt /tmp/timeworth-release-receipt.json`。该脚本只读GitHub元数据，失败退出非零，不触发构建、发布、付款或签名操作；契约随目标版本由代理更新。
+新增 `node --test ui-preview/qa/finance.test.cjs`；完整入口仍为 `python3 cloud/workflow.py check --level core`，会运行金额规则和三组浏览器检查。GitHub UI preview checks 在安装浏览器前先跑金额用例，然后执行相同浏览器脚本。
+
+## 需求批次与外部阻塞
+
+需求唯一入口为 [#6](https://github.com/h516df/timeworth-android/issues/6)，当前 TW-001 动画反馈待做。讨论/反馈记录不触发构建或部署；明确实施请求按本批范围执行。数据迁移、签名恢复、匿名下载与实体手机覆盖安装的验收顺序见 [ANDROID_DELIVERY](docs/ANDROID_DELIVERY.md)。
+
+GitHub 托管机器曾因付款/支出上限拒绝启动；已通过一次性云端 self-hosted runner 完成原签名 APK 构建（39613534837），未修改费用设置。此替代路径不占 GitHub 托管机器分钟；云端连接仅单任务存续。真机安装、长期签名恢复与公开稳定渠道仍分别验收。
 
 ## 多 Codex 协作
 
-先读 [docs/MULTI_CODEX.md](docs/MULTI_CODEX.md) 和本项目 codex-coordination-v1 分支的共享登记。新增标准库 cloud/coordinate.py，既有 cloud/workflow.py 与 .ai-workflow.json 保持原样；每个会话独立工作区/分支、原子领取范围，工作会话记录各自 PR/任务交接，整合者更新公共交接并验证整合后的源码。Git/连接器操作步骤由代理执行，用户无需运行命令。未确认旧写手停止不接管，不把 Actions 或真实手机能力混入登记验证。
+[项目入口](docs/MULTI_CODEX.md) 与 codex-coordination-v1 分支共享登记由代理维护。每个活跃会话独立分支/工作区，先原子领取任务与范围，旧写手已停才接力；工作任务在自己PR或任务记录交接，由登记整合者汇总公共HANDOFF、核对确切成员并检查整合后的源码。新增cloud/coordinate.py与已验证通用源逐字一致，原检查器/配置不改；用户无需搬运聊天或管理分支。登记不是权限隔离，不能阻止绕过工具直接写库。

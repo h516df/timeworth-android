@@ -1,33 +1,63 @@
-# TimeWorth · mobile interaction prototype 02
+# TimeWorth · interaction prototype 05
 
 Owner-private preview: https://timeworth-mobile-preview.cloudyloom133.chatgpt.site
 
-Buildless HTML/CSS/JavaScript in `dist/`; serve with a static HTTP server. No framework build or external assets are required. The native Android implementation is a later phase; this is not an APK.
+A browser-local, mobile-first testbed for an eventual Android app. Initial data are fictional. No payment account, notification listener or remote financial storage is connected. No Android APK is produced in this phase.
 
-## Implemented interactions
+## Product direction
 
-- Apple-inspired large titles, grouped lists, focused value editors, minute-based commute presets/slider, translucent navigation, dark appearance and reduced-motion support.
-- Editable income, work days/hours/costs, two consistent hourly-rate bases, category budgets and net spending.
-- Purchase calculator with custom terms, zero interest, fixed periodic fee, nominal annual interest with equal installments, upfront fee, penny-adjusted schedule and cashflow-derived reference annual rate. Example fees are not platform offers.
-- Repayment create/edit/delete, per-period principal/fee/date editing and paid/unpaid toggles. Changes affect monthly totals. Regenerating an already paid schedule requires an explicit warning.
-- Wish create/edit/delete, conversion to a savings goal; goal edits, deposits/withdrawals and movement deletion, with current-month allocation reflected on the overview.
-- All demo import records are selectable, source switching, refund classification, explicit duplicate override, existing repayment merge without double-counting consumption.
-- Browser-local CSV parsing, quoted cells, UTF-8/GB18030, standard template download, common Alipay/WeChat header recognition, review before import. Supports standard CSV for other accounts; Huabei/Baitiao PDF/screenshots and platform-specific exports remain unimplemented.
-- Transaction editing/deletion; local persistence, prior-preview work/record migration, JSON backup export and validated restore.
+Fewer steps is the primary constraint. The main question is “after salary arrives, what may remain at month end?” Category budgets are absent from the primary experience. Manual recording is an optional correction, not the daily workflow. Settings have no avatar or motivational header.
 
-## Calculation boundaries
+- Home follows **this calendar month’s salary**, the salary already retained, and the estimated month-end remainder. Historical savings, balance anchors and other income do not increase it. Previous months show recorded remainder without a future projection.
+- Salary confirmation needs one amount and one save. Generic incoming messages are other income unless explicitly identified as payroll. Imported non-payroll receipts stay separate.
+- Cash expenses default to this month’s salary; an optional correction attributes a payment to other funds. This is a declared accounting convention, not per-yuan tracing across bank accounts.
+- “Flow” starts with the salary split and category summary. Individual records are one optional drill-down. Transfers into personal savings goals are shown separately and do not count as consumption.
+- Any provider is accepted for repayment entry. A sentence such as `信用卡 原价6000 每期520 共12期 25号` infers total repayment 6240 and aggregate interest/fees 240. Original price is optional.
+- The calculator accepts total repayment, an all-in payment, or a rate. Known all-in amounts are not charged interest again. A quoted difference combines interest and fees; pure interest cannot be isolated from those totals alone. Optional down payment is excluded from financed principal. Repayment schedules allocate exact cents.
+- Time cost includes workdays, work months and approximate calendar days of income. At salary 10000, 22 workdays/month and 8h/day, 6240 equals about 13 workdays 5h49m, 0.62 work months or 19 calendar days of income. Calendar days describe earnings equivalence, not life expectancy. Commute is optional in effective hourly rate and uses minutes in entry.
+- Wishes have independent custom symbols, emoji/text or uploaded icons, alongside optional photos. Icons carry into savings goals. There is no mandatory monthly saving target.
+- Four skins change materials, typography, borders, spacing and navigation surfaces. Density and optional photo wallpaper persist locally.
+- Related choices use custom in-context menus. Tab movement is interruptible, preserves scroll and respects reduced-motion preference.
+- Collection offers a statement file or pasted message, with batch acceptance and exception review. Sources are arbitrary; native notification collection remains explicitly unimplemented.
 
-The overview is an income-allocation estimate, not a bank balance: income minus per-category maximum of budget/net spending, minus all installment obligations for the current month, minus current-month net goal deposits. Marking an installment paid reduces pending repayments without freeing its already reserved allocation. Repayment imports do not create another expense. Initial goal savings are historical and do not subtract again this month. Refunds reduce net category spending.
+## Monthly receipts and financial rules
 
-Calculator fixed fees are charged against the original financed principal each period. APR mode uses nominal annual rate / 12 and equal monthly installments. Upfront fee is charged with the first installment. Reference annualized rate is monthly cashflow IRR × 12, assuming equally spaced months; actual due-date day counts and platform APR disclosures can differ.
+Salary entry follows the selected month. Editing a past month preserves the current month and current hourly-rate setting; repeated saves update one record. Multiple salary receipts can be added separately, and imported payroll is edited in place rather than copied into a second income store. Explicit payroll flags are preserved when editing a receipt whose ID is not a salary prefix.
+
+Installments offer this-month or next-month start without another entity form. A next-month first payment does not reduce this month’s forecast. In all-in-payment mode a separately charged first-period fee remains on the first period: 6000 original price, 12 × 520 and an extra 100 means 6340 total, 340 aggregate cost, first payment 620 and subsequent payments 520. Leave the extra field at zero for already-inclusive fees. Internal quoted principal/fee allocations reconcile cents; they are not a lender-certified principal/interest breakdown.
+
+`dist/finance.js` contains pure salary, time and quoted-installment rules, shared by the UI and Node checks. The existing model still owns the rate-based financing/calendar functions. UI integration remains in the existing modules; this is a bounded extraction, not a full rewrite or framework migration. Browser-local storage stays at version 2 and existing records are retained.
+
+## Salary retention estimate
+
+Current retained salary = received salary this month − net salary-funded cash expenses − installments actually paid this month. Credit-funded purchases are excluded from cash expenses and deducted at repayment instead. Historical assets, other income and personal goal transfers are excluded from this calculation.
+
+Month-end salary remainder = current retained salary + known expected salary − unpaid installments − unmatched fixed bills − estimated remaining everyday salary spending. The everyday estimate uses recorded current-month nonfixed cash spending / elapsed days. It is sensitive to missing records and is not a live bank balance. Paying a reserved installment lowers current retention and removes its future obligation, preserving the month-end estimate when amounts match. Prior prototype balance anchors remain in backup data but no longer drive this screen. Goals can include historical savings and are never represented as entirely funded by this month’s salary.
+
+## Current file support and limits
+
+Bundled SheetJS Community Edition 0.20.3 reads the first Excel worksheet locally. CSV accepts UTF-8/GB18030 and quoted cells. Headers must contain recognizable date, amount and name/type columns; generic fields are `日期,名称,金额,类型,分类,账户,订单号`. Known Alipay/WeChat-style headers are recognized, but not every platform/version has been tested. CSV/Excel files containing ordinary income are supported. ZIP, encrypted workbooks, PDF and screenshot OCR remain unimplemented. Loan and platform-specific adapters need real, desensitized samples before claims of compatibility.
+
+Current browser changes, uploaded covers and backup restores remain local. JSON export/restore and v1/v2 work/record migration remain available.
+
+## Research / dependencies
+
+- Android NotificationListenerService: https://developer.android.com/reference/android/service/notification/NotificationListenerService — native notifications are an incremental source, not a complete historical ledger.
+- AutoAccounting: https://github.com/AutoAccountingOrg/AutoAccounting — investigated notification/SMS/OCR/Hook collection and plugin adapters. Its README documents varying Root/LSPosed, LSPatch and OCR prerequisites; GPL-3.0 license. No code copied or integration claimed.
+- Copilot Money: https://help.copilot.money/en/articles/11157550-quick-start-guide — income/cash-flow, recurrence and exception review inspiration; US integrations do not imply availability for Chinese payment accounts.
+- Apple motion: https://developer.apple.com/design/human-interface-guidelines/motion — short, interruptible transitions and reduced motion.
+- Apple pickers: https://developer.apple.com/design/human-interface-guidelines/pickers — keep short choices in context.
+- Apple segmented controls: https://developer.apple.com/design/human-interface-guidelines/segmented-controls
+- Apple materials guidance: https://developer.apple.com/design/human-interface-guidelines/materials
+- SheetJS: https://docs.sheetjs.com/docs/solutions/input/ ; bundled license at `dist/vendor/LICENSE-SheetJS.txt` (Apache-2.0).
+- Photos: Unsplash images `photo-1546435770-a3e426bf472b`, `photo-1600210492486-724fe5c67fb0`, `photo-1469474968028-56623f02e42e`. Downloaded static assets; no third-party runtime image requests.
 
 ## Verification
 
-Cloud Chromium checks covered minute editing, hourly-basis changes, calculator fees/APR, schedule cent rounding, repayment creation/edit/paid toggles, wish-to-goal conversion, deposits/withdrawals, all import selections and duplicate review, repayment merging, actual quoted CSV upload, expense editing, persistence, JSON restore, prior-version migration, modal dismissal and layouts at 360/390/430/1280px. Scripts are retained in the cloud task artifacts. No live financial accounts or production billing formats were used.
+Cloud Chromium v4 baseline checks passed for salary isolation from assets/other income/old anchors; goal self-transfer; expense attribution; paid-installment invariance; original-price versus total/payment quotes; exact schedule cents; day/month/calendar equivalents; custom menu selection/outside click/Escape/reopen; custom emoji/tint/image icon and goal carry; material/font/layout theme changes, density/wallpaper persistence; summary-first flow; interruptible tabs/reduced motion; and 360/390/430/1280px layouts. A final targeted check passed for generic versus payroll incoming-message classification. Earlier v3 coverage included real Excel file upload, bulk review and backup validation. No real financial connection, Android device or APK was tested.
 
-## References
+## 固定检查入口
 
-- Apple Human Interface Guidelines / Materials: https://developer.apple.com/design/human-interface-guidelines/materials — glass is used sparingly for navigation and controls; financial content remains readable.
-- Cashew: https://github.com/jameskokoska/Cashew — inspiration for editable budgets, goals and transactions. No source code copied.
+采用的通用工作流与版本见根 HANDOFF/CLOUD_DEVELOPMENT。`python3 cloud/workflow.py check --level quick` 检查 6 个 JS/QA 文件语法；`--level core` 再通过 `cloud/run-ui-checks.py` 执行现有两组浏览器脚本。依赖锁定在 ui-preview/package-lock.json，测试时启动独占回环随机端口并自动清理。GitHub UI preview checks 使用这些入口，不构建或发布 App。
 
-All initial records are synthetic. User changes and files stay in the current browser; there is no server-side financial storage or cross-device sync. Export a backup before clearing browser data.
+Current cloud v5 verification: seven financial-rule cases and three browser scripts passed. New cases cover historical salary edit/idempotence, multiple receipts, imported-payroll reuse, month attribution, next-month installments and separately charged first fees. Static syntax and Actions semantic checks passed. A focused rerun followed the final profile/context and snapshot changes; CI status is tied to the source commit in HANDOFF. No Android or real financial connection was tested.
