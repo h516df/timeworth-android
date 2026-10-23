@@ -19,8 +19,8 @@ jobs:
       - name: Verify configured identity and private-key access
         shell: bash
         env:
-          TIMEWORTH_KEYSTORE_BASE64: ${{ secrets.TIMEWORTH_KEYSTORE_BASE64 }}
-          TIMEWORTH_KEYSTORE_PASSWORD: ${{ secrets.TIMEWORTH_KEYSTORE_PASSWORD }}
+          TIMEWORTH_KEYSTORE_BASE64: ${{ secrets.TIMEWORTH_ORIGINAL_KEYSTORE_BASE64 }}
+          TIMEWORTH_KEYSTORE_PASSWORD: ${{ secrets.TIMEWORTH_ORIGINAL_KEYSTORE_PASSWORD }}
         run: |
           set -euo pipefail
           test -n "$TIMEWORTH_KEYSTORE_BASE64" || { echo 'Signing keystore secret has not been configured.'; exit 1; }

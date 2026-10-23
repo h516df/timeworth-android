@@ -14,6 +14,16 @@ GitHub 现状已经变化：产品 PR #15 已由其他任务合入 main，当前
 
 ## 历史准备记录
 
+## 本次实际备份与环境迁移验证
+
+[恢复运行 39941997764](https://github.com/h516df/timeworth-android/actions/runs/39941997764) 在准备提交 `90a199092aedc3c8dd0fe446e242a6f427960b7f` 上通过：原证书与原私钥核验、AES-256-GCM 备份、另一台一次性 Linux 机器恢复全部成功。恢复作业没有注入原签名 Secrets，只使用恢复凭据；原文件摘要与私钥挑战通过。密文 SHA256 为 `e569dad1a5fda7de23dcada0ad66751c3447c9c117e9d8ba9d274c24a18ad8f0`，私人 Drive 备份已读回逐字节一致并核对仅所有者权限。原文件及所有旧副本保留。
+
+已从这个私人备份在内存中恢复原材料，使用 GitHub 环境公钥加密写入 `android-signing`：`TIMEWORTH_ORIGINAL_KEYSTORE_BASE64`、`TIMEWORTH_ORIGINAL_KEYSTORE_PASSWORD`。它们与旧 repository Secrets 名称不同，可验证环境注入而不回退到仓库级同名值。签名与恢复入口已改用新名称；`product` 模式另以 main 的固定产品提交 `e3251591bbdc8459c05d646fd2dd42a2371682f8` 构建真实 `.preview` 和 unsigned release，再在独立受控作业签名；不在 Gradle 执行时注入正式密钥。环境签名的最终结果以新模式实际运行链接为准，本文此处不预先标记通过。
+
+当前 main 的旧 `android-release.yml` 仍引用原 repository Secrets 且未设置签名环境；本准备 PR 尚未合入。因此本轮不能删除旧 Secrets 后声称全仓库作用域已缩小。后续审查整合必须将 main 的全部正式签名入口替换为受控流程，再复验并退役旧副本；本轮不自动合并、不静默破坏旧入口。
+
+## 以下为早期状态，不能当作当前结论
+
 独立分支 codex/cloud-signing-prep-20261022；协调任务 signing-readiness-20261022。只核验签名与云端入口，不合并产品 PR、不发布、不操作手机或真实财务数据。
 
 main 主要保存工作流；实际 Android 产品在 v0.1.0 标签及仍未合并的 PR #15 依赖链。已重新下载 v0.1.0 原生 APK、核对大小、SHA256、包名 dev.h516.timeworth 及原证书 fbee77769f3ccde6509b2d70465d2992d2bb20f7edb69fa9a75f6bfa9cc25366。

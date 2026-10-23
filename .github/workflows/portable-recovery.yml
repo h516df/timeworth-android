@@ -32,9 +32,9 @@ jobs:
           javac -d "$RUNNER_TEMP/recovery-classes" cloud/ArchiveOriginal.java cloud/RecoveryVerify.java
       - name: Verify existing signer and encrypt exact original bytes in memory
         env:
-          SIGNING_KEYSTORE_BASE64: ${{ secrets.TIMEWORTH_KEYSTORE_BASE64 }}
-          SIGNING_STORE_PASSWORD: ${{ secrets.TIMEWORTH_KEYSTORE_PASSWORD }}
-          SIGNING_KEY_PASSWORD: ${{ secrets.TIMEWORTH_KEYSTORE_PASSWORD }}
+          SIGNING_KEYSTORE_BASE64: ${{ secrets.TIMEWORTH_ORIGINAL_KEYSTORE_BASE64 }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.TIMEWORTH_ORIGINAL_KEYSTORE_PASSWORD }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.TIMEWORTH_ORIGINAL_KEYSTORE_PASSWORD }}
           RECOVERY_KEY_BASE64: ${{ secrets.TIMEWORTH_RECOVERY_KEY_BASE64 }}
         run: java -cp "$RUNNER_TEMP/recovery-classes" ArchiveOriginal "$RUNNER_TEMP/portable-ciphertext/timeworth-android.signing.aesgcm" release/signing-identity.json
       - name: Transfer only authenticated ciphertext to the independent restore machine

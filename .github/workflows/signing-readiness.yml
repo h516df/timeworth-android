@@ -5,7 +5,7 @@ on:
       mode:
         description: Verify signing or back up and restore the original signer
         type: choice
-        options: [verify, portable-backup]
+        options: [verify, portable-backup, product]
         default: verify
   push:
     branches: [codex/cloud-signing-prep-20261022]
@@ -26,7 +26,7 @@ jobs:
       - run: python3 -m unittest discover -s cloud -p test_sign_apk.py -v
   signing:
     needs: policy
-    if: github.repository == 'h516df/timeworth-android' && (github.event_name == 'workflow_dispatch' || github.event_name == 'push') && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/codex/cloud-signing-prep-20261022')
+    if: inputs.mode != 'product' && github.repository == 'h516df/timeworth-android' && (github.event_name == 'workflow_dispatch' || github.event_name == 'push') && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/codex/cloud-signing-prep-20261022')
     environment: android-signing
     runs-on: ubuntu-24.04
     timeout-minutes: 15
@@ -46,11 +46,16 @@ jobs:
         run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0' >/dev/null
       - name: Verify original identity and sign a synthetic APK
         env:
-          SIGNING_KEYSTORE_BASE64: ${{ secrets.TIMEWORTH_KEYSTORE_BASE64 }}
-          SIGNING_STORE_PASSWORD: ${{ secrets.TIMEWORTH_KEYSTORE_PASSWORD }}
-          SIGNING_KEY_PASSWORD: ${{ secrets.TIMEWORTH_KEYSTORE_PASSWORD }}
+          SIGNING_KEYSTORE_BASE64: ${{ secrets.TIMEWORTH_ORIGINAL_KEYSTORE_BASE64 }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.TIMEWORTH_ORIGINAL_KEYSTORE_PASSWORD }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.TIMEWORTH_ORIGINAL_KEYSTORE_PASSWORD }}
         run: python3 cloud/check_signing_readiness.py
   portable-recovery:
     if: github.event_name == 'workflow_dispatch' && inputs.mode == 'portable-backup' && github.repository == 'h516df/timeworth-android' && github.ref == 'refs/heads/codex/cloud-signing-prep-20261022'
     uses: ./.github/workflows/portable-recovery.yml
+    secrets: inherit
+  product-acceptance:
+    needs: policy
+    if: github.event_name == 'workflow_dispatch' && inputs.mode == 'product' && github.repository == 'h516df/timeworth-android' && github.ref == 'refs/heads/codex/cloud-signing-prep-20261022'
+    uses: ./.github/workflows/product-acceptance.yml
     secrets: inherit
