@@ -1,6 +1,10 @@
 name: Original-key product acceptance
 on:
   workflow_call:
+    inputs:
+      product-source:
+        required: true
+        type: string
 permissions:
   contents: read
 jobs:
@@ -10,8 +14,8 @@ jobs:
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
-          # Product PR #15 has merged; freeze its current main source for this acceptance.
-          ref: e3251591bbdc8459c05d646fd2dd42a2371682f8
+          # Only trusted callers select the exact product commit; no credentials enter this job.
+          ref: ${{ inputs.product-source }}
           path: product
           persist-credentials: false
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
@@ -53,7 +57,7 @@ jobs:
           retention-days: 3
   sign:
     needs: build
-    if: github.repository == 'h516df/timeworth-android' && github.ref == 'refs/heads/codex/cloud-signing-prep-20261022'
+    if: github.repository == 'h516df/timeworth-android' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/codex/cloud-signing-prep-20261022')
     environment: android-signing
     runs-on: ubuntu-24.04
     timeout-minutes: 10
@@ -85,8 +89,11 @@ jobs:
           SIGNING_KEYSTORE_BASE64: ${{ secrets.TIMEWORTH_ORIGINAL_KEYSTORE_BASE64 }}
           SIGNING_STORE_PASSWORD: ${{ secrets.TIMEWORTH_ORIGINAL_KEYSTORE_PASSWORD }}
           SIGNING_KEY_PASSWORD: ${{ secrets.TIMEWORTH_ORIGINAL_KEYSTORE_PASSWORD }}
+          PRODUCT_SOURCE_SHA: ${{ inputs.product-source }}
+          SIGNING_POLICY_SHA: ${{ github.sha }}
         run: |
           python3 cloud/sign_apk.py --input "$RUNNER_TEMP/product-inputs/release/app-release-unsigned.apk" --output "$RUNNER_TEMP/acceptance/acceptance.apk" > "$RUNNER_TEMP/product-receipt.json"
+          python3 -c 'import json,os,pathlib; p=pathlib.Path(os.environ["RUNNER_TEMP"],"product-receipt.json"); d=json.loads(p.read_text()); d.update(productSourceSha=os.environ["PRODUCT_SOURCE_SHA"],signingPolicySourceSha=os.environ["SIGNING_POLICY_SHA"]); p.write_text(json.dumps(d,sort_keys=True)+"\n")'
           cat "$RUNNER_TEMP/product-receipt.json"
           python3 cloud/check_signing_readiness.py
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02

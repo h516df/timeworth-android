@@ -51,11 +51,13 @@ jobs:
           SIGNING_KEY_PASSWORD: ${{ secrets.TIMEWORTH_ORIGINAL_KEYSTORE_PASSWORD }}
         run: python3 cloud/check_signing_readiness.py
   portable-recovery:
-    if: github.event_name == 'workflow_dispatch' && inputs.mode == 'portable-backup' && github.repository == 'h516df/timeworth-android' && github.ref == 'refs/heads/codex/cloud-signing-prep-20261022'
+    if: github.event_name == 'workflow_dispatch' && inputs.mode == 'portable-backup' && github.repository == 'h516df/timeworth-android' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/codex/cloud-signing-prep-20261022')
     uses: ./.github/workflows/portable-recovery.yml
     secrets: inherit
   product-acceptance:
     needs: policy
-    if: github.event_name == 'workflow_dispatch' && inputs.mode == 'product' && github.repository == 'h516df/timeworth-android' && github.ref == 'refs/heads/codex/cloud-signing-prep-20261022'
+    if: github.event_name == 'workflow_dispatch' && inputs.mode == 'product' && github.repository == 'h516df/timeworth-android' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/codex/cloud-signing-prep-20261022')
     uses: ./.github/workflows/product-acceptance.yml
+    with:
+      product-source: ${{ github.ref == 'refs/heads/main' && github.sha || 'e3251591bbdc8459c05d646fd2dd42a2371682f8' }}
     secrets: inherit

@@ -8,7 +8,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   backup:
-    if: github.repository == 'h516df/timeworth-android' && github.ref == 'refs/heads/codex/cloud-signing-prep-20261022'
+    if: github.repository == 'h516df/timeworth-android' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/codex/cloud-signing-prep-20261022')
     environment: android-signing
     runs-on: ubuntu-24.04
     timeout-minutes: 5

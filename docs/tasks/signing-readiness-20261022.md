@@ -24,6 +24,10 @@ GitHub 现状已经变化：产品 PR #15 已由其他任务合入 main，当前
 
 ## 以下为早期状态，不能当作当前结论
 
+[环境级真实产品签名 39943147964](https://github.com/h516df/timeworth-android/actions/runs/39943147964) 已通过，工具源 `5e9a18cce60fdc87ed5dcc5466f9eb3ff27862ba`，产品源 `e3251591bbdc8459c05d646fd2dd42a2371682f8`。实际开发 APK 为 `dev.h516.timeworth.preview`，Provider 为该包名下 `.files`；正式 APK 保留 `dev.h516.timeworth` 和原证书。产品签名回执 `syntheticProbe:false`，另验证缺项、错误密码、错误证书拒绝。Gradle 产品作业不读取正式凭据，签名作业只引用环境级的新名称，没有仓库级同名回退。
+
+为后续日常使用，本 PR 还准备替换 main 的 `Android signed build` 入口，统一调用相同的分离构建/签名流程。main 调用绑定触发提交的产品源码；准备分支调用绑定上述已合入 main 的固定产品源。产物回执分别记录产品与签名策略 SHA。该替换未合并前，原 main 仍依赖仓库级 Secrets，故原副本继续保留；不能把“替代环境已验证”写成“全仓库作用域已缩小”。
+
 独立分支 codex/cloud-signing-prep-20261022；协调任务 signing-readiness-20261022。只核验签名与云端入口，不合并产品 PR、不发布、不操作手机或真实财务数据。
 
 main 主要保存工作流；实际 Android 产品在 v0.1.0 标签及仍未合并的 PR #15 依赖链。已重新下载 v0.1.0 原生 APK、核对大小、SHA256、包名 dev.h516.timeworth 及原证书 fbee77769f3ccde6509b2d70465d2992d2bb20f7edb69fa9a75f6bfa9cc25366。

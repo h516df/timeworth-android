@@ -1,0 +1,15 @@
+name: Android signed build
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: timeworth-android-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  apk:
+    if: github.repository == 'h516df/timeworth-android' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/codex/cloud-signing-prep-20261022')
+    uses: ./.github/workflows/product-acceptance.yml
+    with:
+      product-source: ${{ github.ref == 'refs/heads/main' && github.sha || 'e3251591bbdc8459c05d646fd2dd42a2371682f8' }}
+    secrets: inherit
