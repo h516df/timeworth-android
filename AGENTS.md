@@ -24,7 +24,9 @@
 
 适用于本仓库的 Codex 云端任务。开发方式与项目边界见 [CLOUD_DEVELOPMENT.md](CLOUD_DEVELOPMENT.md)，功能与使用说明见 [README.md](README.md)。
 
-已有产品规划与 ui-preview 原型；尚无 Android App 工程或 APK。签名准备以 docs/CLOUD_DELIVERY.md 的当前证据为准，本轮未核验 Secrets 或签名。
+已有 ui-preview 产品与 android/ 离线安卓工程，可安装体验包的源码和边界见 PR #11、HANDOFF 与 android/README.md。原签名非调试 APK 已通过一次性云端 self-hosted runner 构建，运行 39613534837；GitHub 托管机器的账户限制不再是产包前提。不要更换原签名，不把独立 preview 包、签名构建或浏览器检查当作正式稳定渠道/真机覆盖升级通过。
+
+用户已多次要求正式 GitHub 发行，截图再次指出仍为预发行：本批落实 v0.1.0 非预发行 Release 和原生 APK 附件；不能把只有仓库文件链接或成功构建当作已完成正式发布。设备安装/覆盖升级和独立恢复未验收如实说明，不据此重复阻止用户明确指定的 Release 标签。公开自动更新渠道需独立验收，不因 GitHub 正式 Release 自动修改 stable.json。
 
 ## 产品约定（用户明确要求）
 
