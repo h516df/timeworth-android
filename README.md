@@ -4,6 +4,11 @@
 
 > 当前状态：Android 0.1.0 已发布，[打开发布页](https://github.com/h516df/timeworth-android/releases/tag/v0.1.0)，可下载 timeworth-0.1.0.apk（约 2.4 MB，Android 8+，原签名非调试包）。**main 现在包含完整的 Android 工程源码**，可直接构建。真机安装与公开稳定更新渠道尚未验收。
 
+> **许可证**：MIT，见 [LICENSE](LICENSE)。
+> **架构**：Android 原生壳（Java，`android/`）+ 本地网页产品界面（`ui-preview/`，原样打进 assets，WebView 加载）。财务计算逻辑在 `ui-preview/dist/finance.js`，跟 UI 分开，独立可读。
+> **自行构建**：`cd android && ./gradlew assembleDebug`（本机用 JDK 21 + Android SDK 35 验证通过，产出约 2.9 MB debug 包）。正式包需要你自己的签名密钥——本仓库不含任何密钥。
+> **已知缺口**：真机安装与覆盖升级未验收；应用内更新读的是上游分发通道，换签名后需要改配置才有意义。
+
 ## 产品方向
 
 帮助用户理解一份工作的实际时薪、一笔消费对应的工作时间，以及消费和分期如何影响未来的结余与生活目标。
