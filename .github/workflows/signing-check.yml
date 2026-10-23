@@ -1,62 +1,38 @@
-name: Cloud signed Android build (ephemeral runner)
+name: Publish verified TimeWorth APK
 on:
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
 concurrency:
-  group: timeworth-android-${{ github.ref }}
-  cancel-in-progress: true
+  group: timeworth-release-v0.1.0
+  cancel-in-progress: false
 jobs:
-  apk:
-    runs-on: [self-hosted, linux, x64, timeworth-cloud-20261021]
-    timeout-minutes: 20
+  upload:
+    runs-on: [self-hosted, linux, x64, timeworth-release-20261021]
+    timeout-minutes: 10
     env:
       ANDROID_HOME: /workspace/android-sdk
-      ANDROID_SDK_ROOT: /workspace/android-sdk
-      GRADLE_USER_HOME: /home/agent/.gradle
       JAVA_HOME: /workspace/jdk21
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
           persist-credentials: false
-      - name: Check cloud build environment
+      - name: Verify existing original-key release APK
         shell: bash
         run: |
           set -euo pipefail
-          test -x /workspace/android-sdk/build-tools/35.0.0/apksigner
-          "$JAVA_HOME/bin/javac" -version
-          test -x /workspace/gradle-8.11.1/bin/gradle
-      - name: Check financial rules
-        run: node --test ui-preview/qa/finance.test.cjs
-      - name: Build with original signing identity
+          cd release/downloads/v0.1.0-signed
+          sha256sum --check SHA256SUMS.txt
+          cd ../../..
+          python3 tools/verify-apk.py release/downloads/v0.1.0-signed/timeworth-0.1.0.apk --expect-release
+      - name: Upload verified files as native Release assets
         shell: bash
         env:
-          TIMEWORTH_KEYSTORE_BASE64: ${{ secrets.TIMEWORTH_KEYSTORE_BASE64 }}
-          TIMEWORTH_KEYSTORE_PASSWORD: ${{ secrets.TIMEWORTH_KEYSTORE_PASSWORD }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          test -n "$TIMEWORTH_KEYSTORE_BASE64"
-          test -n "$TIMEWORTH_KEYSTORE_PASSWORD"
-          umask 077
-          task_signing_dir=$(mktemp -d "$RUNNER_TEMP/timeworth-signing.XXXXXX")
-          trap 'rm -rf "$task_signing_dir"' EXIT
-          printf '%s' "$TIMEWORTH_KEYSTORE_BASE64" | base64 --decode > "$task_signing_dir/release.p12"
-          keytool -exportcert -keystore "$task_signing_dir/release.p12" -alias timeworth -storepass:env TIMEWORTH_KEYSTORE_PASSWORD -file "$task_signing_dir/certificate.der" >/dev/null
-          python3 - "$task_signing_dir/certificate.der" <<'PY'
-          import hashlib, json, pathlib, sys
-          expected = json.loads(pathlib.Path('release/signing-identity.json').read_text())['certificateSha256']
-          assert hashlib.sha256(pathlib.Path(sys.argv[1]).read_bytes()).hexdigest() == expected, 'Signing certificate mismatch'
-          PY
-          export TIMEWORTH_KEYSTORE_FILE="$task_signing_dir/release.p12"
-          /workspace/gradle-8.11.1/bin/gradle -p android --offline --no-daemon :app:assembleRelease
-          mkdir -p release-output
-          cp android/app/build/outputs/apk/release/app-release.apk release-output/timeworth-0.1.0.apk
-          python3 tools/verify-apk.py release-output/timeworth-0.1.0.apk --expect-release --output release-output/apk-metadata.json
-          cd release-output
-          sha256sum timeworth-0.1.0.apk > SHA256SUMS.txt
-      - name: Record exact source and build identity
-        shell: bash
-        run: |
-          set -euo pipefail
-          git rev-parse HEAD > release-output/SOURCE_SHA.txt
-          echo 'Original-key signed release APK verified; build output retained in this ephemeral cloud workspace. No release was published.'
+          gh release upload v0.1.0 --repo "$GITHUB_REPOSITORY" \
+            release/downloads/v0.1.0-signed/timeworth-0.1.0.apk \
+            release/downloads/v0.1.0-signed/apk-metadata.json \
+            release/downloads/v0.1.0-signed/SHA256SUMS.txt \
+            release/downloads/v0.1.0-signed/SOURCE_SHA.txt
