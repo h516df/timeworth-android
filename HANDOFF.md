@@ -1,3 +1,10 @@
+# 当前交付入口（2026-10-21 · GitHub 下载修正）
+
+- 用户要求从 GitHub 下载。GitHub 发布页：[v0.1.0-preview.1](https://github.com/h516df/timeworth-android/releases/tag/v0.1.0-preview.1)；[APK 下载](https://github.com/h516df/timeworth-android/blob/v0.1.0-preview.1/release/downloads/v0.1.0-preview.1/TimeWorth-0.1.0-preview.apk?raw=true)。本仓库私有，需登录有访问权的 GitHub 账号。以发布页实际非 draft 状态及标签读回为发布成功证据。
+- 下载的是前一轮相同 APK：3,041,867 字节，SHA256 `6d20683339f12e1f5707b39cf5769e46b564c809acab8f26fb7a2b8c5f1fa815`，产品源码 `4b97f9d8faec054629b371a2a5fe2fd38633b144`。产物、元数据保存在 `release/downloads/v0.1.0-preview.1/`。Android 8+、离线、独立 preview 包；真机安装未验证，正式签名与稳定更新仍未发布。
+- 原生 Release 附件上传返回 HTTP 401，Make GitHub API 模块无法访问上传域；因此发布页使用标签内 APK 文件的 GitHub 下载链接，不声称原生附件已上传。未更改任何仓库可见性、正式签名、稳定清单、收费设置或运行中服务。
+- 本次只增加产物与交接，不重复构建/功能检查；整合前后产品源码目录无差异，最终远端 Git blob 及 SHA256、来源祖先关系、路径范围与发布回执另记在共享登记 github-apk-download-20261021。旧 Page 保留历史，不再作为主要交付入口。
+
 # 当前接续摘要 2026-10-21 安卓可安装体验版
 
 - 最新用户要求：“开发吧，让我可以使用”。全部云端执行，不依赖本地电脑。产品基于 PR #3，新增 Android 工作在 [PR #11](https://github.com/h516df/timeworth-android/pull/11)；原产品分支及未合并历史已保留。
