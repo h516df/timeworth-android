@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 47,
+  "revision": 49,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -521,10 +521,10 @@
       ],
       "base": "b387f28be677b5e9728ea7418fd18aecbf708b53",
       "head": "3dc57f6a7b026acfa12e092cb5cf295b352920e3",
-      "status": "ready",
+      "status": "active",
       "generation": 1,
-      "lease_until": 0,
-      "updated_at": 1792754400,
+      "lease_until": 1792762753,
+      "updated_at": 1792755553,
       "history": [],
       "handoff": "PR17 updated. Original certificate unchanged. Backup/independent Linux restore run39941997764 passed; AES-GCM archive e569dad1a5fda7de23dcada0ad66751c3447c9c117e9d8ba9d274c24a18ad8f0 stored owner-only in private Drive and read back identical. Environment-only original credential aliases verified on real product run39944140368, policy468e95c and product e325159. Final source only changes handoff documentation. Replacement daily signing entry prepared; current main still uses legacy repo Secrets, preserved pending review/integration/main verification. Non-GitHub credential fallback only original-user DPAPI; independent safe destination still missing. No merge/publish/install/real data operation."
     }
