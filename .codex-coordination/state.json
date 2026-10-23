@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 46,
+  "revision": 47,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -520,13 +520,13 @@
         "release/signing-identity.json"
       ],
       "base": "b387f28be677b5e9728ea7418fd18aecbf708b53",
-      "head": "4f9acf548f057739cc4da843bfda48925ddf906c",
-      "status": "active",
+      "head": "3dc57f6a7b026acfa12e092cb5cf295b352920e3",
+      "status": "ready",
       "generation": 1,
-      "lease_until": 1792759309,
-      "updated_at": 1792753659,
+      "lease_until": 0,
+      "updated_at": 1792754400,
       "history": [],
-      "handoff": "PR #17: original signer unchanged. Original source tools/prepare_cloud_signing.py at v0.1.0 confirmed ephemeral POSIX signing-state.json and timeworth-release.p12. No independent accessible original found. Private Actions blocked before jobs; repo Secrets preserved, environment migration and cross-machine recovery NOT verified. No publish/install/real-data operation."
+      "handoff": "PR17 updated. Original certificate unchanged. Backup/independent Linux restore run39941997764 passed; AES-GCM archive e569dad1a5fda7de23dcada0ad66751c3447c9c117e9d8ba9d274c24a18ad8f0 stored owner-only in private Drive and read back identical. Environment-only original credential aliases verified on real product run39944140368, policy468e95c and product e325159. Final source only changes handoff documentation. Replacement daily signing entry prepared; current main still uses legacy repo Secrets, preserved pending review/integration/main verification. Non-GitHub credential fallback only original-user DPAPI; independent safe destination still missing. No merge/publish/install/real data operation."
     }
   },
   "batches": {
