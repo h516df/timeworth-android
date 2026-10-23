@@ -2,7 +2,7 @@
 
 把工作、时间、收入、消费和生活目标联系起来的安卓手机 App。
 
-> 当前状态：可交互手机网页体验版 05；尚无原生 Android App 工程或 APK。
+> 当前状态：已生成原签名、非调试的 Android 0.1.0 安装包。[下载 APK](https://github.com/h516df/timeworth-android/blob/6a8101de88d54ffa9aedea6e0e8ee860f3cc33f2/release/downloads/v0.1.0-signed/timeworth-0.1.0.apk?raw=true)（约 2.4 MB，Android 8+）。真机安装与稳定更新尚未验收；详细构建回执及原预览包边界见 HANDOFF。
 
 ## 产品方向
 

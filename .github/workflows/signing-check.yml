@@ -1,28 +1,42 @@
-name: Cloud signing readiness
-
+name: Cloud signed Android build (ephemeral runner)
 on:
   workflow_dispatch:
-
 permissions:
   contents: read
-
+concurrency:
+  group: timeworth-android-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
-  signing:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 5
+  apk:
+    runs-on: [self-hosted, linux, x64, timeworth-cloud-20261021]
+    timeout-minutes: 20
+    env:
+      ANDROID_HOME: /workspace/android-sdk
+      ANDROID_SDK_ROOT: /workspace/android-sdk
+      GRADLE_USER_HOME: /home/agent/.gradle
+      JAVA_HOME: /workspace/jdk21
     steps:
-      - uses: actions/checkout@v6.1.0
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
           persist-credentials: false
-      - name: Verify configured identity and private-key access
+      - name: Check cloud build environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -x /workspace/android-sdk/build-tools/35.0.0/apksigner
+          "$JAVA_HOME/bin/javac" -version
+          test -x /workspace/gradle-8.11.1/bin/gradle
+      - name: Check financial rules
+        run: node --test ui-preview/qa/finance.test.cjs
+      - name: Build with original signing identity
         shell: bash
         env:
           TIMEWORTH_KEYSTORE_BASE64: ${{ secrets.TIMEWORTH_KEYSTORE_BASE64 }}
           TIMEWORTH_KEYSTORE_PASSWORD: ${{ secrets.TIMEWORTH_KEYSTORE_PASSWORD }}
         run: |
           set -euo pipefail
-          test -n "$TIMEWORTH_KEYSTORE_BASE64" || { echo 'Signing keystore secret has not been configured.'; exit 1; }
-          test -n "$TIMEWORTH_KEYSTORE_PASSWORD" || { echo 'Signing password secret has not been configured.'; exit 1; }
+          test -n "$TIMEWORTH_KEYSTORE_BASE64"
+          test -n "$TIMEWORTH_KEYSTORE_PASSWORD"
           umask 077
           task_signing_dir=$(mktemp -d "$RUNNER_TEMP/timeworth-signing.XXXXXX")
           trap 'rm -rf "$task_signing_dir"' EXIT
@@ -31,13 +45,18 @@ jobs:
           python3 - "$task_signing_dir/certificate.der" <<'PY'
           import hashlib, json, pathlib, sys
           expected = json.loads(pathlib.Path('release/signing-identity.json').read_text())['certificateSha256']
-          actual = hashlib.sha256(pathlib.Path(sys.argv[1]).read_bytes()).hexdigest()
-          if actual != expected:
-              raise SystemExit('Configured signing certificate does not match the pinned identity.')
-          print('Pinned signing certificate verified: ' + actual)
+          assert hashlib.sha256(pathlib.Path(sys.argv[1]).read_bytes()).hexdigest() == expected, 'Signing certificate mismatch'
           PY
-          printf '%s\n' 'TimeWorth signing probe; not an application build.' > "$task_signing_dir/probe.txt"
-          jar --create --file "$task_signing_dir/probe.jar" -C "$task_signing_dir" probe.txt
-          jarsigner -keystore "$task_signing_dir/release.p12" -storepass:env TIMEWORTH_KEYSTORE_PASSWORD -keypass:env TIMEWORTH_KEYSTORE_PASSWORD -signedjar "$task_signing_dir/signed.jar" "$task_signing_dir/probe.jar" timeworth >/dev/null
-          jarsigner -verify "$task_signing_dir/signed.jar" >/dev/null
-          echo 'Cloud signing key access verified. No APK was built or published.'
+          export TIMEWORTH_KEYSTORE_FILE="$task_signing_dir/release.p12"
+          /workspace/gradle-8.11.1/bin/gradle -p android --offline --no-daemon :app:assembleRelease
+          mkdir -p release-output
+          cp android/app/build/outputs/apk/release/app-release.apk release-output/timeworth-0.1.0.apk
+          python3 tools/verify-apk.py release-output/timeworth-0.1.0.apk --expect-release --output release-output/apk-metadata.json
+          cd release-output
+          sha256sum timeworth-0.1.0.apk > SHA256SUMS.txt
+      - name: Record exact source and build identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          git rev-parse HEAD > release-output/SOURCE_SHA.txt
+          echo 'Original-key signed release APK verified; build output retained in this ephemeral cloud workspace. No release was published.'

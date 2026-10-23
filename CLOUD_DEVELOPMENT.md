@@ -77,7 +77,7 @@ GitHub Actions 的 **Cloud development** 在 PR、main 推送及手动运行时�
 
 需求唯一入口为 [#6](https://github.com/h516df/timeworth-android/issues/6)，当前 TW-001 动画反馈待做。讨论/反馈记录不触发构建或部署；明确实施请求按本批范围执行。数据迁移、签名恢复、匿名下载与实体手机覆盖安装的验收顺序见 [ANDROID_DELIVERY](docs/ANDROID_DELIVERY.md)。
 
-GitHub Actions 因付款/支出上限拒绝启动的外部阻塞尚未解除；本次不改费用、不盲目重试。云端工作区测试、Actions 测试与正式 APK 构建分别记证据。
+GitHub 托管机器曾因付款/支出上限拒绝启动；已通过一次性云端 self-hosted runner 完成原签名 APK 构建（39613534837），未修改费用设置。此替代路径不占 GitHub 托管机器分钟；云端连接仅单任务存续。真机安装、长期签名恢复与公开稳定渠道仍分别验收。
 
 ## 多 Codex 协作
 
