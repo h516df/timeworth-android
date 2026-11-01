@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 59,
+  "revision": 60,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -636,8 +636,26 @@
       "status": "active",
       "generation": 1,
       "lease_until": 1793529584,
-      "updated_at": 1793522384,
-      "history": []
+      "updated_at": 1793522412,
+      "history": [],
+      "receipt": {
+        "source_sha": "7a8a863d5abff8694672126126f2ed3be3f4865f",
+        "members": {
+          "signing-readiness-20261022": "7a8a863d5abff8694672126126f2ed3be3f4865f"
+        },
+        "checks": [
+          {
+            "name": "PR17 Cloud development workflow 39947782406 and final policy / signing gate 39947777119 passed",
+            "status": "passed",
+            "source_sha": "7a8a863d5abff8694672126126f2ed3be3f4865f"
+          },
+          {
+            "name": "Original signer product build and sign workflow 39947865851 and independent recovery 39941997764 passed",
+            "status": "passed",
+            "source_sha": "7a8a863d5abff8694672126126f2ed3be3f4865f"
+          }
+        ]
+      }
     }
   },
   "batches": {
