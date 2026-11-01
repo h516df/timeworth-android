@@ -55,6 +55,7 @@
           ? action('tw2-work', '设置工资与工作时间 →', 'tw2-text-action')
           : `${work.detailed ? '已纳入通勤和工作成本' : '仅按工资和工作时间折算'} · ${action('rate', '计算口径 →', 'tw2-inline')}`,
         'tw2-hourly') +
+      action('tw2-calculate', '算一算花多少钱的时间  →', 'tw2-primary') +
       `<section class="tw2-available">
         <div class="tw2-line-head"><h2>估算可安排金额</h2>${action('tw2-reserve', '调整预留 →', 'tw2-inline')}</div>
         <div class="tw2-main-amount">${estimate ? safeMoney(estimate.total) : '—'}</div>
@@ -66,7 +67,6 @@
         ${next ? action('tw2-future', `<span class="tw2-repay-date">${h(next.date.slice(5).replace('-', '月'))}日</span><span>${h(next.name)}</span><strong>${amount2(next.total)}</strong>`, 'tw2-next-repay')
           : `<p class="tw2-empty-line">还没有还款计划。</p>${action('new-debt', '＋ 添加固定负担', 'tw2-subtle-button')}`}
       </section>
-      ${action('tw2-calculate', '算一算花多少钱的时间  →', 'tw2-primary')}
       <p class="tw2-note">无需每天记账，工作和还款有变化时再调整即可。</p>`;
   };
 

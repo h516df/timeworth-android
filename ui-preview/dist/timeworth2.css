@@ -106,7 +106,8 @@ body.tw2-ui[data-theme="night"] {
 .tw2-ui .tw2-legacy-row div { min-width: 0; display: flex; flex-direction: column; gap: 4px; }
 .tw2-ui .tw2-legacy-row small { font-size: 11px; color: var(--tw2-secondary); }
 .tw2-ui .tw2-legacy-row span { white-space: nowrap; font-variant-numeric: tabular-nums; }
-.tw2-ui .tab-bar { background: var(--tw2-surface); border: 1px solid var(--tw2-line); box-shadow: 0 2px 18px #1011140a; border-radius: 22px; }
+.tw2-ui .app-shell .tab-bar { background: var(--tw2-surface); border: 1px solid var(--tw2-line); box-shadow: 0 2px 18px #1011140a; border-radius: 22px; }
+.tw2-ui .app-shell .tab-bar:before { width: calc((100% - 12px) / 3); background: var(--tw2-blue-soft); }
 .tw2-ui .tab.active { background: var(--tw2-blue-soft); color: var(--tw2-blue); }
 .tw2-ui .tab { min-height: 52px; }
 .tw2-ui .tab svg { width: 21px; }

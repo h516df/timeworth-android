@@ -67,6 +67,13 @@ const server = http.createServer((request, response) => {
 
     await page.evaluate(() => { TW.state.dark = true; render(false); });
     assert.equal(await page.evaluate(() => document.body.classList.contains('dark')), true);
+    const navStyle = await page.evaluate(() => {
+      const bar = document.querySelector('#tab-bar'), style = getComputedStyle(bar);
+      const indicator = getComputedStyle(bar, '::before');
+      return { background: style.backgroundColor, width: bar.clientWidth, indicator: parseFloat(indicator.width) };
+    });
+    assert.equal(navStyle.background, 'rgb(27, 29, 35)', 'Dark mode keeps the navigation bar dark');
+    assert.ok(Math.abs(navStyle.indicator - (navStyle.width - 12) / 3) <= 2, 'Active indicator spans exactly one of three destinations');
     await page.screenshot({ path: path.join(artifacts, 'timeworth2-future-dark-360.png') });
     await page.setViewportSize({ width: 320, height: 680 });
     await page.evaluate(() => { document.documentElement.style.fontSize = '20px'; render(false); });

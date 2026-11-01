@@ -21,7 +21,7 @@
 - `node --check ui-preview/dist/timeworth2.js`：passed。
 - `node ui-preview/qa/timeworth2.cjs`：7 个定向场景 passed，验证三入口、旧账本不参与估算、数据不足不造数、分期金额校验、跨月时间线、目标估时以及非法备份数据拒绝。
 - `node --test ui-preview/qa/finance.test.cjs`：既有金额规则 passed（同批运行）。
-- 2.0 专用 Chromium 场景与 GitHub Actions 工作流已编写：`ui-preview/qa/timeworth2-browser.cjs`、`.github/workflows/timeworth2-ui.yml`；覆盖三入口、分期输入、设置、小屏、大字体和深色模式。等待远端 Actions 实际执行结果再判定通过与否。
+- 2.0 专用 Chromium 场景与 GitHub Actions 工作流已编写：`ui-preview/qa/timeworth2-browser.cjs`、`.github/workflows/timeworth2-ui.yml`；覆盖三入口、分期输入、设置、小屏、大字体和深色模式。首次运行暴露测试定位歧义；第二次在 GitHub Actions run `41284994521` 通过。截图复核后还发现深色导航沿用旧主题浅色条、三入口指示条宽度沿用四入口，已修复并需等新运行确认。
 - 本地真实 Chromium UI 渲染：**not run**。当前云端环境无浏览器，Playwright 浏览器下载源返回非 ZIP；不宣称视觉与触控实际通过。
 - Android APK、签名、安装升级：**not run**。
 
