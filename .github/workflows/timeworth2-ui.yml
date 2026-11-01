@@ -4,6 +4,9 @@ on:
     paths:
       - '.github/workflows/timeworth2-ui.yml'
       - 'ui-preview/dist/timeworth2.*'
+      - 'ui-preview/dist/ocr.js'
+      - 'ui-preview/dist/scenarios.js'
+      - 'ui-preview/dist/index.html'
       - 'ui-preview/qa/timeworth2*'
   workflow_dispatch:
 permissions:
@@ -27,7 +30,7 @@ jobs:
       - run: npm ci --ignore-scripts --prefix ui-preview
       - run: npx --no-install playwright install --with-deps chromium
         working-directory: ui-preview
-      - run: node ui-preview/qa/timeworth2.cjs
+      - run: node --test ui-preview/qa/timeworth2.cjs ui-preview/qa/timeworth2-ocr.cjs ui-preview/qa/timeworth2-scenarios.cjs ui-preview/qa/timeworth2-migration.cjs
       - run: node ui-preview/qa/timeworth2-browser.cjs
         env:
           ARTIFACT_DIR: ${{ runner.temp }}/tw2-screenshots

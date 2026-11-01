@@ -36,6 +36,7 @@ public final class MainActivity extends Activity {
     private byte[] pendingExport;
     private FrameLayout root;
     private UpdateManager updater;
+    private RepaymentOcr repaymentOcr;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +102,7 @@ public final class MainActivity extends Activity {
             }
         });
         updater = new UpdateManager(this);
+        repaymentOcr = new RepaymentOcr(this, web);
         if (!WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)) {
             new AlertDialog.Builder(this).setTitle("请更新 Android System WebView")
                 .setMessage("TimeWorth 需要较新的系统网页组件。请在手机应用商店更新 Android System WebView 或 Chrome 后重新打开，现有数据会保留。")
@@ -117,6 +119,7 @@ public final class MainActivity extends Activity {
                     switch (data.getString("type")) {
                         case "save": saveDocument(data); break;
                         case "update": updater.check(); break;
+                        case "ocr-import": repaymentOcr.pick(); break;
                         case "theme": applySystemTheme(data.optBoolean("dark")); break;
                         case "exit": finish(); break;
                         default: break;
@@ -152,7 +155,9 @@ public final class MainActivity extends Activity {
 
     @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == OPEN_FILE && fileCallback != null) {
+        if (requestCode == RepaymentOcr.PICK_IMAGES) {
+            if (repaymentOcr != null) repaymentOcr.onPickerResult(resultCode, data);
+        } else if (requestCode == OPEN_FILE && fileCallback != null) {
             Uri uri = resultCode == RESULT_OK && data != null ? data.getData() : null;
             fileCallback.onReceiveValue(uri == null ? null : new Uri[]{uri}); fileCallback = null;
         } else if (requestCode == SAVE_FILE) {
@@ -178,6 +183,7 @@ public final class MainActivity extends Activity {
         if (fileCallback != null) fileCallback.onReceiveValue(null);
         pendingExport = null;
         if (updater != null) updater.close();
+        if (repaymentOcr != null) repaymentOcr.close();
         if (web != null) { root.removeView(web); web.destroy(); }
         super.onDestroy();
     }

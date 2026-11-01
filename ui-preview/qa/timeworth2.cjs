@@ -36,7 +36,7 @@ function createHarness() {
       balance: () => 0, round: v => Math.round((v + Number.EPSILON) * 100) / 100
     },
     navs: [['home', '工资'], ['ledger', '账本'], ['plan', '计划'], ['profile', '设置']],
-    render: () => {}, renderSheet: () => {}, persist: () => {}, toast: () => {}, validateBackup: () => {},
+    render: () => {}, renderSheet: () => {}, debtView: () => '', persist: () => {}, toast: () => {}, validateBackup: () => {},
     home: () => '', ledger: () => '', plan: () => '', open: () => {}, close: () => {},
     action: (name, label, cls = '', extra = '') => `<button data-action="${name}" class="${cls}" ${extra}>${label}</button>`,
     h: input => String(input).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;'),
@@ -115,12 +115,31 @@ test('month plan only displays confirmed scheduled obligations', () => {
   assert.match(h.context.plan(), /2027/);
 });
 
+test('screenshot debt details disclose unknown principal and fee composition', () => {
+  const harness = createHarness();
+  harness.state.debts.push({ id: 'ocr-1', name: '花呗', compositionUnknown: true,
+    schedule: [{ id: 'ocr-period', date: '2026-11-25', total: 500, paid: false }] });
+  const details = harness.context.debtView({ id: 'ocr-1' });
+  assert.match(details, /仅有应还总金额，本金与息费构成未知/);
+  assert.match(details, /应还总额 · 息费构成未知/);
+  assert.doesNotMatch(details, /本金 ¥500/);
+});
+
 test('goal date estimates require an explicit monthly amount', () => {
   const h = createHarness();
   h.state.goals.push({ id: 'goal', name: '旅行', target: 5000, monthly: 1000 });
   assert.match(h.context.plan(), /预计还需 5 个月/);
   h.state.goals[0].monthly = 0;
   assert.match(h.context.plan(), /未设置每月存入计划/);
+});
+
+test('future page retains access to every saved goal', () => {
+  const harness = createHarness();
+  for (let i = 1; i <= 5; i++) harness.state.goals.push({
+    id: 'goal-' + i, name: '目标' + i, target: 1000, monthly: 0, entries: []
+  });
+  const page = harness.context.plan();
+  for (let i = 1; i <= 5; i++) assert.match(page, new RegExp('目标' + i));
 });
 
 test('optional reserve survives valid backups and invalid values are rejected', () => {
