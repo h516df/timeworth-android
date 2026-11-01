@@ -55,15 +55,59 @@ const server = http.createServer((request, response) => {
     assert.match(await page.locator('#app-content').innerText(), /默认不保存/);
     await page.screenshot({ path: path.join(artifacts, 'timeworth2-calculator-360.png') });
 
+    const beforeComparisons = await page.evaluate(() => JSON.stringify(TW.state));
+    await page.locator('[data-action="tw2-scenario"]').click();
+    assert.match(await page.locator('#sheet').innerText(), /比较一种选择/);
+    await page.locator('[data-tw2-scenario="income"]').fill('800');
+    await page.locator('[data-tw2-scenario="cost"]').fill('200');
+    await page.locator('[data-tw2-scenario="hours"]').fill('10');
+    assert.match(await page.locator('#tw2-scenario-result').innerText(), /合计对比参考/);
+    assert.doesNotMatch(await page.locator('#tw2-scenario-result').innerText(), /无法完整估算/);
+    await page.screenshot({ path: path.join(artifacts, 'timeworth2-scenario-360.png') });
+    await page.locator('#sheet [data-action="close"]').click();
+    assert.equal(await page.evaluate(() => JSON.stringify(TW.state)), beforeComparisons, 'Scenarios stay transient');
+
     await page.locator('#tab-bar [data-tab="plan"]').click();
     assert.match(await page.locator('#app-content').innerText(), /还款时间线/);
     await page.locator('[data-tw2-step="1"]').click();
     assert.match(await page.locator('#app-content').innerText(), /目标/);
 
+    await page.locator('[data-action="tw2-ocr"]').click();
+    assert.match(await page.locator('#sheet').innerText(), /截图识别确认/);
+    const initialDebts = await page.evaluate(() => TW.state.debts.length);
+    const initialTransactions = await page.evaluate(() => JSON.stringify(TW.state.transactions));
+    await page.evaluate(() => window.__timeworth2OcrReceive({ status: 'done', images: [
+      { source: '截图 1', text: `花呗\n${M.month()}-25\n本期应还 ¥620.50` },
+      { source: '截图 2', error: '图片读取失败' }
+    ] }));
+    assert.match(await page.locator('#sheet').innerText(), /图片读取失败/);
+    assert.match(await page.locator('#sheet').innerText(), /620.5/);
+    await page.screenshot({ path: path.join(artifacts, 'timeworth2-ocr-review-360.png') });
+    await page.locator('#sheet [data-action="tw2-ocr-save"]').click();
+    assert.match(await page.locator('#sheet').innerText(), /新增 1 条/);
+    assert.equal(await page.evaluate(() => TW.state.debts.length), initialDebts + 1);
+    assert.equal(await page.evaluate(() => JSON.stringify(TW.state.transactions)), initialTransactions);
+    await page.locator('#sheet [data-action="tw2-ocr-undo"]').click();
+    assert.equal(await page.evaluate(() => TW.state.debts.length), initialDebts, 'Undo restores repayments');
+
+    await page.locator('[data-action="tw2-ocr"]').click();
+    await page.locator('#sheet [data-action="tw2-ocr-add"]').click();
+    assert.match(await page.locator('#sheet').innerText(), /手动补充/);
+    await page.locator('#sheet [data-action="tw2-ocr-save"]').click();
+    assert.match(await page.locator('#toast').innerText(), /日期/);
+    assert.equal(await page.evaluate(() => TW.state.debts.length), initialDebts, 'Invalid date does not save');
+    await page.locator('#sheet [data-action="close"]').click();
+
     await page.locator('[data-action="tw2-settings"]').click();
     assert.match(await page.locator('#sheet').innerText(), /旧账本历史/);
     assert.match(await page.locator('#sheet').innerText(), /恢复旧版备份/);
     await page.locator('#sheet [data-action="close"]').click();
+
+    const entry = await browser.newPage({ viewport: { width: 360, height: 780 } });
+    await entry.goto('http://127.0.0.1:' + server.address().port + '/index.html');
+    await entry.waitForFunction(() => !!window.__timeworth2);
+    assert.deepEqual(await entry.locator('#tab-bar .tab').allTextContents(), ['首页', '算一算', '未来'], 'Android default entry loads 2.0');
+    await entry.close();
 
     await page.evaluate(() => { TW.state.dark = true; render(false); });
     assert.equal(await page.evaluate(() => document.body.classList.contains('dark')), true);

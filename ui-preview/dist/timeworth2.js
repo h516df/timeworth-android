@@ -3,6 +3,8 @@
   'use strict';
 
   const oldRenderSheet = renderSheet;
+  const O = window.TimeWorthOcr;
+  const Scenarios = window.TimeWorthScenarios;
   const money2 = value => Number(value).toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const amount2 = value => '¥' + money2(value);
   const configuredWork = () => {
@@ -34,6 +36,8 @@
   };
   let calcPrice = '', calcMode = 'once', calcTerms = 6, calcPayment = '', calcExtra = '';
   let futureMonth = M.month();
+  let ocrRows = [], ocrErrors = [], ocrBusy = false, ocrUndo = null;
+  let scenario = { kind: 'job', income: '', cost: '', hours: '', upfront: '' };
 
   const pageHeader = (title, subtitle = '') => `<header class="tw2-header">
     <div class="tw2-top"><span class="tw2-wordmark">TimeWorth</span>
@@ -122,7 +126,8 @@
         <div id="tw2-calc-result" class="tw2-results" aria-live="polite">${calculationResult()}</div>
       </div>
       <div class="tw2-bottom-actions"><span>本次计算默认不保存</span>
-        ${action('tw2-add-wish', '♡ 加入心愿', 'tw2-wish-action')}</div>`;
+        ${action('tw2-add-wish', '♡ 加入心愿', 'tw2-wish-action')}</div>
+      ${action('tw2-scenario', '比较换工作、通勤、买车或租房 →', 'tw2-scenario-entry')}`;
   };
 
   plan = function timeworth2Future() {
@@ -131,6 +136,7 @@
     return pageHeader('未来', '看清计划，慢慢靠近。') +
       `<section class="tw2-future-section">
         <div class="tw2-line-head"><h2>还款时间线</h2>${action('new-debt', '＋ 添加', 'tw2-inline')}</div>
+        ${action('tw2-ocr', '从花呗、白条截图导入还款计划', 'tw2-ocr-entry')}
         <div class="tw2-months">
           <button class="tw2-month-step" data-tw2-step="-1" aria-label="上一月">‹</button>
           ${months.map(m => `<button data-tw2-month="${m}" aria-pressed="${futureMonth === m}" class="${futureMonth === m ? 'active' : ''}">${Number(m.slice(5))}月${m.slice(0,4) !== futureMonth.slice(0,4) ? `<small>${m.slice(0,4)}</small>` : ''}</button>`).join('')}
@@ -173,8 +179,10 @@
       ${section('数据与安全')}
       ${group(row('导出本机数据', '包含旧版数据的 JSON 备份', 'export') +
         row('恢复旧版备份', '先验证，再确认覆盖', 'restore') +
+        row('截图识别还款', window.TW_NATIVE ? '本机中文识别，导入前逐条确认' : '仅 Android 应用支持', 'tw2-ocr') +
         row('旧账本历史', state().transactions.length + ' 条 · 仅查看', 'tw2-history') +
-        (window.TW_NATIVE ? row('检查新版本', '下载安装由系统确认', 'native-update') : ''))}
+        (window.TW_NATIVE ? row('检查新版本', '下载安装由系统确认', 'native-update') : '') +
+        row('关于与更新说明', '2.0 · 隐私与使用说明', 'tw2-about'))}
       ${note('所有数据保存在这台设备。导出文件包含私人财务信息，请妥善保存。')}
     `);
   }
@@ -187,13 +195,112 @@
       ${action('export', '导出完整备份', 'primary full')}`);
   }
 
+  function about2Html() {
+    return sheetChrome('关于 TimeWorth 2.0', `<p class="sheet-subtitle">时间，值得。不记日常消费流水的时间价值与财务规划助手。</p>
+      ${section('数据与隐私')}
+      ${note('数据仅保存在本机，不需要账户。计算不会自动保存。截图识别在设备端进行，识别文字需确认才生成还款计划；截图本身不保存或上传。Google ML Kit 可能收集 SDK 运行指标。')}
+      ${section('升级与恢复')}
+      ${note('与 0.1.0 使用相同包名与原签名，正常覆盖安装会保留应用数据。升级或换机前建议先导出 JSON 备份；不得卸载旧版或清除数据来升级。')}
+      ${window.TW_NATIVE ? action('native-update', '检查新版本及更新说明', 'primary full') : ''}
+      <a class="tw2-release-link" href="https://github.com/h516df/app-releases/releases" target="_blank" rel="noopener noreferrer">查看公开版本与更新说明 ↗</a>
+      ${note('采用 AndroidX WebKit、AndroidX Core（Apache-2.0）和 Google ML Kit 中文文字识别（Google API 服务条款）。应用内旧版历史只读保留。')}`);
+  }
+
+  function ocrReviewHtml() {
+    const rows = ocrRows.map((item, i) => {
+      const related = O.matches(state().debts, item);
+      const update = related.possibleUpdates.length ? `<label>同日期已有导入计划，是否更新？
+        <select data-tw2-ocr-update="${i}"><option value="">先选择原计划</option>
+          ${related.possibleUpdates.map(d => `<option value="${h(d.id)}" ${item.updateId === d.id ? 'selected' : ''}>更新原计划 ${amount2(d.schedule[0].total)}</option>`).join('')}
+        </select></label>` : '';
+      return `<div class="tw2-ocr-row">
+        <label class="tw2-ocr-check"><input type="checkbox" data-tw2-ocr-check="${i}" ${item.selected ? 'checked' : ''}>
+          <span>第 ${i + 1} 条 · ${h(item.source || '手动补充')}</span></label>
+        <div class="tw2-ocr-grid"><label>平台
+          <input data-tw2-ocr-field="platform" data-index="${i}" value="${h(item.platform)}" maxlength="40"></label>
+          <label>还款日期 ${item.dateHint ? `<small>${h(item.dateHint)}</small>` : ''}
+          <input type="date" data-tw2-ocr-field="date" data-index="${i}" value="${h(item.date)}"></label>
+          <label>应还总金额（元）
+          <input type="number" step=".01" min=".01" max="9999999" data-tw2-ocr-field="amount" data-index="${i}" value="${h(String(item.amount || ''))}"></label></div>
+        ${related.exact ? '<p class="tw2-ocr-notice">与已导入计划相同，保存时会跳过重复。</p>' : update}
+        ${item.evidence ? `<details><summary>查看识别依据</summary><p>${h(item.evidence)}</p></details>` : ''}
+      </div>`;
+    }).join('');
+    return sheetChrome('截图识别确认', `<p class="sheet-subtitle">先在设备上识别中文，再由你逐条确认日期与应还金额。只保存还款计划，不保存图片或消费流水。</p>
+      ${ocrBusy ? '<p role="status" class="tw2-ocr-notice">正在逐张识别，请稍候…</p>' : ''}
+      ${ocrErrors.map(t => `<p class="tw2-ocr-notice">${h(t)}</p>`).join('')}
+      ${rows || '<p class="tw2-empty-line">尚无可确认的条目。可选多张截图，也可手动补充。</p>'}
+      <div class="tw2-ocr-actions">${action('tw2-ocr-pick', window.TW_NATIVE ? '选择多张截图' : 'Android 端才能选图', 'secondary full')}
+        ${action('tw2-ocr-add', '＋ 手动补充一条', 'secondary full')}
+        ${action('tw2-ocr-save', '确认并加入还款计划', 'primary full', ocrRows.some(x => x.selected) ? '' : 'disabled')}</div>
+      ${note('识别可能出错；含息费的应还总金额不能当作本金。ML Kit 在设备端处理截图，可能发送 SDK 运行指标。')}`);
+  }
+
+  const previousDebtView = debtView;
+  debtView = function timeworth2DebtView(r) {
+    const debt = state().debts.find(item => item.id === r.id);
+    if (!debt?.compositionUnknown) return previousDebtView(r);
+    const periods = debt.schedule;
+    const unpaid = periods.filter(p => !p.paid);
+    return sheetChrome(h(debt.name), `<div class="detail-hero"><span>剩余待还（截图确认）</span>
+      <strong>${amount2(unpaid.reduce((sum, p) => sum + p.total, 0))}</strong>
+      <small>${unpaid.length} 期待还 · 仅有应还总金额，本金与息费构成未知</small></div>
+      ${note('截图不提供可靠的本金与利息拆分。点击期次可调整应还总额和日期；右侧可标记已还，或撤销已还。')}
+      ${group(periods.map((p, i) => `<div class="period-row">
+        ${action('period', `<span class="period-num">${i + 1}</span><span class="flex-copy"><strong>${h(p.date)}</strong><small>应还总额 · 息费构成未知</small></span><strong>${amount2(p.total)}</strong>`, 'period-open', `data-id="${h(debt.id)}" data-period="${h(p.id)}"`)}
+        ${action('paid', p.paid ? icon('check') : '', `paid-check ${p.paid ? 'checked' : ''}`, `data-id="${h(debt.id)}" data-period="${h(p.id)}" aria-label="${p.paid ? '撤销已还' : '标记已还'}" aria-pressed="${p.paid}"`)}
+      </div>`).join(''))}
+      ${action('delete-debt', '删除这份计划', 'danger full', `data-id="${h(debt.id)}"`)}`);
+  };
+
+  function ocrSummaryHtml() {
+    const result = ocrUndo?.result || [];
+    return sheetChrome('还款计划已核对', `<p class="sheet-subtitle">新增 ${result.filter(x => x.action === 'created').length} 条，更新 ${result.filter(x => x.action === 'updated').length} 条，跳过重复 ${result.filter(x => x.action === 'duplicate').length} 条。</p>
+      ${action('tw2-ocr-undo', '撤销本次导入', 'secondary full')}
+      ${action('tw2-ocr-done', '查看还款时间线', 'primary full')}
+      ${note('撤销只在本次操作后、其他还款计划尚未改变时有效。')}`);
+  }
+
+  function scenarioResultHtml() {
+    const rate = configuredWork().rate;
+    const r = Scenarios.compare(scenario, rate);
+    const signed = value => value > 0 ? '+' + amount2(value) : value < 0 ? '−' + amount2(-value) : amount2(0);
+    return `<div class="tw2-scenario-result">
+      <div><span>每月现金变化</span><strong>${r.cashDelta === null ? '资料不足' : signed(r.cashDelta)}</strong></div>
+      <div><span>时间价值参考（不是真实收入）</span><strong>${r.timeValue === null ? '资料不足' : signed(r.timeValue)}</strong></div>
+      <div><span>合计对比参考</span><strong>${r.combined === null ? '无法完整估算' : signed(r.combined)}</strong></div>
+      <p>${r.payback !== null ? `若额外一次投入 ${amount2(r.upfront)}，且每月差异不变，约 ${r.payback} 个月抵回投入。` : '没有可靠的正向月度优势时，不计算回本时间。'}</p>
+      <small>各项变化均相对于现在；正数代表新方案更有利。未填资料不默认设为 0。时间价值并不是可兑现的收入，也不是账户余额。</small>
+    </div>`;
+  }
+
+  function scenarioHtml() {
+    return sheetChrome('比较一种选择', `<p class="sheet-subtitle">以当前状况为方案 A，填写新方案 B 与现在的差异。花钱与占用时间分开看，结果默认不保存。</p>
+      <label class="tw2-input-label">想比较什么</label>
+      <select id="tw2-scenario-kind" class="tw2-scenario-select">
+        ${[['job','换工作'],['commute','改变通勤'],['car','买车或换交通方式'],['rent','租房或搬家']].map(([key,label]) => `<option value="${key}" ${scenario.kind === key ? 'selected' : ''}>${label}</option>`).join('')}
+      </select>
+      <div class="tw2-scenario-form">
+        <label>新方案每月收入增加／减少（元）<input type="number" data-tw2-scenario="income" step=".01" placeholder="例如 +800 或 -300" value="${h(scenario.income)}"></label>
+        <label>新方案每月新增费用（元）<input type="number" data-tw2-scenario="cost" min="0" step=".01" placeholder="交通、房租等；不重复填已计负担" value="${h(scenario.cost)}"></label>
+        <label>每月节省的时间（小时，可填负数）<input type="number" data-tw2-scenario="hours" step=".01" placeholder="省下填正数，多耗填负数" value="${h(scenario.hours)}"></label>
+        <label>一次性新增费用（元，可选）<input type="number" data-tw2-scenario="upfront" min="0" step=".01" placeholder="购车、搬家等一次投入" value="${h(scenario.upfront)}"></label>
+      </div>
+      <div id="tw2-scenario-result">${scenarioResultHtml()}</div>
+      ${note('输入 0 表示确认没有变化；留空表示未知。未来变化仅为情景假设，不强迫你记录日常流水。')}`);
+  }
+
   renderSheet = function timeworth2Sheet() {
-    if (!route || !['tw2-settings', 'tw2-reserve', 'tw2-history', 'tw2-wishes'].includes(route.type)) {
+    if (!route || !['tw2-settings', 'tw2-reserve', 'tw2-history', 'tw2-about', 'tw2-wishes', 'tw2-ocr', 'tw2-ocr-summary', 'tw2-scenario'].includes(route.type)) {
       oldRenderSheet(); return;
     }
     let html;
     if (route.type === 'tw2-settings') html = settingsHtml();
     else if (route.type === 'tw2-history') html = historyHtml();
+    else if (route.type === 'tw2-about') html = about2Html();
+    else if (route.type === 'tw2-ocr') html = ocrReviewHtml();
+    else if (route.type === 'tw2-ocr-summary') html = ocrSummaryHtml();
+    else if (route.type === 'tw2-scenario') html = scenarioHtml();
     else if (route.type === 'tw2-wishes') html = sheetChrome('心愿清单', `${state().wishes.map(w =>
       action('wish', `<span class="row-label">${h(w.name)}</span><strong>${amount2(w.price)}</strong>${chevron()}`, 'list-row', `data-id="${h(w.id)}"`)).join('') || '<p class="tw2-empty-line">还没有收藏心愿。</p>'}
       ${action('new-wish', '＋ 添加心愿', 'secondary full')}`);
@@ -220,8 +327,43 @@
         case 'tw2-work': open(newEntity('work')); break;
         case 'tw2-reserve': open({ type: 'tw2-reserve' }); break;
         case 'tw2-history': open({ type: 'tw2-history' }); break;
+        case 'tw2-about': open({ type: 'tw2-about' }); break;
         case 'tw2-future': navigate('plan'); break;
         case 'tw2-calculate': navigate('ledger'); break;
+        case 'tw2-scenario': open({ type: 'tw2-scenario' }); break;
+        case 'tw2-ocr': open({ type: 'tw2-ocr' }); break;
+        case 'tw2-ocr-pick': {
+          if (!window.TW_NATIVE || !window.TimeWorthHost?.postMessage) throw new Error('请在 Android 应用中选择截图');
+          if (ocrBusy) throw new Error('上一批截图仍在识别');
+          ocrBusy = true; ocrErrors = [];
+          window.TimeWorthHost.postMessage(JSON.stringify({ type: 'ocr-import' }));
+          renderSheet(); break;
+        }
+        case 'tw2-ocr-add': {
+          if (ocrRows.length >= 50) throw new Error('单批最多核对 50 条');
+          ocrRows.push({ platform: '花呗', date: '', dateHint: '', amount: '', source: '手动补充', selected: true });
+          renderSheet(); break;
+        }
+        case 'tw2-ocr-save': {
+          const selected = ocrRows.filter(item => item.selected);
+          if (!selected.length) throw new Error('请勾选至少一条还款');
+          const previous = M.clone(state().debts);
+          const { debts, changed } = O.applyConfirmed(previous, selected, M.uid);
+          state().debts = debts;
+          if (!M.save()) { state().debts = previous; throw new Error('本机存储失败，原还款计划未改变'); }
+          ocrUndo = { before: previous, after: JSON.stringify(debts), result: changed };
+          ocrRows = []; ocrErrors = [];
+          open({ type: 'tw2-ocr-summary' }); render(); break;
+        }
+        case 'tw2-ocr-undo': {
+          if (!ocrUndo || JSON.stringify(state().debts) !== ocrUndo.after)
+            throw new Error('还款计划已被其他操作修改，不能整体撤销。请逐条核对');
+          const current = state().debts;
+          state().debts = ocrUndo.before;
+          if (!M.save()) { state().debts = current; throw new Error('撤销保存失败，原数据未改变'); }
+          ocrUndo = null; navigate('plan'); toast('已撤销本次导入'); break;
+        }
+        case 'tw2-ocr-done': navigate('plan'); break;
         case 'tw2-wishes': open({ type: 'tw2-wishes' }); break;
         case 'tw2-add-wish': {
           const price = Number(calcPrice);
@@ -247,11 +389,57 @@
     if (result) result.innerHTML = calculationResult();
   });
   document.addEventListener('change', event => {
+    if (event.target.id === 'tw2-scenario-kind') {
+      scenario = { kind: event.target.value, income: '', cost: '', hours: '', upfront: '' };
+      renderSheet(); return;
+    }
+    if (event.target.dataset?.tw2OcrCheck !== undefined) {
+      const row = ocrRows[Number(event.target.dataset.tw2OcrCheck)];
+      if (row) row.selected = event.target.checked;
+      return;
+    }
+    if (event.target.dataset?.tw2OcrUpdate !== undefined) {
+      const row = ocrRows[Number(event.target.dataset.tw2OcrUpdate)];
+      if (row) row.updateId = event.target.value || undefined;
+      return;
+    }
     if (event.target.id === 'tw2-terms') {
       calcTerms = Number(event.target.value);
       const result = $('#tw2-calc-result'); if (result) result.innerHTML = calculationResult();
     }
   });
+
+  document.addEventListener('input', event => {
+    const scenarioKey = event.target.dataset?.tw2Scenario;
+    if (scenarioKey && ['income', 'cost', 'hours', 'upfront'].includes(scenarioKey)) {
+      scenario[scenarioKey] = event.target.value;
+      const result = $('#tw2-scenario-result'); if (result) result.innerHTML = scenarioResultHtml();
+      return;
+    }
+    const key = event.target.dataset?.tw2OcrField, index = Number(event.target.dataset?.index);
+    if (!key || !ocrRows[index] || !['platform', 'date', 'amount'].includes(key)) return;
+    ocrRows[index][key] = event.target.value;
+  });
+
+  window.__timeworth2OcrReceive = payload => {
+    ocrBusy = false;
+    if (!payload || payload.status === 'error' || payload.status === 'cancelled') {
+      ocrErrors.push(payload?.message || '截图读取失败，原计划未改变');
+    } else if (payload.status === 'done' && Array.isArray(payload.images)) {
+      for (const image of payload.images.slice(0, 10)) {
+        if (image.error) { ocrErrors.push(`${image.source || '截图'}：${image.error}`); continue; }
+        const rows = O.parseText(image.text || '', image.source || '截图');
+        if (!rows.length) ocrErrors.push(`${image.source || '截图'}：没有可靠的还款金额，可手动补充`);
+        for (const item of rows) {
+          if (ocrRows.length >= 50) break;
+          if (ocrRows.some(old => old.platform === item.platform && old.date === item.date && old.amount === item.amount)) continue;
+          ocrRows.push({ ...item, selected: true });
+        }
+      }
+    } else ocrErrors.push('识别结果异常，请重新导入');
+    if (route?.type === 'tw2-ocr') renderSheet();
+    else toast('截图识别已结束，打开未来页继续确认');
+  };
 
   const validateLegacyBackup = validateBackup;
   validateBackup = function timeworth2ValidateBackup(payload) {

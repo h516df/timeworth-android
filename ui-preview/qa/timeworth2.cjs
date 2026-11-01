@@ -36,7 +36,7 @@ function createHarness() {
       balance: () => 0, round: v => Math.round((v + Number.EPSILON) * 100) / 100
     },
     navs: [['home', '工资'], ['ledger', '账本'], ['plan', '计划'], ['profile', '设置']],
-    render: () => {}, renderSheet: () => {}, persist: () => {}, toast: () => {}, validateBackup: () => {},
+    render: () => {}, renderSheet: () => {}, debtView: () => '', persist: () => {}, toast: () => {}, validateBackup: () => {},
     home: () => '', ledger: () => '', plan: () => '', open: () => {}, close: () => {},
     action: (name, label, cls = '', extra = '') => `<button data-action="${name}" class="${cls}" ${extra}>${label}</button>`,
     h: input => String(input).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;'),
