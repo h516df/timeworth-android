@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 51,
+  "revision": 52,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -596,6 +596,27 @@
       "updated_at": 1792755912,
       "history": [],
       "handoff": "PR17 reconciled with main e325159 using a history-preserving merge commit 7a8a863; no PR merged. Imported Android/UI/release paths are byte-identical to main; registry retains original base so inherited paths are explicitly reserved. Historical main publication workflow preserved byte-for-byte and not executed. Daily Android signed build run39947865851 passed on final policy7a8a863 and producte325159, with separate credential-free build and protected environment signing. Previous independent Linux original-key recovery run39941997764 remains valid; original certificate unchanged. Legacy repository Secrets preserved until review, main integration and main verification. Recovery credentials outside GitHub still only current-user DPAPI; independent safe destination missing. No release, installation, billing, visibility, authorization or real-data changes."
+    },
+    "timeworth2-core-20261101": {
+      "owner": "chatgpt-timeworth2-20261101",
+      "workspace": "cloud-timeworth2-20261101",
+      "batch": "timeworth2-20261101",
+      "role": "work",
+      "branch": "codex/timeworth2-core-20261101",
+      "scopes": [
+        "docs/tasks/timeworth2-core-20261101.md",
+        "ui-preview/dist/timeworth2.css",
+        "ui-preview/dist/timeworth2.html",
+        "ui-preview/dist/timeworth2.js",
+        "ui-preview/qa/timeworth2.cjs"
+      ],
+      "base": "e3251591bbdc8459c05d646fd2dd42a2371682f8",
+      "head": "e3251591bbdc8459c05d646fd2dd42a2371682f8",
+      "status": "active",
+      "generation": 1,
+      "lease_until": 1793522855,
+      "updated_at": 1793515655,
+      "history": []
     }
   },
   "batches": {
@@ -628,6 +649,9 @@
       "integrator": "delivery-adoption-integration-20261021"
     },
     "signing-readiness-20261022": {
+      "status": "open"
+    },
+    "timeworth2-20261101": {
       "status": "open"
     }
   }
