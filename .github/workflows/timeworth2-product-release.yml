@@ -22,7 +22,8 @@ permissions:
   contents: read
 concurrency:
   group: timeworth2-product-${{ github.ref }}
-  cancel-in-progress: false
+  # Obsolete PR builds are disposable; never cancel a real main-branch signing/release.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
   build:
     runs-on: ubuntu-24.04
