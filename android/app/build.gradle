@@ -47,6 +47,9 @@ tasks.named('preBuild').configure { dependsOn 'bundleProduct' }
 dependencies {
     implementation 'androidx.webkit:webkit:1.13.0'
     implementation 'androidx.core:core:1.15.0'
+    // ML Kit transitively mixes stdlib 1.8 with old 1.6 JDK extension jars.
+    // Align all Kotlin stdlib modules; the 1.8 JDK extension artifacts are empty shims.
+    implementation platform('org.jetbrains.kotlin:kotlin-bom:1.8.22')
     // Bundled Chinese model: OCR works on first launch without a paid API or model download.
     implementation 'com.google.mlkit:text-recognition-chinese:16.0.1'
 }
