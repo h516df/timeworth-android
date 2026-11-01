@@ -11,7 +11,7 @@
   };
   function compare(input, hourlyRate) {
     const income = number(input.income, -9999999, 9999999);
-    const monthlyCost = number(input.cost, 0, 9999999);
+    const monthlyCost = number(input.cost, -9999999, 9999999);
     const hoursSaved = number(input.hours, -744, 744);
     const upfront = number(input.upfront, 0, 9999999);
     const cashDelta = income !== null && monthlyCost !== null ? Math.round((income - monthlyCost) * 100) / 100 : null;

@@ -282,7 +282,7 @@
       </select>
       <div class="tw2-scenario-form">
         <label>新方案每月收入增加／减少（元）<input type="number" data-tw2-scenario="income" step=".01" placeholder="例如 +800 或 -300" value="${h(scenario.income)}"></label>
-        <label>新方案每月新增费用（元）<input type="number" data-tw2-scenario="cost" min="0" step=".01" placeholder="交通、房租等；不重复填已计负担" value="${h(scenario.cost)}"></label>
+        <label>新方案每月费用增加／减少（元）<input type="number" data-tw2-scenario="cost" step=".01" placeholder="例如 -200 表示租金每月省 200 元" value="${h(scenario.cost)}"></label>
         <label>每月节省的时间（小时，可填负数）<input type="number" data-tw2-scenario="hours" step=".01" placeholder="省下填正数，多耗填负数" value="${h(scenario.hours)}"></label>
         <label>一次性新增费用（元，可选）<input type="number" data-tw2-scenario="upfront" min="0" step=".01" placeholder="购车、搬家等一次投入" value="${h(scenario.upfront)}"></label>
       </div>

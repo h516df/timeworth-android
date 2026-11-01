@@ -27,10 +27,17 @@ test('no meaningful wage data means no monetized time', () => {
 });
 
 test('invalid, negative one-time expense and over-limit fields are rejected', () => {
-  const result = S.compare({ income: '100000000', cost: '-4', hours: '1.234', upfront: '-100' }, 30);
+  const result = S.compare({ income: '100000000', cost: '99999999', hours: '1.234', upfront: '-100' }, 30);
   assert.equal(result.cashDelta, null);
   assert.equal(result.timeValue, null);
   assert.equal(result.upfront, null);
+});
+
+test('moving to a cheaper home can explicitly model lower monthly costs', () => {
+  const result = S.compare({ income: '0', cost: '-200', hours: '0', upfront: '600' }, 40);
+  assert.equal(result.cashDelta, 200);
+  assert.equal(result.combined, 200);
+  assert.equal(result.payback, 3);
 });
 
 test('payback is never invented for nonpositive monthly advantage', () => {
