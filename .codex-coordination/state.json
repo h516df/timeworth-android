@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 63,
+  "revision": 64,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -614,10 +614,10 @@
       ],
       "base": "e3251591bbdc8459c05d646fd2dd42a2371682f8",
       "head": "5185bfc8550b0e81d724af1f462262674d1b263a",
-      "status": "ready",
+      "status": "integrated",
       "generation": 1,
       "lease_until": 0,
-      "updated_at": 1793518447,
+      "updated_at": 1793522504,
       "history": [],
       "handoff": "https://github.com/h516df/timeworth-android/pull/18 — draft UI staging; CI cloud development 41285194641, legacy UI 41285194618, TimeWorth2 Chromium 41285194669 passed; real Android integration/APK/OCR/upgrade not verified."
     },
@@ -669,10 +669,10 @@
       ],
       "base": "5185bfc8550b0e81d724af1f462262674d1b263a",
       "head": "5185bfc8550b0e81d724af1f462262674d1b263a",
-      "status": "active",
+      "status": "integrated",
       "generation": 1,
-      "lease_until": 1793529664,
-      "updated_at": 1793522478,
+      "lease_until": 0,
+      "updated_at": 1793522504,
       "history": [],
       "receipt": {
         "source_sha": "5185bfc8550b0e81d724af1f462262674d1b263a",
@@ -728,7 +728,7 @@
       "integrator": "signing-integration-20261101"
     },
     "timeworth2-20261101": {
-      "status": "sealed",
+      "status": "completed",
       "integrator": "timeworth2-ui-integration-20261101"
     }
   }
