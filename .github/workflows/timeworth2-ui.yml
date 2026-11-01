@@ -1,0 +1,40 @@
+name: TimeWorth 2.0 browser checks
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/timeworth2-ui.yml'
+      - 'ui-preview/dist/timeworth2.*'
+      - 'ui-preview/qa/timeworth2*'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: tw2-ui-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  chromium:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: ui-preview/package-lock.json
+      - run: npm ci --ignore-scripts --prefix ui-preview
+      - run: npx --no-install playwright install --with-deps chromium
+        working-directory: ui-preview
+      - run: node ui-preview/qa/timeworth2.cjs
+      - run: node ui-preview/qa/timeworth2-browser.cjs
+        env:
+          ARTIFACT_DIR: ${{ runner.temp }}/tw2-screenshots
+      - if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: tw2-ui-${{ github.run_id }}
+          path: ${{ runner.temp }}/tw2-screenshots
+          retention-days: 3
+          if-no-files-found: ignore
