@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 61,
+  "revision": 62,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -656,6 +656,24 @@
           }
         ]
       }
+    },
+    "timeworth2-ui-integration-20261101": {
+      "owner": "chatgpt-tw2-ui-integrator-20261101",
+      "workspace": "cloud-tw2-ui-integration-20261101",
+      "batch": "timeworth2-20261101",
+      "role": "integrator",
+      "branch": "codex/timeworth2-ui-integration-20261101",
+      "scopes": [
+        "@integration",
+        "@publish"
+      ],
+      "base": "5185bfc8550b0e81d724af1f462262674d1b263a",
+      "head": "5185bfc8550b0e81d724af1f462262674d1b263a",
+      "status": "active",
+      "generation": 1,
+      "lease_until": 1793529664,
+      "updated_at": 1793522464,
+      "history": []
     }
   },
   "batches": {
@@ -692,7 +710,8 @@
       "integrator": "signing-integration-20261101"
     },
     "timeworth2-20261101": {
-      "status": "open"
+      "status": "sealed",
+      "integrator": "timeworth2-ui-integration-20261101"
     }
   }
 }
