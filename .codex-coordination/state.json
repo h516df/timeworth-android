@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 62,
+  "revision": 63,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -672,8 +672,26 @@
       "status": "active",
       "generation": 1,
       "lease_until": 1793529664,
-      "updated_at": 1793522464,
-      "history": []
+      "updated_at": 1793522478,
+      "history": [],
+      "receipt": {
+        "source_sha": "5185bfc8550b0e81d724af1f462262674d1b263a",
+        "members": {
+          "timeworth2-core-20261101": "5185bfc8550b0e81d724af1f462262674d1b263a"
+        },
+        "checks": [
+          {
+            "name": "TimeWorth 2.0 Chromium 360/320 large-font dark and interaction run 41285194669 passed on member source",
+            "status": "passed",
+            "source_sha": "5185bfc8550b0e81d724af1f462262674d1b263a"
+          },
+          {
+            "name": "Legacy UI 41285194618 and cloud development 41285194641 passed; 7 focused finance and migration assertions",
+            "status": "passed",
+            "source_sha": "5185bfc8550b0e81d724af1f462262674d1b263a"
+          }
+        ]
+      }
     }
   },
   "batches": {
