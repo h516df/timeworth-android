@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 69,
+  "revision": 70,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -728,12 +728,40 @@
         "@publish"
       ],
       "base": "6b41d80791c873d8baea6ca8a8f76596a0205c93",
-      "head": "6b41d80791c873d8baea6ca8a8f76596a0205c93",
+      "head": "f5350420f017502720ccdd61e2765483d694cd31",
       "status": "active",
       "generation": 1,
       "lease_until": 1793531439,
-      "updated_at": 1793524239,
-      "history": []
+      "updated_at": 1793524253,
+      "history": [],
+      "receipt": {
+        "source_sha": "f5350420f017502720ccdd61e2765483d694cd31",
+        "members": {
+          "timeworth2-product-20261101": "f5350420f017502720ccdd61e2765483d694cd31"
+        },
+        "checks": [
+          {
+            "name": "Cloud development / 41291662157",
+            "status": "passed",
+            "source_sha": "f5350420f017502720ccdd61e2765483d694cd31"
+          },
+          {
+            "name": "UI 05 / 41291662159",
+            "status": "passed",
+            "source_sha": "f5350420f017502720ccdd61e2765483d694cd31"
+          },
+          {
+            "name": "TimeWorth 2.0 Chromium / 41291662167",
+            "status": "passed",
+            "source_sha": "f5350420f017502720ccdd61e2765483d694cd31"
+          },
+          {
+            "name": "Android signed-input build and package identity / 41291662214",
+            "status": "passed",
+            "source_sha": "f5350420f017502720ccdd61e2765483d694cd31"
+          }
+        ]
+      }
     }
   },
   "batches": {
