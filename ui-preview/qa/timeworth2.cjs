@@ -27,7 +27,11 @@ function createHarness() {
     state: () => state,
     M: {
       month: () => '2026-11',
-      shiftMonth: (month, n) => `${2026}-${String(Number(month.slice(5)) + n).padStart(2, '0')}`,
+      shiftMonth: (month, n) => {
+        const [year, current] = month.split('-').map(Number);
+        const result = new Date(year, current - 1 + n, 1);
+        return `${result.getFullYear()}-${String(result.getMonth() + 1).padStart(2, '0')}`;
+      },
       due: () => 500, installments: () => [{ debtId: 'loan', name: '借款', date: '2026-11-15', total: 500, paid: false }],
       balance: () => 0, round: v => Math.round((v + Number.EPSILON) * 100) / 100
     },
@@ -81,11 +85,42 @@ test('purchase calculator is transient and refuses to fabricate a result with mi
   assert.match(h.resultNode.innerHTML, /需要先设置有效的工资/);
 });
 
+test('installment estimates use entered actual amounts, flag invalid precision and include work-time cost', () => {
+  const h = createHarness();
+  const input = (id, value) => h.handlers.input[0]({ target: { id, value } });
+  const click = dataset => h.handlers.click[0]({ target: { closest: () => ({ dataset }) } });
+  click({ tw2Mode: 'installment' });
+  input('tw2-calc-price', '1200');
+  assert.match(h.resultNode.innerHTML, /每期实际应还/);
+  input('tw2-payment', '220');
+  assert.match(h.resultNode.innerHTML, /1,320.00/);
+  assert.match(h.resultNode.innerHTML, /工作时间/);
+  input('tw2-payment', '220.123');
+  assert.match(h.resultNode.innerHTML, /核对每期金额/);
+  input('tw2-payment', '9999999');
+  h.handlers.change[0]({ target: { id: 'tw2-terms', value: '36' } });
+  assert.match(h.resultNode.innerHTML, /总还款超出计算范围/);
+  input('tw2-calc-price', '1.001');
+  assert.match(h.resultNode.innerHTML, /最多保留两位小数/);
+  assert.equal(h.state.transactions.length, 1);
+});
+
 test('month plan only displays confirmed scheduled obligations', () => {
   const h = createHarness();
   assert.match(h.context.plan(), /还款时间线/);
   assert.match(h.context.plan(), /借款/);
   assert.match(h.context.plan(), /不推测实际付款/);
+  assert.match(h.context.plan(), /下一月/);
+  h.handlers.click[0]({ target: { closest: () => ({ dataset: { tw2Step: '1' } }) } });
+  assert.match(h.context.plan(), /2027/);
+});
+
+test('goal date estimates require an explicit monthly amount', () => {
+  const h = createHarness();
+  h.state.goals.push({ id: 'goal', name: '旅行', target: 5000, monthly: 1000 });
+  assert.match(h.context.plan(), /预计还需 5 个月/);
+  h.state.goals[0].monthly = 0;
+  assert.match(h.context.plan(), /未设置每月存入计划/);
 });
 
 test('optional reserve survives valid backups and invalid values are rejected', () => {

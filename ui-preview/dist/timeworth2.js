@@ -27,6 +27,11 @@
     return { salary: w.salary, due, reserve, cost, total: M.round(w.salary - due - reserve - cost) };
   };
   const safeMoney = value => Number.isFinite(value) ? amount2(value) : '—';
+  const validMoneyInput = (raw, min = .01) => {
+    if (typeof raw !== 'string' || !/^\d{1,7}(?:\.\d{1,2})?$/.test(raw.trim())) return null;
+    const amount = Number(raw);
+    return Number.isFinite(amount) && amount >= min && amount <= 9999999 ? amount : null;
+  };
   let calcPrice = '', calcMode = 'once', calcTerms = 6, calcPayment = '', calcExtra = '';
   let futureMonth = M.month();
 
@@ -66,10 +71,11 @@
   };
 
   function calculationResult() {
-    const price = Number(calcPrice), work = configuredWork();
-    if (calcPrice === '' || !Number.isFinite(price) || price <= 0) {
+    if (calcPrice === '') {
       return '<p class="tw2-placeholder">输入价格后，立即换算成工作时间。</p>';
     }
+    const price = validMoneyInput(calcPrice), work = configuredWork();
+    if (price === null) return '<p class="tw2-input-note">请输入 0.01 至 9,999,999 元的价格，最多保留两位小数。</p>';
     if (work.rate === null) {
       return `<p class="tw2-placeholder">需要先设置有效的工资和工作时间。</p>${action('tw2-work', '完善工作资料', 'tw2-subtle-button')}`;
     }
@@ -84,13 +90,18 @@
       return renderTime + (available ? `<div class="tw2-impact"><span>如果本月一次付清</span><strong>${amount2(M.round(available.total - price))}</strong>
         <small>支付后的估算可安排金额，非账户余额</small></div>` : '');
     }
-    if (calcPayment === '' || !(Number(calcPayment) > 0) || Number(calcExtra) < 0) {
+    if (calcPayment === '') {
       return renderTime + '<p class="tw2-input-note">填写每期实际应还，才能比较总息费。不会假设一定免息。</p>';
     }
-    const payment = Number(calcPayment), extra = calcExtra === '' ? 0 : Number(calcExtra);
+    const payment = validMoneyInput(calcPayment), extra = calcExtra === '' ? 0 : validMoneyInput(calcExtra, 0);
+    if (payment === null || extra === null) {
+      return renderTime + '<p class="tw2-input-note">请核对每期金额和首期费用（0 至 9,999,999 元，最多两位小数）。</p>';
+    }
     const total = M.round(payment * calcTerms + extra), difference = M.round(total - price);
+    if (!Number.isFinite(total) || total > 99999999) return renderTime + '<p class="tw2-input-note">总还款超出计算范围，请核对金额。</p>';
     return renderTime + `<div class="tw2-impact"><span>${calcTerms} 期合计应还</span><strong>${amount2(total)}</strong>
-      <small>${difference >= 0 ? '比一次付清多付' : '比一次付清少付'} ${amount2(Math.abs(difference))} · 按输入的含费金额计算</small></div>`;
+      <small>${difference >= 0 ? '比一次付清多付' : '比一次付清少付'} ${amount2(Math.abs(difference))} · 按输入的含费金额计算</small>
+      <small>按当前时薪，分期总还款约需 ${money2(total / work.rate)} 小时的工作时间</small></div>`;
   }
 
   ledger = function timeworth2Calculator() {
@@ -116,11 +127,15 @@
 
   plan = function timeworth2Future() {
     const rows = M.installments(futureMonth).sort((a, b) => a.date.localeCompare(b.date));
-    const months = [M.month(), M.shiftMonth(M.month(), 1), M.shiftMonth(M.month(), 2)];
+    const months = [-1, 0, 1].map(n => M.shiftMonth(futureMonth, n));
     return pageHeader('未来', '看清计划，慢慢靠近。') +
       `<section class="tw2-future-section">
         <div class="tw2-line-head"><h2>还款时间线</h2>${action('new-debt', '＋ 添加', 'tw2-inline')}</div>
-        <div class="tw2-months">${months.map(m => `<button data-tw2-month="${m}" class="${futureMonth === m ? 'active' : ''}">${Number(m.slice(5))}月</button>`).join('')}</div>
+        <div class="tw2-months">
+          <button class="tw2-month-step" data-tw2-step="-1" aria-label="上一月">‹</button>
+          ${months.map(m => `<button data-tw2-month="${m}" aria-pressed="${futureMonth === m}" class="${futureMonth === m ? 'active' : ''}">${Number(m.slice(5))}月${m.slice(0,4) !== futureMonth.slice(0,4) ? `<small>${m.slice(0,4)}</small>` : ''}</button>`).join('')}
+          <button class="tw2-month-step" data-tw2-step="1" aria-label="下一月">›</button>
+        </div>
         <div class="tw2-timeline">${rows.length ? rows.map(p =>
           action('debt', `<span class="tw2-dot"></span><span class="tw2-date">${Number(p.date.slice(-2))}日</span>
           <span class="tw2-repay-name">${h(p.name)}<small>${p.paid ? '已处理' : '待还款'}</small></span>
@@ -132,9 +147,11 @@
         <div class="tw2-line-head"><h2>我的期待</h2>${action('new-goal', '＋ 添加目标', 'tw2-inline')}</div>
         ${state().goals.length ? state().goals.slice(0, 3).map(g => {
           const progress = M.balance(g), pct = Math.min(100, Math.max(0, progress / g.target * 100));
+          const monthsLeft = g.monthly > 0 ? Math.ceil(Math.max(0, g.target - progress) / g.monthly) : null;
+          const timing = progress >= g.target ? '已达到目标' : monthsLeft === null ? '未设置每月存入计划' : `按每月存入 ${amount2(g.monthly)}，预计还需 ${monthsLeft} 个月`;
           return action('goal', `<span class="tw2-goal-name">${h(g.name)}</span><strong>${Math.floor(pct)}%</strong>
             <span class="tw2-progress"><i style="width:${pct}%"></i></span>
-            <small>${amount2(progress)} / ${amount2(g.target)} · 预计时间仅供参考</small>`, 'tw2-goal', `data-id="${h(g.id)}"`);
+            <small>${amount2(progress)} / ${amount2(g.target)} · ${timing}</small>`, 'tw2-goal', `data-id="${h(g.id)}"`);
         }).join('') : `<p class="tw2-empty-line">暂时没有存钱目标。</p>${action('new-goal', '＋ 添加一个目标', 'tw2-subtle-button')}`}
         <div class="tw2-wishes">${action('tw2-wishes', `心愿清单 <strong>${state().wishes.length} 件</strong> ${chevron()}`, 'tw2-next-repay')}</div>
       </section>`;
@@ -165,7 +182,7 @@
   function historyHtml() {
     const history = state().transactions.slice().sort((a, b) => b.date.localeCompare(a.date));
     return sheetChrome('旧版历史记录', `<p class="sheet-subtitle">2.0 不再记账。以下记录只供查看或备份，不参与时薪与可安排金额计算。</p>
-      ${history.length ? group(history.map(t => `<div class="tw2-legacy-row"><div><strong>${h(t.name)}</strong><small>${h(t.date)} · ${h(t.account || '未知来源')}</small></div><span>${t.type === 'refund' ? '+' : '−'}${amount2(t.amount)}</span></div>`).join(''))
+      ${history.length ? group(history.map(t => `<div class="tw2-legacy-row"><div><strong>${h(t.name)}</strong><small>${h(t.date)} · ${h(t.account || '未知来源')} · ${h(({ income: '收入', refund: '退款', expense: '支出', transfer: '转账' })[t.type] || '旧记录')}</small></div><span>${['income', 'refund'].includes(t.type) ? '+' : t.type === 'transfer' ? '' : '−'}${amount2(t.amount)}</span></div>`).join(''))
         : '<p class="tw2-empty-line">没有旧版消费记录。</p>'}
       ${action('export', '导出完整备份', 'primary full')}`);
   }
@@ -197,6 +214,7 @@
     try {
       if (b.dataset.tw2Mode) { calcMode = b.dataset.tw2Mode; render(); return; }
       if (b.dataset.tw2Month) { futureMonth = b.dataset.tw2Month; render(); return; }
+      if (b.dataset.tw2Step) { futureMonth = M.shiftMonth(futureMonth, Number(b.dataset.tw2Step)); render(); return; }
       switch (b.dataset.action) {
         case 'tw2-settings': open({ type: 'tw2-settings' }); break;
         case 'tw2-work': open(newEntity('work')); break;
