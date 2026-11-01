@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 70,
+  "revision": 71,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -728,37 +728,52 @@
         "@publish"
       ],
       "base": "6b41d80791c873d8baea6ca8a8f76596a0205c93",
-      "head": "f5350420f017502720ccdd61e2765483d694cd31",
+      "head": "125d75a1d5e6e4942dae974f5fc0cba2893c078f",
       "status": "active",
       "generation": 1,
       "lease_until": 1793531439,
-      "updated_at": 1793524253,
+      "updated_at": 1793524652,
       "history": [],
       "receipt": {
-        "source_sha": "f5350420f017502720ccdd61e2765483d694cd31",
+        "source_sha": "125d75a1d5e6e4942dae974f5fc0cba2893c078f",
         "members": {
           "timeworth2-product-20261101": "f5350420f017502720ccdd61e2765483d694cd31"
         },
         "checks": [
           {
-            "name": "Cloud development / 41291662157",
+            "name": "Merge tree equals previously verified PR head f535042",
             "status": "passed",
-            "source_sha": "f5350420f017502720ccdd61e2765483d694cd31"
+            "source_sha": "125d75a1d5e6e4942dae974f5fc0cba2893c078f"
           },
           {
-            "name": "UI 05 / 41291662159",
+            "name": "Cloud development main / 41291992432",
             "status": "passed",
-            "source_sha": "f5350420f017502720ccdd61e2765483d694cd31"
+            "source_sha": "125d75a1d5e6e4942dae974f5fc0cba2893c078f"
           },
           {
-            "name": "TimeWorth 2.0 Chromium / 41291662167",
+            "name": "UI 05 regression main / 41291992480",
             "status": "passed",
-            "source_sha": "f5350420f017502720ccdd61e2765483d694cd31"
+            "source_sha": "125d75a1d5e6e4942dae974f5fc0cba2893c078f"
           },
           {
-            "name": "Android signed-input build and package identity / 41291662214",
+            "name": "TimeWorth 2 Chromium same tree / 41291662167",
             "status": "passed",
-            "source_sha": "f5350420f017502720ccdd61e2765483d694cd31"
+            "source_sha": "125d75a1d5e6e4942dae974f5fc0cba2893c078f"
+          },
+          {
+            "name": "Android build + original sign + release main / 41291992451",
+            "status": "passed",
+            "source_sha": "125d75a1d5e6e4942dae974f5fc0cba2893c078f"
+          },
+          {
+            "name": "Public APK 47,273,788 bytes SHA256 verified",
+            "status": "passed",
+            "source_sha": "125d75a1d5e6e4942dae974f5fc0cba2893c078f"
+          },
+          {
+            "name": "Public update manifest anonymous GET / app-releases 966a74a",
+            "status": "passed",
+            "source_sha": "125d75a1d5e6e4942dae974f5fc0cba2893c078f"
           }
         ]
       }
