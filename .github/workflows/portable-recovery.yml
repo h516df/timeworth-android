@@ -1,0 +1,77 @@
+name: Portable original-key recovery
+on:
+  workflow_call:
+permissions:
+  contents: read
+concurrency:
+  group: portable-original-key-recovery
+  cancel-in-progress: false
+jobs:
+  backup:
+    if: github.repository == 'h516df/timeworth-android' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/codex/cloud-signing-prep-20261022')
+    environment: android-signing
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            cloud/ArchiveOriginal.java
+            cloud/RecoveryVerify.java
+            release/signing-identity.json
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Compile trusted recovery tools without signing credentials
+        run: |
+          umask 077
+          mkdir "$RUNNER_TEMP/recovery-classes" "$RUNNER_TEMP/portable-ciphertext"
+          javac -d "$RUNNER_TEMP/recovery-classes" cloud/ArchiveOriginal.java cloud/RecoveryVerify.java
+      - name: Verify existing signer and encrypt exact original bytes in memory
+        env:
+          SIGNING_KEYSTORE_BASE64: ${{ secrets.TIMEWORTH_ORIGINAL_KEYSTORE_BASE64 }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.TIMEWORTH_ORIGINAL_KEYSTORE_PASSWORD }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.TIMEWORTH_ORIGINAL_KEYSTORE_PASSWORD }}
+          RECOVERY_KEY_BASE64: ${{ secrets.TIMEWORTH_RECOVERY_KEY_BASE64 }}
+        run: java -cp "$RUNNER_TEMP/recovery-classes" ArchiveOriginal "$RUNNER_TEMP/portable-ciphertext/timeworth-android.signing.aesgcm" release/signing-identity.json
+      - name: Transfer only authenticated ciphertext to the independent restore machine
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: timeworth-portable-${{ github.run_id }}
+          path: ${{ runner.temp }}/portable-ciphertext/*.aesgcm
+          if-no-files-found: error
+          retention-days: 1
+      - name: Remove this job's encrypted temporary output
+        if: always()
+        run: rm -f "$RUNNER_TEMP/portable-ciphertext/timeworth-android.signing.aesgcm"
+  restore:
+    needs: backup
+    environment: android-signing
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            cloud/RecoveryVerify.java
+            release/signing-identity.json
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        with:
+          name: timeworth-portable-${{ github.run_id }}
+          path: ${{ runner.temp }}/portable-ciphertext
+      - name: Restore and prove original bytes and private key on a fresh Linux machine
+        env:
+          RECOVERY_KEY_BASE64: ${{ secrets.TIMEWORTH_RECOVERY_KEY_BASE64 }}
+        run: java cloud/RecoveryVerify.java "$RUNNER_TEMP/portable-ciphertext/timeworth-android.signing.aesgcm" release/signing-identity.json
+      - name: Remove this job's encrypted temporary input
+        if: always()
+        run: rm -f "$RUNNER_TEMP/portable-ciphertext/timeworth-android.signing.aesgcm"
