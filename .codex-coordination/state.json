@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 71,
+  "revision": 72,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -710,10 +710,10 @@
       ],
       "base": "6b41d80791c873d8baea6ca8a8f76596a0205c93",
       "head": "f5350420f017502720ccdd61e2765483d694cd31",
-      "status": "ready",
+      "status": "integrated",
       "generation": 1,
       "lease_until": 0,
-      "updated_at": 1793524229,
+      "updated_at": 1793524662,
       "history": [],
       "handoff": "PR #19 head f5350420f017502720ccdd61e2765483d694cd31; 2.0 core, native OCR, scenarios, migration and protected release workflow. Exact-head checks passed: Cloud development 41291662157, UI05 browser 41291662159, TW2 Chromium 41291662167, Android unsigned build/package 41291662214. Physical phone and real screenshots unverified. Integrator to merge and publish signed APK, then update public manifest."
     },
@@ -729,10 +729,10 @@
       ],
       "base": "6b41d80791c873d8baea6ca8a8f76596a0205c93",
       "head": "125d75a1d5e6e4942dae974f5fc0cba2893c078f",
-      "status": "active",
+      "status": "integrated",
       "generation": 1,
-      "lease_until": 1793531439,
-      "updated_at": 1793524652,
+      "lease_until": 0,
+      "updated_at": 1793524662,
       "history": [],
       "receipt": {
         "source_sha": "125d75a1d5e6e4942dae974f5fc0cba2893c078f",
@@ -776,6 +776,16 @@
             "source_sha": "125d75a1d5e6e4942dae974f5fc0cba2893c078f"
           }
         ]
+      },
+      "publication": {
+        "source_sha": "125d75a1d5e6e4942dae974f5fc0cba2893c078f",
+        "url": "https://github.com/h516df/timeworth-android/releases/download/v2.0.0/timeworth-2.0.0.apk",
+        "releaseTag": "v2.0.0",
+        "releaseId": 430472090,
+        "assetId": 697848060,
+        "sha256": "ea663a3eaba669ddbd07c01c0f9e53826f66f0b98f27eeb4b9b98096a16f58c5",
+        "size": 47273788,
+        "updateManifestCommit": "966a74a805aa8b68cb2e416ed1044404fb5fc991"
       }
     }
   },
@@ -817,7 +827,7 @@
       "integrator": "timeworth2-ui-integration-20261101"
     },
     "timeworth2-product-20261101": {
-      "status": "sealed",
+      "status": "completed",
       "integrator": "timeworth2-integrator-20261101"
     }
   }
