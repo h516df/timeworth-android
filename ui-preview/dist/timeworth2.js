@@ -151,7 +151,7 @@
       </section>
       <section class="tw2-future-section">
         <div class="tw2-line-head"><h2>我的期待</h2>${action('new-goal', '＋ 添加目标', 'tw2-inline')}</div>
-        ${state().goals.length ? state().goals.slice(0, 3).map(g => {
+        ${state().goals.length ? state().goals.map(g => {
           const progress = M.balance(g), pct = Math.min(100, Math.max(0, progress / g.target * 100));
           const monthsLeft = g.monthly > 0 ? Math.ceil(Math.max(0, g.target - progress) / g.monthly) : null;
           const timing = progress >= g.target ? '已达到目标' : monthsLeft === null ? '未设置每月存入计划' : `按每月存入 ${amount2(g.monthly)}，预计还需 ${monthsLeft} 个月`;
