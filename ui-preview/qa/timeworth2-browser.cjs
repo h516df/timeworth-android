@@ -46,7 +46,7 @@ const server = http.createServer((request, response) => {
     assert.doesNotMatch(await page.locator('#app-content').innerText(), /最近的日常|消费流水/);
     await page.screenshot({ path: path.join(artifacts, 'timeworth2-home-360.png') });
 
-    await page.locator('[data-tab="ledger"]').click();
+    await page.locator('#tab-bar [data-tab="ledger"]').click();
     await page.locator('#tw2-calc-price').fill('1200');
     assert.match(await page.locator('#tw2-calc-result').innerText(), /需要工作/);
     await page.locator('[data-tw2-mode="installment"]').click();
@@ -55,7 +55,7 @@ const server = http.createServer((request, response) => {
     assert.match(await page.locator('#app-content').innerText(), /默认不保存/);
     await page.screenshot({ path: path.join(artifacts, 'timeworth2-calculator-360.png') });
 
-    await page.locator('[data-tab="plan"]').click();
+    await page.locator('#tab-bar [data-tab="plan"]').click();
     assert.match(await page.locator('#app-content').innerText(), /还款时间线/);
     await page.locator('[data-tw2-step="1"]').click();
     assert.match(await page.locator('#app-content').innerText(), /目标/);
