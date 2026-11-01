@@ -86,6 +86,7 @@ body.tw2-ui[data-theme="night"] {
 .tw2-ui .tw2-ocr-entry { margin: 17px 0 8px; }
 .tw2-ui .tw2-ocr-row { padding: 15px; margin: 13px 0; border-radius: 17px; background: var(--tw2-surface); border: 1px solid var(--tw2-line); }
 .tw2-ui .tw2-ocr-check { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; }
+.tw2-ui .tw2-ocr-row > label.tw2-ocr-check { flex-direction: row; align-items: center; justify-content: flex-start; margin-top: 0; color: var(--tw2-ink); }
 .tw2-ui .tw2-ocr-check input { width: 20px; height: 20px; accent-color: var(--tw2-blue); }
 .tw2-ui .tw2-ocr-grid, .tw2-ui .tw2-scenario-form { display: grid; gap: 12px; margin-top: 14px; }
 .tw2-ui .tw2-ocr-grid label, .tw2-ui .tw2-scenario-form label, .tw2-ui .tw2-ocr-row > label { display: flex; flex-direction: column; gap: 6px; color: var(--tw2-secondary); font-size: 12px; }
