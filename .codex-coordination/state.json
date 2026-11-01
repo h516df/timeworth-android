@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 67,
+  "revision": 68,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -709,12 +709,13 @@
         "ui-preview"
       ],
       "base": "6b41d80791c873d8baea6ca8a8f76596a0205c93",
-      "head": "6b41d80791c873d8baea6ca8a8f76596a0205c93",
-      "status": "active",
+      "head": "f5350420f017502720ccdd61e2765483d694cd31",
+      "status": "ready",
       "generation": 1,
-      "lease_until": 1793529753,
-      "updated_at": 1793524221,
-      "history": []
+      "lease_until": 0,
+      "updated_at": 1793524229,
+      "history": [],
+      "handoff": "PR #19 head f5350420f017502720ccdd61e2765483d694cd31; 2.0 core, native OCR, scenarios, migration and protected release workflow. Exact-head checks passed: Cloud development 41291662157, UI05 browser 41291662159, TW2 Chromium 41291662167, Android unsigned build/package 41291662214. Physical phone and real screenshots unverified. Integrator to merge and publish signed APK, then update public manifest."
     }
   },
   "batches": {
