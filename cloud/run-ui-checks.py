@@ -25,7 +25,9 @@ def main():
     with ThreadingHTTPServer(('127.0.0.1', 0), handler) as server:
         thread = Thread(target=server.serve_forever, daemon=True)
         thread.start()
-        environment['PREVIEW_URL'] = f'http://127.0.0.1:{server.server_port}'
+        # Keep the v5 regression suite on its historical page. The Android/default
+        # index is now TimeWorth 2.0, which has intentionally removed ledger UI.
+        environment['PREVIEW_URL'] = f'http://127.0.0.1:{server.server_port}/legacy-05.html'
         try:
             for script in ['check-v4.cjs', 'focused-v4.cjs', 'monthly-v5.cjs']:
                 print('RUN browser check:', script, flush=True)

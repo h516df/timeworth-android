@@ -81,7 +81,7 @@ const server = http.createServer((request, response) => {
       { source: '截图 2', error: '图片读取失败' }
     ] }));
     assert.match(await page.locator('#sheet').innerText(), /图片读取失败/);
-    assert.match(await page.locator('#sheet').innerText(), /620.5/);
+    assert.equal(await page.locator('[data-tw2-ocr-field="amount"]').inputValue(), '620.5');
     await page.screenshot({ path: path.join(artifacts, 'timeworth2-ocr-review-360.png') });
     await page.locator('#sheet [data-action="tw2-ocr-save"]').click();
     assert.match(await page.locator('#sheet').innerText(), /新增 1 条/);
