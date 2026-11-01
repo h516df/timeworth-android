@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 57,
+  "revision": 58,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -613,13 +613,13 @@
         "ui-preview/qa/timeworth2.cjs"
       ],
       "base": "e3251591bbdc8459c05d646fd2dd42a2371682f8",
-      "head": "b7c41cfc713794ebd0d6e8c1af363986b8a6a481",
-      "status": "active",
+      "head": "5185bfc8550b0e81d724af1f462262674d1b263a",
+      "status": "ready",
       "generation": 1,
-      "lease_until": 1793525213,
-      "updated_at": 1793518025,
+      "lease_until": 0,
+      "updated_at": 1793518447,
       "history": [],
-      "handoff": "https://github.com/h516df/timeworth-android/pull/18 — draft UI only, target not wired to Android; 7 targeted QA and existing finance tests passed; browser/APK/upgrade/OCR not verified."
+      "handoff": "https://github.com/h516df/timeworth-android/pull/18 — draft UI staging; CI cloud development 41285194641, legacy UI 41285194618, TimeWorth2 Chromium 41285194669 passed; real Android integration/APK/OCR/upgrade not verified."
     }
   },
   "batches": {
