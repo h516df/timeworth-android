@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 65,
+  "revision": 66,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -702,6 +702,7 @@
       "scopes": [
         ".github/workflows/timeworth2-product-release.yml",
         "android",
+        "cloud/run-ui-checks.py",
         "docs/tasks/timeworth2-product-20261101.md",
         "release/v2.0.0-notes.md",
         "ui-preview"
@@ -711,7 +712,7 @@
       "status": "active",
       "generation": 1,
       "lease_until": 1793529753,
-      "updated_at": 1793522553,
+      "updated_at": 1793523415,
       "history": []
     }
   },
