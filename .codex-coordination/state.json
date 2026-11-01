@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "h516df/timeworth-android",
-  "revision": 58,
+  "revision": 59,
   "tasks": {
     "multi-codex-workflow": {
       "owner": "codex-root-1792579521902",
@@ -620,6 +620,24 @@
       "updated_at": 1793518447,
       "history": [],
       "handoff": "https://github.com/h516df/timeworth-android/pull/18 — draft UI staging; CI cloud development 41285194641, legacy UI 41285194618, TimeWorth2 Chromium 41285194669 passed; real Android integration/APK/OCR/upgrade not verified."
+    },
+    "signing-integration-20261101": {
+      "owner": "chatgpt-signing-integrator-20261101",
+      "workspace": "cloud-signing-integration-20261101",
+      "batch": "signing-readiness-20261022",
+      "role": "integrator",
+      "branch": "codex/signing-integration-20261101",
+      "scopes": [
+        "@integration",
+        "@publish"
+      ],
+      "base": "7a8a863d5abff8694672126126f2ed3be3f4865f",
+      "head": "7a8a863d5abff8694672126126f2ed3be3f4865f",
+      "status": "active",
+      "generation": 1,
+      "lease_until": 1793529584,
+      "updated_at": 1793522384,
+      "history": []
     }
   },
   "batches": {
@@ -652,7 +670,8 @@
       "integrator": "delivery-adoption-integration-20261021"
     },
     "signing-readiness-20261022": {
-      "status": "open"
+      "status": "sealed",
+      "integrator": "signing-integration-20261101"
     },
     "timeworth2-20261101": {
       "status": "open"
